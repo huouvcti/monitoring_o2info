@@ -15,6 +15,7 @@ const path = require('path');
  */
 const webRouter = require("./routes/web");
 const userRouter = require("./routes/user");
+const sensorRouter = require("./routes/sensor");
 
 
 app.use(express.json());
@@ -47,9 +48,10 @@ app.use(session({
 // 웹페이지(ejs) rendering
 app.use("/", webRouter)
 
+
 // 로그인 처리
 app.use("/api/user", userRouter)
-
+app.use("/api/sensor", sensorRouter)
 
 
 // ERROR 잘못된 경로

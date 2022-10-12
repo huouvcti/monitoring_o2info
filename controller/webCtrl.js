@@ -1,28 +1,59 @@
 "use strict"
 
-const userDAO = require('../model/userDAO');
+const user = {}
+const sensor = {}
 
-
-const main = async (req, res) => {
-    console.log(req.session.s_admin_key)
-    if(req.session.s_admin_key){
+const session_check = async (req, res, ejs) => {
+    if(req.session.user_key){
         const parameters = {
-            user_key: req.session.s_admin_key,
-            url: env_var.HOST
+            user_key: req.session.user_key,
         }
-
-        if(env_var.HOST === "localhost"){
-            parameters.url += ":" + env_var.S_PORT;
-        }
-        res.render('../views/simulator/admin.ejs', {info: parameters});
+        res.render(`../views${ejs}.ejs`);
     } else{
-        res.send("<script>location.href='/simulator/admin/login';</script>");
+        res.send(`<script>location.href='/login';</script>`);
     }
+}
+
+
+// user
+user.login = async (req, res) => {
+    if(req.session.user_key){
+        const parameters = {
+            user_key: req.session.user_key,
+        }
+        res.send(`<script>location.href='/';</script>`);
+    } else{
+        res.render(`../views/user/login.ejs`);
+    }
+}
+
+user.info = async (req, res) => {
+    let ejs = '/user/info'
+    session_check(req, res, ejs)
+}
+
+user.pw_update = async (req, res) => {
+    let ejs = '/user/pw_update'
+    session_check(req, res, ejs)
+}
+
+
+
+// sensor
+sensor.dashboard = async (req, res) => {
+    let ejs = '/sensor/dashboard'
+    session_check(req, res, ejs)
+}
+
+sensor.log = async (req, res) => {
+    let ejs = '/sensor/log'
+    session_check(req, res, ejs)
 }
 
 
 
 
 module.exports = {
-    main,
+    user,
+    sensor
 }
