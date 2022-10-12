@@ -10,7 +10,11 @@ const {sessionStore} = require('./config/dbconn');
 
 const path = require('path');
 
-const indexRouter = require("./routes/index");
+/*
+ * router import
+ */
+const webRouter = require("./routes/web");
+const userRouter = require("./routes/user");
 
 
 app.use(express.json());
@@ -40,21 +44,22 @@ app.use(session({
 }));
 
 
-app.use("/", indexRouter)
+// 웹페이지(ejs) rendering
+app.use("/", webRouter)
 
-
-
+// 로그인 처리
+app.use("/api/user", userRouter)
 
 
 
 // ERROR 잘못된 경로
 app.use(function(req, res, next) {
-    res.status(404).send('Sorry cant find that!');
-  });
+    res.status(404).send('404: Not Found!');
+});
   
 app.use(function (err, req, res, next) {
     console.error(err.stack)
-    res.status(500).send('Something broke!')
+    res.status(500).send('500: Something broke!')
 });
 
 
