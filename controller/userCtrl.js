@@ -8,41 +8,61 @@ const login = async (req, res) => {
         id: req.body.id,
         pw: req.body.pw
     }
+    const result = {}
+
     const db_data = await userDAO.user_check(parameters);
+
     if(db_data.length != 0){
-        req.session.user_key = db_data[0].user_key;
-        req.session.save(function(){
-            res.send("<script>alert('로그인 성공'); location.href='/';</script>");
-        })
+        result.user_key = db_data[0].user_key;
+        result.msg = "login success";
+
+        res.send({"result": result});
     } else{
-        delete req.session.user_key;
-        res.send("<script>alert(`로그인 실패 \n\n로그인페이지로 이동`); location.href='/login';</script>");
+        result.user_key = null;
+        result.msg = "login fail: id, pw NOT FOUND";
+
+        res.send({"result": result});
     }
 }
 
 
-const logout = async (req, res) => {
-    delete req.session.user_key;
+// const logout = async (req, res) => {
+//     delete req.session.user_key;
 
-    res.send("<script>alert(`로그아웃 성공`); location.href='/login';</script>");
-}
+//     res.send("<script>alert(`로그아웃 성공`); location.href='/login';</script>");
+// }
 
 
 const pw_update = async (req, res) => {
     const parameters = {
+        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+
         id: req.body.id,
         pw: req.body.pw,
 
         pw_new: req.body.pw_new
     }
-    
+    const result = {}
+
     const db_data = await userDAO.user_check(parameters);
     if(db_data.length != 0){
-        parameters.user_key = db_data[0].user_key;
-        await userDAO.pw_update(parameters);
-        res.send("<script>alert(`비밀번호 변경 완료`);</script>")
+        if(parameters.user_key == db_data[0].user_key){
+            await userDAO.pw_update(parameters);
+
+            result.user_key = null;
+            result.msg = "pw update success";
+
+            res.send({"result": result});
+        } else {
+            result.user_key = null;
+            result.msg = "pw update fail: Does not match session";
+            res.send({"result": result});
+        }
     } else {
-        res.send("<script>alert(`아이디, 패스워드가 일치하는 계정이 없습니다.`); location.href='/login';</script>");
+        result.user_key = null;
+        result.msg = "pw update fail: id, pw NOT FOUND";
+
+        res.send({"result": result});
     }
 }
 
@@ -50,6 +70,6 @@ const pw_update = async (req, res) => {
 
 module.exports = {
     login,
-    logout,
+    // logout,
     pw_update
 }

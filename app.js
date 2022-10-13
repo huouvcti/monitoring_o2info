@@ -14,8 +14,13 @@ const path = require('path');
  * router import
  */
 const webRouter = require("./routes/web");
-const userRouter = require("./routes/user");
-const sensorRouter = require("./routes/sensor");
+
+
+const userRouter = require("./routes/api/user");
+
+
+
+const sensorRouter = require("./routes/api/sensor");
 
 
 app.use(express.json());
