@@ -14,6 +14,7 @@ router.post("/login", userCtrl.login);
 // router.get("/logout", userCtrl.logout);
 
 // 비밀번호 변경
+// header: user_key(int)
 // body: id(string), pw(string), pw_new(string)
 router.post('/user_info/pw_update', userCtrl.pw_update);
 

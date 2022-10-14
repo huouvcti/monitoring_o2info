@@ -14,8 +14,8 @@ router.get("/user_info/pw_update", webCtrl.user.pw_update);
 
 
 // sensor
-router.get("/", webCtrl.sensor.dashboard);
-router.get("/dashboard", webCtrl.sensor.dashboard);
+router.get("/", webCtrl.sensor.monitoring);
+router.get("/monitoring", webCtrl.sensor.monitoring);
 router.get("/log", webCtrl.sensor.log);
 
 

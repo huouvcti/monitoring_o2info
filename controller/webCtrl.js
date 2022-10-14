@@ -43,8 +43,8 @@ user.pw_update = async (req, res) => {
 
 
 // sensor
-sensor.dashboard = async (req, res) => {
-    let ejs = '/sensor/dashboard'
+sensor.monitoring = async (req, res) => {
+    let ejs = '/sensor/monitoring'
     session_check(req, res, ejs)
 }
 
