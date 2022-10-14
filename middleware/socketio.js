@@ -48,7 +48,7 @@ const socketio = (server) => {
             // SALT: 염도 : Sa
             // ORP : ORP
             // RTD : 수온 : Tc
-            // DOpercent : 탁도 : TUR
+            // DOpercent : DOper
 
             const parameters = {
                 user_key: room,
@@ -58,7 +58,7 @@ const socketio = (server) => {
                 Sa: parseFloat(data.SALT),
                 ORP: parseFloat(data.ORP),
                 Tc: parseFloat(data.RTD),
-                TUR: parseFloat(data.DOpercent)
+                DOper: parseFloat(data.DOpercent)
             }
 
             await sensorDAO.sensor.insert(parameters);

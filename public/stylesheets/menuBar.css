@@ -1,3 +1,8 @@
+#sidebar{
+    position: fixed;
+    z-index: 10000;
+    height: 100%;
+}
 
 
 .bd-placeholder-img {
@@ -45,6 +50,10 @@
     -webkit-overflow-scrolling: touch;
 }
 
+.fs-4{
+    text-align: center;
+}
+
 
 
 .logout-btn {
@@ -62,4 +71,18 @@
 
 .btn-outline-light:hover {
     color: black;
+}
+
+hr{
+    color: #fff;
+}
+
+
+
+.menu{
+    background-color: #2F4187;
+}
+
+.nav-pills{
+    --bs-nav-pills-link-active-bg: #1b264f;
 }

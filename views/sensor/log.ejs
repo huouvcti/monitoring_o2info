@@ -13,6 +13,16 @@
 
         <link rel="stylesheet" href="../../public/stylesheets/menuBar.css" />
 
+
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+
+                log_pageMove();
+		    });
+        </script>
+
      </head>
 
     <body>
@@ -20,19 +30,150 @@
         <main class="d-flex flex-nowrap">
 
             <%-include('../lib/menuBar.ejs') %>
-        
-        <script>
-            let menubar = document.getElementById("menuBar")
-            menubar.children[1].children[0].className = "nav-link active";
-        </script>
+            <script>
+                let menubar = document.getElementById("menuBar")
+                menubar.children[1].children[0].className = "nav-link active";
+            </script>
         
             
 
-            <div class="b-example-divider b-example-vr" style="width: 80%;">
-                로그
+            <div class="b-example-divider b-example-vr" id="board" style="position:absolute; width: 95%; right: 0;">
+
+                <!-- 검색을 위한 부분 -->
+                <div class="search_part">
+                    <input type="date" id="start_date">
+                    <input type="time" id="start_time">
+                    - 
+                    <input type="date" id="end_date">
+                    <input type="time" id="end_time">
+
+                    <button class="search_btn" onclick="log_pageMove(0)">검색</button>
+                </div>
+                
+
+                <!-- 이전, 다음, 다운로드, 삭제 -->
+                <center class="under_btns">
+                    <div class="other">
+                        <button class="download_btn" onclick="DO_log_down()"><i class="fa fa-download"></i> &nbsp;&nbsp;&nbsp;&nbsp;다운로드</button>
+                        <button class="delete_btn" onclick="DO_log_del()"><i class="fa-regular fa-trash-can"></i> &nbsp;&nbsp;&nbsp;&nbsp;삭제</button>
+                    </div>
+
+                    <button class="prev_btn" onclick="log_pageMove('prev')">이전</button>
+                    <button class="next_btn" onclick="log_pageMove('next')">다음</button>
+                </center>
+
+                <div>
+                    <table id="log_table"></table>
+                </div>
             </div>
 
         </main> 
 
     </body>
+
+
+
+    <script>
+        
+        const log_search = function(){
+            let start_input = document.getElementById("start_date").value + " "+ document.getElementById("start_time").value;
+            let end_input = document.getElementById("end_date").value + " "+ document.getElementById("end_time").value;
+
+            let start = new Date(start_input);            
+            let end = new Date(end_input);
+
+            if(start > end){
+                alert("잘못된 날짜 입력");
+                return "";
+            } else if(!isNaN(start.getDate()) && !isNaN(end.getDate())){
+                document.getElementById("search_start").innerText = start_input;
+                document.getElementById("search_end").innerText = end_input;
+                return `&start=${start_input}&end=${end_input}`;
+            } else {
+                return "";
+            }
+        }
+    </script>
+
+    <script>
+        let log_page = 0;
+        let log_cnt = 10;
+    
+        let log_table = document.getElementById("log_table")
+        
+        const log_pageMove = function(move){
+            let search = log_search();
+            let log_table_inner = `<tr>
+                                        <th>no</th>
+                                        <th>수온 (C)</th>
+                                        <th>DO (mg/L)</th>
+                                        <th>DO (%)</th>
+                                        <th>pH</th>
+                                        <th>염도</th>
+                                        <th>ORP</th>
+                                        <th>date</th>
+                                    </tr>`;
+            if(move === 'prev'){
+                log_page--;
+            } else if(move === 'next') {
+                log_page++;
+            } else {
+                log_page = 0;
+            }
+            
+            if(log_page < 0){
+                log_page=0;
+                alert("첫번째 페이지 입니다.")
+            }
+            if(log_page > log_cnt){
+                log_page = log_cnt;
+                alert("마지막 페이지 입니다.")
+            }
+    
+            $.ajax({
+                type:'get',
+                dataType:'json',
+                url:`/api/sensor/log?page=${log_page}${search}`,
+                success : function(responseData) {
+                    const log = responseData.result;
+                    log_cnt = responseData.cnt;
+                    for(let i=0; i<log.length; i++){
+                        log_table_inner += `
+                        <tr>
+                            <td> 
+                                ${log[i]['sensor_key']}
+                            </td>
+                            <td> 
+                                ${log[i]['Tc']}
+                            </td>
+                            <td> 
+                                ${log[i]['DO']}
+                            </td>
+                            <td> 
+                                ${log[i]['DOper']}
+                            </td>
+                            <td> 
+                                ${log[i]['pH']}
+                            </td>
+                            <td> 
+                                ${log[i]['Sa']}
+                            </td>
+                            <td> 
+                                ${log[i]['ORP']}
+                            </td>
+                            <td> 
+                                ${log[i]['date']}
+                            </td>
+                        </tr>`;
+                    }
+                    log_table.innerHTML = log_table_inner;
+                },
+                error : function(error) {
+                }
+            });
+        }
+    </script>
+
+    <script src="../../public/javascripts/menubar.js"></script>
 </html>
+

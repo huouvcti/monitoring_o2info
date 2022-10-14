@@ -1,13 +1,13 @@
 "use strict";
 
-require('dotenv').config({ path: 'f.env'});
+require('dotenv').config({ path: '.env'});
 
 const express = require('express');
 const app = express();
 
 const session = require('express-session');
 const {sessionStore} = require('./config/dbconn');
-
+const logger = require('morgan');
 const path = require('path');
 
 /*
@@ -48,6 +48,8 @@ app.use(session({
         maxAgeL: 1000 * 60 * 60
     }
 }));
+
+app.use(logger('dev'));
 
 
 // 웹페이지(ejs) rendering

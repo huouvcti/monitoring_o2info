@@ -37,8 +37,8 @@ set.update = async (req, res) => {
         ORP_low: req.body.ORP_low,
         Tc_high: req.body.Tc_high,
         Tc_low: req.body.Tc_low,
-        TUR_high: req.body.TUR_high,
-        TUR_low: req.body.TUR_low,
+        DOper_high: req.body.DOper_high,
+        DOper_low: req.body.DOper_low,
     }
 
     await sensorDAO.sensor_set.update(parameters)
@@ -59,26 +59,27 @@ log.list = async (req, res) => {
     const page = paging(currentPage, pageSize);
 
     const parameters = {
-        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key: req.session.user_key,
         date_start: (req.query.start == undefined) ? "1970:01:01" : req.query.start,
         date_end: (req.query.end == undefined) ? "3000:01:01" : req.query.end,
         offset: page.offset,
         limit: page.limit,
-
     }
+    console.log(parameters)
     const pageCnt = await sensorDAO.sensor_log.list_cnt(parameters);
     const cnt = parseInt(pageCnt[0].cnt / pageSize);
 
     const db_data =  await sensorDAO.sensor_log.list(parameters);
 
+    console.log(db_data)
 
-    res.send({result: {db_data, count:cnt}});
+    res.send({result:db_data, cnt});
 }
 
 
 log.down = async (req, res) => {
     const parameters = {
-        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key: req.session.user_key,
         date_start: (req.query.start == undefined) ? "1970:01:01" : req.query.start,
         date_end: (req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
@@ -108,7 +109,7 @@ log.down = async (req, res) => {
 
 log.del = async (req, res) => {
     const parameters = {
-        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key: req.session.user_key,
         date_start: (req.query.start == undefined) ? "1970:01:01" : req.query.start,
         date_end: (req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
