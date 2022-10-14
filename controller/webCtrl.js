@@ -40,6 +40,11 @@ user.pw_update = async (req, res) => {
     session_check(req, res, ejs)
 }
 
+user.setting = async (req, res) => {
+    let ejs = '/user/setting'
+    session_check(req, res, ejs)
+}
+
 
 
 // sensor

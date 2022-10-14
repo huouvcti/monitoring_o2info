@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>log</title>
+        <title>모니터링</title>
 
 
         <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
@@ -13,6 +13,8 @@
 
         <link rel="stylesheet" href="../../public/stylesheets/menuBar.css" />
 
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
      </head>
 
     <body>
@@ -20,16 +22,18 @@
         <main class="d-flex flex-nowrap">
 
             <%-include('../lib/menuBar.ejs') %>
-        
-        <script>
-            let menubar = document.getElementById("menuBar")
-            menubar.children[1].children[0].className = "nav-link active";
-        </script>
-        
-            
+
+            <script>
+                let menubar = document.getElementById("menuBar")
+                menubar.children[2].children[0].className = "nav-link active";
+            </script>
 
             <div class="b-example-divider b-example-vr" style="width: 80%;">
-                로그
+            
+            
+                세팅
+            
+            
             </div>
 
         </main> 
