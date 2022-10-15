@@ -17,6 +17,11 @@ router.post('/set', sensorCtrl.set.update);
 // query: page, start, end
 router.get('/log', sensorCtrl.log.list);
 
+router.get('/log/graph', sensorCtrl.log.graph);
+
+router.get('/log/down', sensorCtrl.log.down);
+router.get('/log/del', sensorCtrl.log.del);
+
 
 
 

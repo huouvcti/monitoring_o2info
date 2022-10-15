@@ -82,10 +82,21 @@ sensor_log.list_cnt = (parameters) =>{
     })
 }
 
+sensor_log.graph = (parameters) => {
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC`, [ parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
 sensor_log.down = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT sensor_key as no, Tc as '수온 (C)', DO as 'DO (mg/L)', DOper as 'DO (%)', pH, Sa as '염도', ORP,
-        DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, Tc as '수온 (C)', DO as 'DO (mg/L)', DOper as 'DO (%)', pH, Sa as '염도', ORP FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {

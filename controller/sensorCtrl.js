@@ -7,6 +7,7 @@ const { paging } = require('./tool/paging');
 const dayjs = require("dayjs");
 const fastcsv = require('fast-csv');
 const fs = require('fs');
+const { request } = require('http');
 
 const set = {}
 const log = {}
@@ -60,8 +61,8 @@ log.list = async (req, res) => {
 
     const parameters = {
         user_key: req.session.user_key,
-        date_start: (req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        date_end: (req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
         offset: page.offset,
         limit: page.limit,
     }
@@ -69,20 +70,36 @@ log.list = async (req, res) => {
     const pageCnt = await sensorDAO.sensor_log.list_cnt(parameters);
     const cnt = parseInt(pageCnt[0].cnt / pageSize);
 
+    const total_cnt = pageCnt[0].cnt
+
     const db_data =  await sensorDAO.sensor_log.list(parameters);
 
-    console.log(db_data)
+    // console.log(db_data)
 
-    res.send({result:db_data, cnt});
+    res.send({result:db_data, total_cnt, cnt});
+}
+
+log.graph = async (req, res) => {
+    const parameters = {
+        user_key: req.session.user_key,
+        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+
+    }
+    const db_data =  await sensorDAO.sensor_log.graph(parameters);
+
+    res.send({result:db_data});
 }
 
 
 log.down = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key,
-        date_start: (req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        date_end: (req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
+
+    console.log(parameters)
 
     const time = dayjs().format('YYYY-MM-DD-HHmmss');
 
@@ -110,16 +127,18 @@ log.down = async (req, res) => {
 log.del = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key,
-        date_start: (req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        date_end: (req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
+
+    console.log(parameters)
 
     await sensorDAO.sensor_log.del(parameters);
 
     const result = {}
     result.user_key = parameters.user_key;
     result.msg = "log delete success"
-    res.send({"result": result})
+    res.send("<script>alert(`데이터 삭제 완료`); location.href='/log';</script>")
 }
 
 
