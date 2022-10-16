@@ -15,7 +15,7 @@ const user_check = (parameters) =>{
 const pw_update = (parameters) =>{
     console.log(parameters)
     return new Promise((resolve, reject) =>{
-        db.query(`UPDATE user SET pw=? WHERE user_key=?`, [parameters.pw_new, parameters.user_key], (err, db_data) => {
+        db.query(`UPDATE user SET pw=? WHERE user_key=? OR user_key=?`, [parameters.pw_new, parameters.user_key1, parameters.user_key2], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {

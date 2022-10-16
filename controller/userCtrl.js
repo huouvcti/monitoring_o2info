@@ -35,7 +35,8 @@ const login = async (req, res) => {
 
 const pw_update = async (req, res) => {
     const parameters = {
-        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key1: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key2: req.session.user_key,
 
         id: req.body.id,
         pw: req.body.pw,
@@ -46,21 +47,21 @@ const pw_update = async (req, res) => {
 
     const db_data = await userDAO.user_check(parameters);
     if(db_data.length != 0){
-        if(parameters.user_key == db_data[0].user_key){
+        if(parameters.user_key1 == db_data[0].user_key || parameters.user_key2 == db_data[0].user_key){
             await userDAO.pw_update(parameters);
 
             result.user_key = null;
-            result.msg = "pw update success";
+            result.msg = "비밀번호가 변경되었습니다.";
 
             res.send({"result": result});
         } else {
             result.user_key = null;
-            result.msg = "pw update fail: Does not match session";
+            result.msg = "ERROR: 관리자 문의";
             res.send({"result": result});
         }
     } else {
         result.user_key = null;
-        result.msg = "pw update fail: id, pw NOT FOUND";
+        result.msg = "ERROR: 아이디와 비밀번호를 확인해주세요.";
 
         res.send({"result": result});
     }

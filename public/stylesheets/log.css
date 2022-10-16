@@ -89,11 +89,11 @@
 }
 
 #check_table:checked ~ #selet_table{
-    background-color: #55f;
+    background-color: #354793;
     color: #fff;
 }
 #check_graph:checked ~ #selet_graph{
-    background-color: #55f;
+    background-color: #354793;
     color: #fff;
 }
 
@@ -148,7 +148,7 @@
 #log_table th{
     text-align: left;
     border-right: 1px solid #eee;   
-    background-color: #55f;
+    background-color: #354793;
     color: #fff;
     padding: 15px 10px;
 }
