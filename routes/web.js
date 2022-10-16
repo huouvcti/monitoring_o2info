@@ -9,8 +9,10 @@ const webCtrl = require('../controller/webCtrl');
 
 // user
 router.get("/login", webCtrl.user.login);
-router.get("/user_info", webCtrl.user.info)
-router.get("/user_info/pw_update", webCtrl.user.pw_update);
+
+// router.get("/user_info", webCtrl.user.info)
+
+router.get("/setting/pw_update", webCtrl.user.pw_update);
 
 
 // sensor
@@ -19,6 +21,8 @@ router.get("/monitoring", webCtrl.sensor.monitoring);
 router.get("/log", webCtrl.sensor.log);
 
 router.get("/setting", webCtrl.sensor.setting);
+
+router.get("/setting/sensorSet", webCtrl.sensor.sensorSet);
 
 
 

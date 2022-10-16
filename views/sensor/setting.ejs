@@ -12,6 +12,7 @@
 
 
         <link rel="stylesheet" href="../../public/stylesheets/menuBar.css" />
+        <link rel="stylesheet" href="../../public/stylesheets/setting.css" />
 
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
@@ -29,13 +30,37 @@
             </script>
 
             <div class="b-example-divider b-example-vr" id="board" style="position:absolute; width: 95%; right: 0;">
-            
-            
-                <div></div>
-                <div>
-                    <div></div>
-                    <div></div>
+                <div id="setting">
+                    <div id="setting_profile">
+                        <h3>프로필</h3>
+                        <hr style="color: gray;">
+                        <img src="https://intermusicakorea.com/common/img/default_profile.png" alt="">
+                        <p>회사 이름</p>
+                    </div>
+                    <div id="setting_menu">
+                        <div class="setting_menu_part">
+                            <div class="menu_text_wrap">
+                                <p class="menu_title">임계값 설정</p>
+                                <p class="menu_des">모니터링 센서의 임계값을 설정합니다.</p>
+                            </div>
+                            <div class="menu_btn_wrap">
+                                <button onclick="location.href='/setting/sensorSet'">설정</button>
+                            </div>
+                        </div>
+                        <div class="setting_menu_part">
+                            <div class="menu_text_wrap">
+                                <p class="menu_title">비밀번호 변경</p>
+                                <p class="menu_des">비밀번호를 변경합니다.</p>
+                            </div>
+                            <div class="menu_btn_wrap">
+                                <button onclick="location.href='/setting/pw_update'">수정</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            
+            
+                
         
             
             </div>

@@ -57,6 +57,11 @@ sensor.setting = async (req, res) => {
     session_check(req, res, ejs)
 }
 
+sensor.sensorSet = async (req, res) => {
+    let ejs = '/sensor/sensorSet'
+    session_check(req, res, ejs)
+}
+
 
 
 

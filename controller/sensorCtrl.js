@@ -8,25 +8,27 @@ const dayjs = require("dayjs");
 const fastcsv = require('fast-csv');
 const fs = require('fs');
 const { request } = require('http');
+const session = require('express-session');
 
 const set = {}
 const log = {}
 
 set.before = async (req, res) => {
     const parameters = {
-        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null
+        user_key1: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key2: req.session.user_key
     }
 
     let db_data = await sensorDAO.sensor_set.before(parameters)
     const result = db_data[0]
 
     res.send({"result": result})
-    
 }
 
 set.update = async (req, res) => {
     const parameters = {
-        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key1: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key2: req.session.user_key,
 
         DO_high: req.body.DO_high,
         DO_low: req.body.DO_low,
