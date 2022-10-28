@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sensor Send page</title>
+
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+
+    <style>
+        #sensor_wrap{
+            height: 800px;
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .sensor_category {
+            border: 1px solid #000;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>sensor page</h1>
+
+    <br>
+
+    <% sensor_name = ['수온', 'DO (mg/L)', 'DO (%)', 'pH', '염도', 'ORP', '탁도']%>
+
+    <div id="sensor_wrap">
+        <% for (let i=0; i<7; i++) { %>
+            <div class="sensor_category">
+                <h3><%=sensor_name[i]%></h3>
+                <hr>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        
+    </script>
+    
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        const socket = io.connect( {
+            transports: ['websocket']
+        });
+
+        $.ajax({
+            type:'post',
+            dataType:'json',
+            url:`/api/user/user_key`,
+            success : function(responseData) {
+                let result = responseData.result;
+    
+                let user_key = result.user_key
+                
+                // join
+                socket.emit('join', {room: user_key});
+            },
+            error : function(error) {
+            }
+        });
+
+        let sensor_div = document.getElementsByClassName("sensor_category");
+        let sensor_n = ['Tc', 'DO', 'DOper', 'pH', 'Sa', 'ORP', 'TUR']
+
+        socket.on("sensor_update", async (data) =>{
+            console.log(data[sensor_n[0]])
+            for(let i=0; i<7; i++){
+                console.log(i);
+                sensor_div[i].innerHTML += `<p>${data[sensor_n[i]]}</p>`
+            }
+        })
+        
+
+        
+    </script>
+</body>
+</html>

@@ -74,7 +74,7 @@ const user_key = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key
     }
-    res.send({"result": result})
+    res.send({"result": parameters})
 }
 
 module.exports = {

@@ -20,6 +20,10 @@ router.post('/pw_update', userCtrl.pw_update);
 
 
 
+router.post("/user_key", userCtrl.user_key);
+
+
+
 
 
 module.exports = router;

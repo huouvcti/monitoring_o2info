@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sensor Send page</title>
+
+
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+    <h1>sensor send page</h1>
+
+    <br>
+
+    <!-- PH, RTD, EC, DO -->
+    <input type="text" name="Tc" placeholder="RTD">
+    <input type="text" name="DO" placeholder="DOMG">
+    <input type="text" name="DOper" placeholder="DOpercent">
+    <input type="text" name="pH" placeholder="PH">
+    <input type="text" name="Sa" placeholder="SALT">
+    <input type="text" name="ORP" placeholder="ORP">
+    <input type="text" name="TUR" placeholder="turbidity">
+
+    <button onClick="sensor_click()">전송</button>
+
+    <script>
+        
+    </script>
+    
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        const socket = io.connect( {
+            transports: ['websocket']
+        });
+
+        $.ajax({
+                type:'post',
+                dataType:'json',
+                url:`/api/user/user_key`,
+                success : function(responseData) {
+                    let result = responseData.result;
+        
+                    let user_key = result.user_key
+                    
+                    // join
+                    socket.emit('join', {room: user_key});
+                },
+                error : function(error) {
+                }
+            });
+        
+
+        let sensor;
+        function sensor_click(){
+            sensor = {
+                RTD: document.getElementsByName("Tc")[0].value,
+                DOMG: document.getElementsByName("DO")[0].value,
+                DOpercent: document.getElementsByName("DOper")[0].value,
+                PH: document.getElementsByName("pH")[0].value,
+                SALT: document.getElementsByName("Sa")[0].value,
+                ORP: document.getElementsByName("ORP")[0].value,
+                turbidity: document.getElementsByName("TUR")[0].value,
+            }
+            console.log(sensor);
+            socket.emit('sensor_send', sensor);
+        }      
+    </script>
+</body>
+</html>

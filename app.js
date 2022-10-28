@@ -14,6 +14,7 @@ const path = require('path');
  * router import
  */
 const webRouter = require("./routes/web");
+const testRouter = require("./routes/test");
 
 
 const userRouter = require("./routes/api/user");
@@ -54,6 +55,8 @@ app.use(logger('dev'));
 
 // 웹페이지(ejs) rendering
 app.use("/", webRouter)
+
+app.use("/test", testRouter)
 
 
 // 로그인 처리
