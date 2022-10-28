@@ -19,17 +19,42 @@ const log_search = function(){
 }
 
 
+const sensor_value = {
+    Tc: [],
+    DO: [],
+    DOper: [],
+    pH: [],
+    Sa: [],
+    ORP: [],
+    TUR: [],
+    date: []
+}
+
+const log_graph_select = () =>  {
+    const sensor_name = ['Tc', 'DO', 'DOper', 'pH', 'Sa', 'ORP', 'TUR']
+    const sensor_title = ['수온', 'DO (mg/L)', 'DO (%)', 'pH', '염도', 'ORP', 'TUR']
+    const sensor_unit = [' C', ' mg/L', ' %', '', '', '', '']
+    const sensor_color = ['', '', '', '', '', '', '']
+
+    let select_index = document.getElementById("graph_sensor_select").selectedIndex
+    
+    log_highchart(sensor_value[sensor_name[select_index]], sensor_value.date, sensor_title[select_index], sensor_unit[select_index], sensor_color[select_index])
+}
+
+
+
+
 /* 그래프 그리기 api 호출 */
-log_graph_draw = () => {
-    const sensor_value = {
-        Tc: [],
-        DO: [],
-        DOper: [],
-        pH: [],
-        Sa: [],
-        ORP: [],
-        date: []
-    }
+const log_graph_api = () => {
+
+    sensor_value.Tc = []
+    sensor_value.DO = []
+    sensor_value.DOper = []
+    sensor_value.pH = []
+    sensor_value.Sa = []
+    sensor_value.ORP = []
+    sensor_value.TUR = []
+    sensor_value.date = []
 
     let search = log_search();
     $.ajax({
@@ -46,6 +71,7 @@ log_graph_draw = () => {
                 sensor_value.pH.unshift(log[i]['pH'])
                 sensor_value.Sa.unshift(log[i]['Sa'])
                 sensor_value.ORP.unshift(log[i]['ORP'])
+                sensor_value.TUR.unshift(log[i]['TUR'])
                 sensor_value.date.unshift(log[i]['date'])
             }
 
@@ -55,7 +81,7 @@ log_graph_draw = () => {
 
             search_split = search.split("=")
 
-            log_highchart(sensor_value)
+            log_graph_select();
             
 
         },
@@ -65,16 +91,19 @@ log_graph_draw = () => {
 }
 
 
+
 /* highchart 그래프 설정  */
-const log_highchart = (sensor_value) => {
-    let chart = new Highcharts.chart('graph_container', {
+let chart;
+
+const log_highchart = (sensor_data, date, title, unit, color) => {
+    chart = new Highcharts.chart('graph_container', {
         chart: {
             renderTo: 'graph_container',
             height: '470px'
         },
         title: {
-            margin: 50,
-            text: "그래프 그리기"
+            margin: 30,
+            text: title
         },
 
         subtitle: {
@@ -88,7 +117,7 @@ const log_highchart = (sensor_value) => {
         },
 
         xAxis:{
-            categories: sensor_value.date,
+            categories: date,
             visible: false,
         },
 
@@ -107,37 +136,12 @@ const log_highchart = (sensor_value) => {
 
 
         series: [{
-            name: '수온 (C)',
-            data: sensor_value.Tc,
+            name: title,
+            data: sensor_data,
             tooltip: {
-                valueSuffix: ' C'
+                valueSuffix: unit
             },
-            marker: { enabled: false }
-        }, {
-            name: 'DO (mg/L)',
-            data: sensor_value.DO,
-            tooltip: {
-                valueSuffix: ' mg/L'
-            },
-            marker: { enabled: false }
-        }, {
-            name: 'DO (%)',
-            data: sensor_value.DOper,
-            tooltip: {
-                valueSuffix: ' %'
-            },
-            marker: { enabled: false }
-        }, {
-            name: 'pH',
-            data: sensor_value.pH,
-            marker: { enabled: false }
-        }, {
-            name: '염도',
-            data: sensor_value.Sa,
-            marker: { enabled: false }
-        },{
-            name: 'ORP',
-            data: sensor_value.ORP,
+            color: color,
             marker: { enabled: false }
         }]
 
@@ -170,6 +174,7 @@ const log_pageMove = function(move){
                                 <th>pH</th>
                                 <th>염도</th>
                                 <th>ORP</th>
+                                <th>탁도</th>
                             </tr>`;
     if(move === 'prev'){
         log_page--;
@@ -221,6 +226,9 @@ const log_pageMove = function(move){
                     </td>
                     <td> 
                         ${log[i]['ORP']}
+                    </td>
+                    <td> 
+                        ${log[i]['TUR']}
                     </td>
                 </tr>`;
             }

@@ -1,5 +1,5 @@
 const sensorSet_before_value = function(setting){
-    const sensor = ['Tc', 'DO', 'DOper', 'pH', 'Sa', 'ORP']
+    const sensor = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR']
 
     for(let i=0; i<6; i++){
         let low = setting[sensor[i]+"_low"]
@@ -35,7 +35,7 @@ const sensorSet_before = function(){
 }
 
 const sensorSet_update = function () {
-    const sensor = ['Tc', 'DO', 'DOper', 'pH', 'Sa', 'ORP']
+    const sensor = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR']
 
     const parameters = {}
 

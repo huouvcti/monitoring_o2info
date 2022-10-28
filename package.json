@@ -2,6 +2,12 @@
   "name": "monitoring",
   "version": "0.0.0",
   "private": true,
+
+  "events": {
+    "restart": "kill-port 3010",
+    "crash": "kill-port 3010"
+  },
+  "delay": "1500",
   "scripts": {
     "start": "nodemon ./bin/www"
   },

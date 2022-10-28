@@ -1,5 +1,6 @@
 "use strict"
 
+const session = require('express-session');
 const userDAO = require('../model/userDAO');
 
 
@@ -69,8 +70,16 @@ const pw_update = async (req, res) => {
 
 
 
+const user_key = async (req, res) => {
+    const parameters = {
+        user_key: req.session.user_key
+    }
+    res.send({"result": result})
+}
+
 module.exports = {
     login,
     // logout,
-    pw_update
+    pw_update,
+    user_key
 }

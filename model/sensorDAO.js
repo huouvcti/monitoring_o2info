@@ -22,7 +22,7 @@ sensor.before = (parameters) =>{
 
 sensor.insert = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`INSERT INTO sensor(user_key, DO, pH, Sa, ORP, Tc, DOper) VALUES(?, ?, ?, ?, ?, ?, ?);`, [parameters.user_key, parameters.DO, parameters.pH, parameters.Sa, parameters.ORP, parameters.Tc, parameters.DOper], (err, db_data) => {
+        db.query(`INSERT INTO sensor(user_key, DO, DOper, pH, Sa, ORP, Tc, TUR) VALUES(?, ?, ?, ?, ?, ?, ?, ?);`, [parameters.user_key, parameters.DO, parameters.DOper, parameters.pH, parameters.Sa, parameters.ORP, parameters.Tc, parameters.TUR], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -47,7 +47,7 @@ sensor_set.before = (parameters) =>{
 
 sensor_set.update = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`UPDATE sensor_set SET DO_high=?, DO_low=?, pH_high=?, pH_low=?, Sa_high=?, Sa_low=?, ORP_high=?, ORP_low=?, Tc_high=?, Tc_low=?, DOper_high=?, DOper_low=? WHERE user_key=? OR user_key=?;`, [parameters.DO_high, parameters.DO_low, parameters.pH_high, parameters.pH_low, parameters.Sa_high, parameters.Sa_low, parameters.ORP_high, parameters.ORP_low, parameters.Tc_high, parameters.Tc_low, parameters.DOper_high, parameters.DOper_low, parameters.user_key1, parameters.user_key2], (err, db_data) => {
+        db.query(`UPDATE sensor_set SET DO_high=?, DO_low=?, pH_high=?, pH_low=?, Sa_high=?, Sa_low=?, ORP_high=?, ORP_low=?, Tc_high=?, Tc_low=?, TUR_high=?, TUR_low=? WHERE user_key=? OR user_key=?;`, [parameters.DO_high, parameters.DO_low, parameters.pH_high, parameters.pH_low, parameters.Sa_high, parameters.Sa_low, parameters.ORP_high, parameters.ORP_low, parameters.Tc_high, parameters.Tc_low, parameters.TUR_high, parameters.TUR_low, parameters.user_key1, parameters.user_key2], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -96,7 +96,7 @@ sensor_log.graph = (parameters) => {
 
 sensor_log.down = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, Tc as '수온 (C)', DO as 'DO (mg/L)', DOper as 'DO (%)', pH, Sa as '염도', ORP FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, Tc as '수온 (C)', DO as 'DO (mg/L)', DOper as 'DO (%)', pH, Sa as '염도', ORP, TUR as '탁도' FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {

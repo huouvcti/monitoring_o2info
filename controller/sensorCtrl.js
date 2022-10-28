@@ -40,8 +40,8 @@ set.update = async (req, res) => {
         ORP_low: req.body.ORP_low,
         Tc_high: req.body.Tc_high,
         Tc_low: req.body.Tc_low,
-        DOper_high: req.body.DOper_high,
-        DOper_low: req.body.DOper_low,
+        TUR_high: req.body.TUR_high,
+        TUR_low: req.body.TUR_low,
     }
 
     await sensorDAO.sensor_set.update(parameters)

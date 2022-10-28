@@ -29,9 +29,8 @@
 
         <script>
             $(document).ready(function() {
-
                 log_pageMove();
-                log_graph_draw();
+                log_graph_api()
 		    });
         </script>
 
@@ -61,7 +60,7 @@
                         <input type="date" id="end_date">
                         <input type="time" id="end_time">
 
-                        <button class="search_btn" onclick="log_pageMove(0); log_graph_draw();">검색</button>
+                        <button class="search_btn" onclick="log_pageMove(0); log_graph_api();">검색</button>
                     </div>
 
                     <!-- 다운로드, 삭제 -->
@@ -94,7 +93,17 @@
                     </div>
                 </div>
 
+                
                 <div id="graph_section" class="select_section" >
+                    <select id="graph_sensor_select" onchange="log_graph_api()">
+                        <option>수온</option>
+                        <option>DO (mg/L)</option>
+                        <option>DO (%)</option>
+                        <option>PH</option>
+                        <option>염도</option>
+                        <option>ORP</option>
+                        <option>탁도</option>
+                    </select>
                     <div id="graph_container"></div>
                 </div>
 
