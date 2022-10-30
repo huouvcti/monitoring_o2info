@@ -68,8 +68,6 @@ const pw_update = async (req, res) => {
     }
 }
 
-
-
 const user_key = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key
@@ -77,9 +75,36 @@ const user_key = async (req, res) => {
     res.send({"result": parameters})
 }
 
+
+const user_info = {}
+
+user_info.fishery = async (req, res) => {
+    const parameters = {
+        user_key1: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        user_key2: req.session.user_key
+    }
+
+    const db_data = await userDAO.user_info.fishery(parameters);
+    
+
+    const result = {}
+
+    if(db_data.length != 0){
+        result.fishery = db_data[0].fishery
+    } else{
+        result.fishery = 'Not found'
+    }
+
+    console.log(result)
+
+    res.send({"result": result})
+}
+
 module.exports = {
     login,
     // logout,
     pw_update,
-    user_key
+    user_key,
+
+    user_info
 }

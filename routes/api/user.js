@@ -23,6 +23,10 @@ router.post('/pw_update', userCtrl.pw_update);
 router.post("/user_key", userCtrl.user_key);
 
 
+// 양식장 이름
+router.get("/user_info/fishery", userCtrl.user_info.fishery);
+
+
 
 
 

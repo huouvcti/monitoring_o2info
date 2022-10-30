@@ -1,5 +1,7 @@
 const {db} = require('../config/dbconn');
 
+const user_info = {}
+
 const user_check = (parameters) =>{
     return new Promise((resolve, reject) =>{
         db.query(`SELECT * FROM user WHERE (id=? AND pw=?)`, [parameters.id, parameters.pw], (err, db_data) => {
@@ -26,7 +28,23 @@ const pw_update = (parameters) =>{
 }
 
 
+
+user_info.fishery = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT fishery FROM user_info WHERE user_key=? OR user_key=?`, [parameters.user_key1, parameters.user_key2], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+
 module.exports = {
     user_check,
-    pw_update
+    pw_update,
+
+    user_info
 }
