@@ -4,52 +4,75 @@ const sensorDAO = require('../model/sensorDAO');
 
 const { paging } = require('./tool/paging');
 
+const { checkNaN_int, checkNaN_float } = require('./tool/checkNaN');
+
 const dayjs = require("dayjs");
 const fastcsv = require('fast-csv');
 const fs = require('fs');
-const { request } = require('http');
-const session = require('express-session');
 
 const set = {}
 const log = {}
 
 set.before = async (req, res) => {
     const parameters = {
-        user_key1: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
-        user_key2: req.session.user_key
+        user_key1: checkNaN_int(req.get('user_key')),
+        user_key2: checkNaN_int(req.session.user_key),
     }
 
-    let db_data = await sensorDAO.sensor_set.before(parameters)
-    const result = db_data[0]
+    if(parameters == null && parameters && null){
+        console.log("user_key: ", user_key1, user_key2)
 
-    res.send({"result": result})
+        res.send({"result": "user_key null"})
+    } else{
+        let db_data = await sensorDAO.sensor_set.before(parameters)
+        const result = db_data[0]
+
+        res.send({"result": result})
+    }
+    
 }
 
 set.update = async (req, res) => {
     const parameters = {
-        user_key1: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
-        user_key2: req.session.user_key,
+        user_key1: checkNaN_int(req.get('user_key')),
+        user_key2: checkNaN_int(req.session.user_key),
 
-        DO_high: req.body.DO_high,
-        DO_low: req.body.DO_low,
-        pH_high: req.body.pH_high,
-        pH_low: req.body.pH_low,
-        Sa_high: req.body.Sa_high,
-        Sa_low: req.body.Sa_low,
-        ORP_high: req.body.ORP_high,
-        ORP_low: req.body.ORP_low,
-        Tc_high: req.body.Tc_high,
-        Tc_low: req.body.Tc_low,
-        TUR_high: req.body.TUR_high,
-        TUR_low: req.body.TUR_low,
+        DO_high: checkNaN_float(req.body.DO_high),
+        DO_low: checkNaN_float(req.body.DO_low),
+        pH_high: checkNaN_float(req.body.pH_high),
+        pH_low: checkNaN_float(req.body.pH_low),
+        Sa_high: checkNaN_float(req.body.Sa_high),
+        Sa_low: checkNaN_float(req.body.Sa_low),
+        ORP_high: checkNaN_float(req.body.ORP_high),
+        ORP_low: checkNaN_float(req.body.ORP_low),
+        Tc_high: checkNaN_float(req.body.Tc_high),
+        Tc_low: checkNaN_float(req.body.Tc_low),
+        TUR_high: checkNaN_float(req.body.TUR_high),
+        TUR_low: checkNaN_float(req.body.TUR_low),
     }
 
-    await sensorDAO.sensor_set.update(parameters)
+    if(parameters == null && parameters && null){
+        console.log("user_key: ", user_key1, user_key2)
+        res.send({"result": "user_key null"})
 
-    let db_data = await sensorDAO.sensor_set.before(parameters)
-    const result = db_data[0]
+    } else{
+        if(parameters.DO_high == null || parameters.DO_low == null || 
+            parameters.pH_high == null || parameters.pH_low == null ||
+            parameters.Sa_high == null || parameters.Sa_low == null ||
+            parameters.ORP_high == null || parameters.ORP_low == null ||
+            parameters.Tc_high == null || parameters.Tc_low == null ||
+            parameters.TUR_high == null || parameters.TUR_low == null ) {
 
-    res.send({"result": result})
+            res.send({"result": "setting value null"})
+        } else {
+            await sensorDAO.sensor_set.update(parameters)
+
+            let db_data = await sensorDAO.sensor_set.before(parameters)
+            const result = db_data[0]
+
+            res.send({"result": result})
+        }
+    }
 }
 
 
