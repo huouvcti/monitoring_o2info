@@ -1,7 +1,6 @@
 #board{
     display: grid;
-
-    grid-template-rows: 1fr 1fr 1fr 9fr;
+    grid-template-rows: 1.5fr 1fr 1fr 10fr;
 }
 
 #log_search{
@@ -127,6 +126,7 @@
     font-size: 1.5em;
     top: 30px;
     text-align: center;
+    background-color: #fff;
     z-index: 100;
     outline: none;
     border: none;
@@ -165,13 +165,16 @@
     width: 100%;
     height: 100%;
     text-align: center;
+    table-layout:fixed;
 }
 
 #log_table tr{
-    border: 1px solid #eee;   
+    border: 1px solid #eee;
+    max-height: 10px;;
 }
 #log_table th{
-    height: 50px;
+    height: 10px;
+    
     text-align: left;
     border-right: 1px solid #eee;   
     background-color: #354793;

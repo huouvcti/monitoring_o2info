@@ -77,6 +77,11 @@ hr{
     color: #fff;
 }
 
+.nav-link{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
 
 
 .menu{
@@ -85,4 +90,12 @@ hr{
 
 .nav-pills{
     --bs-nav-pills-link-active-bg: #1b264f;
+}
+
+
+#o2_logo {
+    width: 100%;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;;
 }

@@ -19,7 +19,6 @@ let sidebar_wide = () =>{
 
 sidebar.addEventListener("click", function(){
     sidebar.style.width = "15%";
-    title_text.innerText = "o2 정보통신"
     logout_btn.style.display = "block";
 
     for(let i=0; i< menu_text.length; i++){
@@ -28,8 +27,7 @@ sidebar.addEventListener("click", function(){
 })
 
 board.addEventListener("click", function(){
-    sidebar.style.width = "5%";
-    title_text.innerText = "o2"
+    sidebar.style.width = "100px";
     logout_btn.style.display = "none";
 
     for(let i=0; i< menu_text.length; i++){

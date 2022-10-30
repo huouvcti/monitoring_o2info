@@ -10,8 +10,13 @@
         <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
 
+        <!-- 폰트 -->
+        <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../public/stylesheets/style.css" />
 
+        <!-- Bar css -->
         <link rel="stylesheet" href="../../public/stylesheets/menuBar.css" />
+        <link rel="stylesheet" href="../../public/stylesheets/topBar.css" />
 
         <link rel="stylesheet" href="../../public/stylesheets/log.css" />
 
@@ -46,8 +51,17 @@
                 menubar.children[1].children[0].className = "nav-link active";
             </script>
 
+            <%-include('../lib/topBar.ejs') %>
+
+            <script>
+                let topBar_title = document.getElementById("menu_title")
+                topBar_title.innerText = " 기록 화면"
+            </script>
+
             <div class="b-example-divider b-example-vr" id="board" style="position:absolute; width: 95%; right: 0;">
 
+
+                
                 <h1></h1>
 
                 <div id="log_search">
@@ -110,7 +124,11 @@
                 
             </div>
 
-        </main> 
+            
+            <%-include('../lib/bottomBar.ejs') %>
+        </main>
+
+        
 
     </body>
 

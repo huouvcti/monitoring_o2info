@@ -1,0 +1,23 @@
+<div id="topBar_wrap">
+    <div id="topBar">
+        <p><span id="fishery"></span><span id="menu_title"></span></p>
+    </div>
+</div>
+<script>
+    let fishery = document.getElementById("fishery")
+    $.ajax({
+        type:'get',
+        dataType:'json',
+        url:`/api/user/user_info/fishery`,
+        success : function(responseData) {
+            let result = responseData.result;
+
+            let fishery_val = result.fishery
+
+            fishery.innerText = fishery_val
+            
+        },
+        error : function(error) {
+        }
+    });
+</script>
