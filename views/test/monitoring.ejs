@@ -116,10 +116,25 @@
     </body>
 
     <script>
+
+        
         let current_time = document.getElementById('time_wrap')
 
-        let today = new Date();
-        current_time.innerText = today.toLocaleString()
+        let clock = () =>{
+            let today = new Date();
+            current_time.innerText = today.toLocaleString()
+        }
+        
+
+        function init() {
+
+            clock();
+
+            setInterval(clock, 500);
+
+        }
+
+        init()
     </script>
 
     <script>
