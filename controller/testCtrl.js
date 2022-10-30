@@ -21,9 +21,16 @@ const sensorSend = async (req, res) => {
     session_check(req, res, ejs)
 }
 
+const monitoring = async (req, res) => {
+    let ejs = '/test/monitoring'
+    session_check(req, res, ejs)
+}
+
 
 
 module.exports = {
     sensor,
-    sensorSend
+    sensorSend,
+
+    monitoring
 }

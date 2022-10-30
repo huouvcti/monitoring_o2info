@@ -12,6 +12,8 @@ router.get("/sensor", testCtrl.sensor);
 
 router.get("/sensorSend", testCtrl.sensorSend);
 
+router.get("/monitoring", testCtrl.monitoring);
+
 
 
 

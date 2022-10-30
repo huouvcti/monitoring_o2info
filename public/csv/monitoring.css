@@ -1,0 +1,136 @@
+#content_wrap{
+    display: grid;
+    grid-template-rows: 1fr 1fr 10fr;
+
+    width: 90%;
+    margin: 0 auto;
+    height: 90%;
+    
+    text-align: center;
+}
+
+#time_wrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    
+}
+
+#grid_wrap{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 20px;
+}
+
+.monitoring_grid{
+    background-color: #fff;
+    box-shadow: 5px 5px 10px #aaa;
+
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-rows: 4fr 1fr;
+}
+
+/* .monitoring_grid div {
+    border: 1px solid #000;
+} */
+
+.sensor_values_wrap{
+    display: grid;
+
+    
+
+    box-sizing: content-box;
+    
+    grid-template-columns: 1fr 2fr;
+}
+
+.sensor_value_detail{
+    border-right: 1px solid #ccc;
+    padding-top: 20px;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+
+.sensor_value{
+    height: 100%;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+
+.sensor_now_big {
+    font-size: 5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+.sensor_name_wrap{
+    border-top: 1px solid gray;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.sensor_name_wrap p{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.sensor_name_wrap button {
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: auto;
+    color: #000;
+}
+
+
+
+#graph_back{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .1);
+    z-index: 100;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    /* display: none; */
+    cursor: pointer;
+}
+
+#graph_wrap{
+    width: 60%;
+    height: 70%;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: auto;
+
+    background-color: #fff;
+}
+
+#graph_wrap h2{
+    text-align: center;
+}
+
