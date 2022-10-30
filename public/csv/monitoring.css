@@ -116,7 +116,7 @@
     flex-direction: row;
     justify-content: center;
 
-    /* display: none; */
+    display: none;
     cursor: pointer;
 }
 
