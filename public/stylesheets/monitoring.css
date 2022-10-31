@@ -1,0 +1,97 @@
+.topbar {
+    background-color: #223B94;
+    opacity: 0.6;
+    box-shadow: 3px 3px 3px #ddd;
+    padding: 0.5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.name_ {
+    color: white;
+    display: inline-block;
+    text-align: right;
+    font-weight: bold;
+}
+
+#dashboard{
+    margin-top: 50%;
+    width: 80%;
+    height: 70%;
+    margin: 0 auto;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+.big_grid{
+    background-color: #fff;
+    border-radius: 2%;
+    overflow: hidden;
+}
+
+.dash_each {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 4fr;  
+  
+}
+
+.sensor_name {
+    color: white;
+    text-align: center;
+    background-color:cornflowerblue;
+    padding: 2%;
+}
+
+.dash_info {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 0.6fr;
+    padding: 2%;
+}
+
+.real_info {
+    text-align: center;
+    font-weight: bold;
+    color: #2F4187;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: x-large;
+}
+
+.other_info {
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.info_text {
+    font-size: small;
+    text-align: center;
+}
+
+.other_info_num {
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+footer {
+    background-color: #223B94;
+    opacity: 0.6;
+    width: 100%;
+    height: 8%; /* footer의 높이 */
+    position: absolute;  
+    bottom: 0;
+    padding: 0.5%;
+}
+
+#bottom_r {
+    text-align: center;
+    font-weight: bold;
+    color: black;
+}
