@@ -1,4 +1,8 @@
 #board{
+    position:absolute;
+    width: 90%;
+    right: 0;
+
     display: grid;
     grid-template-rows: 1.5fr 1fr 1fr 10fr;
 }

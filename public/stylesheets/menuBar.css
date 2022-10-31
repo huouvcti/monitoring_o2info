@@ -2,8 +2,7 @@
     position: fixed;
     z-index: 50;
     height: 100%;
-
-    cursor: pointer;
+    width: 10%;
 }
 
 

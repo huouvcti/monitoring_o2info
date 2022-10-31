@@ -43,23 +43,26 @@
                 menubar.children[0].children[0].className = "nav-link active";
             </script>
 
-            <%-include('../lib/topBar.ejs') %>
-
-            <script>
-                let topBar_title = document.getElementById("menu_title")
-                topBar_title.innerText = " 양식장 모니터링 화면"
-            </script>
+            
 
             
             
             <%
-            let sensor_name = ['수온', '용존 산소 (mg/L)', 'pH', '염도', 'ORP', '탁도']
+            let sensor_name = ['수온 (°C)', '용존 산소 (mg/L)', 'pH', '염도', 'ORP', '탁도']
             let sensor_unit = ['°C', 'mg/L', ' ', ' ', ' ', ' ']
 
-            let backgroundColor = ['red', 'green', 'blue', 'purple', 'brown', '#006']
+            let backgroundColor = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
             %>
 
-            <div class="b-example-divider b-example-vr" id="board" style="position:absolute; width: 95%; right: 0;">
+            <div class="b-example-divider b-example-vr" id="board">
+
+                <%-include('../lib/topBar.ejs') %>
+
+                <script>
+                    let topBar_title = document.getElementById("menu_title")
+                    topBar_title.innerText = " 양식장 모니터링 화면"
+                </script>
+
 
                 <div id="content_wrap">
                     <h1></h1>
@@ -68,16 +71,23 @@
                     <div id="grid_wrap">
                         <% for (let i=0; i<6; i++){ %>
                             <div class="monitoring_grid">
+                                <div class="sensor_name_wrap" style="background-color: <%=backgroundColor[i]%>">
+                                    <p><%=sensor_name[i]%></p>
+                                    <button onclick="graph_show(<%=i%>)">그래프</button>
+                                </div>
+
                                 <div class="sensor_values_wrap">
                                     <div class="sensor_value_detail">
                                         <div class="sensor_value">
                                             <p>최고 임계치</p>
                                             <p><span class="sensor_high">3</span><span> <%=sensor_unit[i]%></span></p>
                                         </div>
+                                        <hr>
                                         <div class="sensor_value">
                                             <p>실시간 수치</p>
                                             <p><span  class="sensor_now">-</span><span> <%=sensor_unit[i]%></span></p>
                                         </div>
+                                        <hr>
                                         <div class="sensor_value">
                                             <p>최소 임계치</p>
                                             <p><span class="sensor_low">3</span><span> <%=sensor_unit[i]%></span></p>
@@ -86,14 +96,14 @@
                                     <div class="sensor_now_big">-</div>
                                 </div>
 
-                                <div class="sensor_name_wrap" style="background-color: <%=backgroundColor[i]%>">
-                                    <p><%=sensor_name[i]%></p>
-                                    <button onclick="graph_show(<%=i%>)">그래프</button>
-                                </div>
+                                
                             </div>
                         <% } %>
                     </div>
                 </div>
+
+
+                <%-include('../lib/bottomBar.ejs') %>
             </div>
 
 
@@ -109,7 +119,7 @@
 
             
 
-            <%-include('../lib/bottomBar.ejs') %>
+            
 
         </main> 
 
@@ -215,8 +225,6 @@
                 await sensor_value.ORP.unshift((Math.round(data[i]['ORP'] * 100) / 100));
                 await sensor_value.TUR.unshift((Math.round(data[i]['TUR'] * 100) / 100));
                 await sensor_value.date.unshift(data[i]['date']);
-
-                
             }
 
             console.log(sensor_value)
@@ -344,5 +352,5 @@
         
     </script>
 
-    <script src="../../public/javascripts/menubar.js"></script>
+    <!-- <script src="../../public/javascripts/menubar.js"></script> -->
 </html>

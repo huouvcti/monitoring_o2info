@@ -28,7 +28,7 @@ const socketio = (server) => {
 
         
         await socket.on('join', async (data) => {
-            room = data.room;
+            room = parseInt(data.room);
             count = 0;
 
             socket.join(room)
