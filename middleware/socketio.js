@@ -28,6 +28,8 @@ const socketio = (server) => {
 
         
         await socket.on('join', async (data) => {
+            data = JSON.parse(data)
+            
             room = parseInt(data.room);
             count = 0;
 
