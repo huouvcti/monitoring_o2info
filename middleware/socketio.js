@@ -28,27 +28,32 @@ const socketio = (server) => {
 
         
         await socket.on('join', async (data) => {
-            data = JSON.parse(data)
-            
+            console.log(data);
+
+
             room = parseInt(data.room);
+
+            if(isNaN(room)){
+                console.log("android socket");
+
+                let data_android = JSON.parse(data)
+                room = parseInt(data_android.room)
+            }
             count = 0;
 
             socket.join(room)
 
-            console.log(data);
+            
             console.log(room + " join")
 
             parameters = {
                 user_key: room
             }
 
-            if(isNaN(room)){
-                console.log("user_key NaN");
-            } else{
-                if(parameters.user_key != undefined){
-                    const sensor_before = await sensorDAO.sensor.before(parameters);
-                    await socket.emit("sensor_before", sensor_before)
-                }
+
+            if(parameters.user_key != undefined){
+                const sensor_before = await sensorDAO.sensor.before(parameters);
+                await socket.emit("sensor_before", sensor_before)
             }
 
             
