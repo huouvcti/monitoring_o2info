@@ -163,18 +163,19 @@ let log_table = document.getElementById("log_table")
 let total_page_span = document.getElementById("total_page")
 let page_span = document.getElementById("page")
 
+
 const log_pageMove = function(move){
     let search = log_search();
     console.log(search)
     let log_table_inner = `<tr>
                                 <th>date</th>
-                                <th>수온 (C)</th>
-                                <th>DO (mg/L)</th>
-                                <th>DO (%)</th>
-                                <th>pH</th>
-                                <th>염도</th>
-                                <th>ORP</th>
-                                <th>탁도</th>
+                                <th>수온 (°C)</th>
+                                <th>산소 (mg/L)</th>
+                                <th>산소 (%)</th>
+                                <th>pH (pH)</th>
+                                <th>염도 (ppt)</th>
+                                <th>ORP (mV)</th>
+                                <th>탁도 (NTU)</th>
                             </tr>`;
     if(move === 'prev'){
         log_page--;

@@ -35,7 +35,7 @@
     background-color: #fff;
     box-shadow: 5px 5px 10px #aaa;
 
-    border-radius: 10px;
+
 
     display: grid;
     grid-template-rows: 1fr 4fr;
@@ -48,38 +48,70 @@
 .sensor_values_wrap{
     display: grid;
 
-    
-
     box-sizing: content-box;
+
+    
     
     grid-template-columns: 1fr 2fr;
 }
 
 .sensor_value_detail{
-    border-right: 1px solid #ccc;
+    border-right: 4px solid #ccc;
     display: grid;
     grid-template-rows: 1fr 0.01fr 1fr 0.01fr 1fr;
+
+    
 }
 
 .sensor_value_detail hr{
     margin: 0;
-    color: #000;
+    opacity: 1;
+    border: 2px solid;
+    border-color: #ccc;
 }
 
 
 .sensor_value{
     height: 100%;
-    display: grid;
-    grid-template-rows: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    background-color: #fff;
+}
+
+.sensor_value p{
+    margin: 0;
+}
+
+.sensor_data{
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.sensor_high{
+    color: red;
+}
+
+.sensor_now{
+    color: green;
+}
+
+.sensor_low{
+    color: blue;
+}
+
+
+.now_value{
+    background-color: #fff;
 }
 
 
 .sensor_now_big {
-    font-size: 5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    top: -50px;
+    font-size: 3rem;
+    text-decoration: underline;
 }
 
 

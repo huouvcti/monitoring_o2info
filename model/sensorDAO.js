@@ -47,7 +47,7 @@ sensor_set.before = (parameters) =>{
 
 sensor_set.update = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`UPDATE sensor_set SET DO_high=?, DO_low=?, pH_high=?, pH_low=?, Sa_high=?, Sa_low=?, ORP_high=?, ORP_low=?, Tc_high=?, Tc_low=?, TUR_high=?, TUR_low=? WHERE user_key=? OR user_key=?;`, [parameters.DO_high, parameters.DO_low, parameters.pH_high, parameters.pH_low, parameters.Sa_high, parameters.Sa_low, parameters.ORP_high, parameters.ORP_low, parameters.Tc_high, parameters.Tc_low, parameters.TUR_high, parameters.TUR_low, parameters.user_key1, parameters.user_key2], (err, db_data) => {
+        db.query(`UPDATE sensor_set SET DO_high=?, DO_low=?, pH_high=?, pH_low=?, Sa_high=?, Sa_low=?, ORP_high=?, ORP_low=?, Tc_high=?, Tc_low=?, TUR_high=?, TUR_low=? WHERE user_key=? OR user_key=?;`, [parameters.DO_high, parameters.DO_low, parameters.pH_high, parameters.pH_low, parameters.Sa_high, parameters.Sa_low, parameters.ORP_high, parameters.ORP_low, paratimemeters.Tc_high, parameters.Tc_low, parameters.TUR_high, parameters.TUR_low, parameters.user_key1, parameters.user_key2], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {

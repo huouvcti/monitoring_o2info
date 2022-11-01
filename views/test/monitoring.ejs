@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="../../public/csv/monitoring.css" />
 
 
+
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
         <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -30,7 +31,10 @@
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-        <script src="https://kit.fontawesome.com/b619a30116.js" crossorigin="anonymous"></script>
+        <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+
+        
 
      </head>
 
@@ -50,8 +54,8 @@
             
             
             <%
-            let sensor_name = ['수온 (°C)', '용존 산소 (mg/L)', 'pH', '염도', 'ORP', '탁도']
-            let sensor_unit = ['°C', 'mg/L', ' ', ' ', ' ', ' ']
+            let sensor_name = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)']
+            let sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU']
 
             let backgroundColor = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
             %>
@@ -72,30 +76,34 @@
 
                     <div id="grid_wrap">
                         <% for (let i=0; i<6; i++){ %>
-                            <div class="monitoring_grid">
+                            <div class="monitoring_grid" style="background-color: <%=backgroundColor[i]%>">
                                 <div class="sensor_name_wrap" style="background-color: <%=backgroundColor[i]%>">
                                     <p><%=sensor_name[i]%></p>
                                     <button onclick="graph_show(<%=i%>)"><img src="/public/images/icon/chart.png"></button>
                                 </div>
 
                                 <div class="sensor_values_wrap">
-                                    <div class="sensor_value_detail">
+                                    <div class="sensor_value_detail" style="border-color: <%=backgroundColor[i]%>">
                                         <div class="sensor_value">
                                             <p>최고 임계치</p>
-                                            <p><span class="sensor_high">3</span><span> <%=sensor_unit[i]%></span></p>
+                                            <p><span class="sensor_high sensor_data">3</span><span> <%=sensor_unit[i]%></span></p>
                                         </div>
-                                        <hr>
+                                        <hr style="border-color: <%=backgroundColor[i]%>">
                                         <div class="sensor_value">
                                             <p>실시간 수치</p>
-                                            <p><span  class="sensor_now">-</span><span> <%=sensor_unit[i]%></span></p>
+                                            <p><span  class="sensor_now sensor_data">-</span><span> <%=sensor_unit[i]%></span></p>
                                         </div>
-                                        <hr>
+                                        <hr style="border-color: <%=backgroundColor[i]%>">
                                         <div class="sensor_value">
                                             <p>최소 임계치</p>
-                                            <p><span class="sensor_low">3</span><span> <%=sensor_unit[i]%></span></p>
+                                            <p><span class="sensor_low sensor_data">3</span><span> <%=sensor_unit[i]%></span></p>
                                         </div>
                                     </div>
-                                    <div class="sensor_now_big">-</div>
+                                    <div class="now_value">
+                                        <div id="gauge_chart<%=i%>"></div>
+                                        <div class="sensor_now_big">-</div>
+                                    </div>
+                                    
                                 </div>
 
                                 
@@ -129,6 +137,7 @@
 
     </body>
 
+
     <script>
 
         
@@ -150,7 +159,7 @@
 
         init()
     </script>
-
+class
     <script>
         const sensor_high = document.getElementsByClassName('sensor_high')
         const sensor_low = document.getElementsByClassName('sensor_low')
@@ -190,8 +199,8 @@
             date: []
         }
 
-        const sensor_title = ['수온 (°C)', '용존 산소 (mg/L)', 'pH', '염도', 'ORP', '탁도']
-        const sensor_unit = [' C', ' mg/L', '', '', '', '']
+        const sensor_title = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)']
+        const sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU']
         const sensor_color = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
 
         let select_index = 0;
@@ -219,6 +228,8 @@
             }
         });
 
+
+
         socket.on("sensor_before", async (data) =>{
             for(let i=0; i<data.length; i++){
 
@@ -229,6 +240,19 @@
                 await sensor_value.ORP.unshift((Math.round(data[i]['ORP'] * 100) / 100));
                 await sensor_value.TUR.unshift((Math.round(data[i]['TUR'] * 100) / 100));
                 await sensor_value.date.unshift(data[i]['date']);
+
+                if(i == data.length-1){
+                    for(let i=0; i<sensor_name.length; i++){
+                        let newly_data = Math.round(data[i][sensor_name[i]] * 100) / 100
+
+                        sensor_now[i].innerText = newly_data
+                        sensor_now_big[i].innerText = newly_data
+
+                        // 게이지 차트
+                        let gauge_chart_container = "gauge_chart"+i
+                        gauge_chart_draw(gauge_chart_container, newly_data, sensor_high[i].innerText, sensor_low[i].innerText)
+                    }
+                }
             }
 
             console.log(sensor_value)
@@ -239,6 +263,10 @@
                 sensor_now[i].innerText = data[sensor_name[i]]
 
                 sensor_now_big[i].innerText = data[sensor_name[i]]
+
+                // 게이지 차트
+                let gauge_chart_container = "gauge_chart"+i
+                gauge_chart_draw(gauge_chart_container, data[sensor_name[i]], sensor_high[i].innerText, sensor_low[i].innerText)
             }
 
             let shift = chart.series[0].data.length >= 20
@@ -248,21 +276,150 @@
             }, true, shift=shift);
 
             sensor_value.date.push(String(data["date"]))
-            chart.xAxis[0].setCategories(PH_date, false);
+            chart.xAxis[0].setCategories(sensor_value.date, false);
             chart.redraw()
-            })
+        })
+    </script>
+
+    <script>
+        let gauge_chart_draw = (container, sensor_data, high, low) =>{
+            console.log(container, sensor_data, high, low)
+
+            high = parseFloat(high)
+            low = parseFloat(low)
+            sensor_data = parseFloat(sensor_data)
+            return Highcharts.chart(container, {
+
+                chart: {
+                    type: 'gauge',
+                    height: '60%'
+                },
+
+                title: {
+                    text: ''
+                },
+
+                pane: {
+                    startAngle: -90,
+                    endAngle: 90,
+                    innerSize: '40%',
+                    background: null,
+                    center: ['50%', '100%'],
+                    size: '150%'
+                },
+
+                
+
+                // the value axis
+                yAxis: {
+                    min: low-5,
+                    max: high+5,
+                    tickPixelInterval: 72,
+                    tickPosition: 'inside',
+                    tickColor: '#FFFFFF',
+                    tickLength: 30,
+                    tickWidth: 0,
+                    minorTickInterval: null,
+
+                    labels: {
+                        distance: 10,
+                        style: {
+                            fontSize: '14px'
+                        }
+                    },
+
+
+                    plotBands: [{
+                        from: low-10,
+                        to: low,
+                        color: '#55f', // blue
+                        thickness: 30,
+                    },
+                    // {
+                    //     from: low-0.5,
+                    //     to: low+0.5,
+                    //     color: '#fff', 
+                    //     thickness: 30,
+                    // },
+                    {
+                        from: low,
+                        to: high,
+                        color: '#5f5', // green
+                        thickness: 30,
+                    },
+                    // {
+                    //     from: high-0.5,
+                    //     to: high+0.5,
+                    //     color: '#fff', 
+                    //     thickness: 30,
+                    // },
+                    {
+                        from: high,
+                        to: high+5,
+                        color: '#f55', // red
+                        thickness: 30,
+                    },]
+                },
+
+                credits: {
+                    enabled: false
+                },
+
+                tooltip: {
+                    valueSuffix: ' km/h',
+                    enabled: false
+                },
+
+                series: [{
+                    name: 'value',
+                    data: [sensor_data],
+
+                    dial: {
+                        radius: '80%',
+                        backgroundColor: 'gray',
+                        baseWidth: 30,
+                        baseLength: '80%',
+                        rearLength: '-80%'
+                    },
+                    pivot: {
+                        visible: false,
+                        backgroundColor: '#fff',
+                        radius: 6,
+                        enabled: false
+                    },
+
+                    dataLabels: {
+                        enabled: false
+                    },
+                    
+
+                }]
+
+            });
+    
+        }
+
     </script>
 
 
     <script>
-        /* highchart 그래프 설정  */
+        /* highchart 그래프 설정 - barchart */
         let chart;
 
         const draw_highchart = (sensor_data, date, high, low, title, unit, color) => {
             chart = new Highcharts.chart('graph_draw', {
                 chart: {
                     renderTo: 'graph_draw',
-                    height: '520vh'
+                    height: '470vh',
+
+                    style: {
+                        color: '#000',
+                    },
+                    
+                    
+                    scrollablePlotArea : {
+
+                    }
                 },
                 title: {
                     // text: title
@@ -275,9 +432,12 @@
 
                 yAxis: {
                     title: {
-                        text: ''
+                        text: unit
                     },
 
+                    color:'#000',
+
+                    lineColor: '#000',
 
                     // 기준선
                     plotLines : [{ 
@@ -300,14 +460,40 @@
                         }
                     }],
                     max: high+1,
-                    min: low-1
+                    min: low-1,
+
+                    
+                    labels : {
+                        style:{
+                            color: '#000',
+                            fontSize: '1rem'format: '{y} km/h',
+                        borderWidth: 0,
+                        color: (
+                            Highcharts.defaultOptions.title &&
+                            Highcharts.defaultOptions.title.style &&
+                            Highcharts.defaultOptions.title.style.color
+                        ) || '#333333',
+                        style: {
+                            fontSize: '16px'
+                        }
+                        }
+                    }
                 },
 
                 xAxis:{
                     categories: date,
                     gridLineWidth:1,
-                    format: 'datetime',
                     // visible: false
+                    lineColor: '#000',
+
+                    labels : {
+                        style:{
+                            color: '#000',
+                            fontSize: '1rem'
+                        }
+                    },
+
+                    tickInterval: 3,
                 },
 
                 legend: {
@@ -348,6 +534,8 @@
     <script>
         const graph_back = document.getElementById("graph_back")
         const graph_wrap = document.getElementById("graph_wrap")
+
+        
 
         const graph_sensor_name = document.getElementById("graph_sensor_name")
 

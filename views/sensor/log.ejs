@@ -110,16 +110,17 @@
                 
                 <div id="graph_section" class="select_section" >
                     <select id="graph_sensor_select" onchange="log_graph_api()">
-                        <option>수온</option>
-                        <option>DO (mg/L)</option>
-                        <option>DO (%)</option>
-                        <option>PH</option>
-                        <option>염도</option>
-                        <option>ORP</option>
-                        <option>탁도</option>
+                        <option>수온 (°C)</option>
+                        <option>산소 (mg/L)</option>
+                        <option>산소 (%)</option>
+                        <option>PH (pH)</option>
+                        <option>염도 (ppt)</option>
+                        <option>ORP (mV)</option>
+                        <option>탁도 (NTU)</option>
                     </select>
                     <div id="graph_container"></div>
                 </div>
+
 
 
                 <%-include('../lib/bottomBar.ejs') %>

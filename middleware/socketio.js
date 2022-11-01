@@ -93,6 +93,8 @@ const socketio = (server) => {
                     const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
                     const time = new Date().toTimeString().split(" ")[0];
                     parameters.date = date + ' ' + time
+                    
+                    // parameters.date = time;
                     console.log(parameters.date);
         
                     io.in(room).emit('sensor_update', parameters);
