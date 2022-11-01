@@ -289,12 +289,12 @@ class
             low = parseFloat(low)
             sensor_data = parseFloat(sensor_data)
 
-            if(sensor_data > high){
-                sensor_data = high
+            if(sensor_data > high+5){
+                sensor_data = high+5
             }
             
-            if(sensor_data < low){
-                sensor_data = low
+            if(sensor_data < low-5){
+                sensor_data = low-5
             }
 
 
@@ -388,6 +388,8 @@ class
                         radius: '80%',
                         backgroundColor: 'gray',
                         baseWidth: 30,
+                        margin: '10%',
+                        distance: 10,
                         baseLength: '80%',
                         rearLength: '-80%'
                     },
