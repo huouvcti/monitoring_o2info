@@ -288,7 +288,17 @@ class
             high = parseFloat(high)
             low = parseFloat(low)
             sensor_data = parseFloat(sensor_data)
-            return Highcharts.chart(container, {
+
+            if(sensor_data > high){
+                sensor_data = high
+            }
+            
+            if(sensor_data < low){
+                sensor_data = low
+            }
+
+
+            return new Highcharts.chart(container, {
 
                 chart: {
                     type: 'gauge',
@@ -466,7 +476,7 @@ class
                     labels : {
                         style:{
                             color: '#000',
-                            fontSize: '1rem'format: '{y} km/h',
+                            fontSize: '1rem',
                         borderWidth: 0,
                         color: (
                             Highcharts.defaultOptions.title &&
