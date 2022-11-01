@@ -86,14 +86,11 @@
 
                 <script>
                     socket.on('sensor_before', async (data) => {
-                        
                         let sensors = [RTD, DOMG, PH, SALT, ORP, turbidity]
 
                         for(let i=0; i<6; i++){
                             document.getElementById("sensor_id").innerText = data[sensors[i]]
-                            
                         }
-
                     })
                 </script>
 

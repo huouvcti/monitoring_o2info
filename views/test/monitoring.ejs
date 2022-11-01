@@ -30,6 +30,8 @@
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+        <script src="https://kit.fontawesome.com/b619a30116.js" crossorigin="anonymous"></script>
+
      </head>
 
     <body>
@@ -73,7 +75,7 @@
                             <div class="monitoring_grid">
                                 <div class="sensor_name_wrap" style="background-color: <%=backgroundColor[i]%>">
                                     <p><%=sensor_name[i]%></p>
-                                    <button onclick="graph_show(<%=i%>)">그래프</button>
+                                    <button onclick="graph_show(<%=i%>)"><img src="/public/images/icon/chart.png"></button>
                                 </div>
 
                                 <div class="sensor_values_wrap">
@@ -108,10 +110,12 @@
 
 
 
-            <div id="graph_back" onclick="graph_close()">
+            <div id="graph_back">
                 
                 <div id="graph_wrap">
-                    <h2></h2>
+                    <div id="graph_close_wrap"><button id="graph_close" onclick="graph_close()"><img src="/public/images/icon/x.png" alt=""></button></div>
+                    
+                    <h2 id="graph_sensor_name">센서 이름</h2>
                     <div id="graph_draw"></div>
                 </div>
             </div>
@@ -186,9 +190,9 @@
             date: []
         }
 
-        const sensor_title = ['수온', 'DO (mg/L)', 'pH', '염도', 'ORP', 'TUR']
+        const sensor_title = ['수온 (°C)', '용존 산소 (mg/L)', 'pH', '염도', 'ORP', '탁도']
         const sensor_unit = [' C', ' mg/L', '', '', '', '']
-        const sensor_color = ['', '', '', '', '', '']
+        const sensor_color = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
 
         let select_index = 0;
     </script>
@@ -258,11 +262,11 @@
             chart = new Highcharts.chart('graph_draw', {
                 chart: {
                     renderTo: 'graph_draw',
-                    height: '470px'
+                    height: '520vh'
                 },
                 title: {
-                    margin: 100,
-                    text: title
+                    // text: title
+                    text: ''
                 },
 
                 subtitle: {
@@ -273,6 +277,7 @@
                     title: {
                         text: ''
                     },
+
 
                     // 기준선
                     plotLines : [{ 
@@ -294,13 +299,15 @@
                             style : {color:'blue'}
                         }
                     }],
-                    max: high+5,
-                    min: low-5
+                    max: high+1,
+                    min: low-1
                 },
 
                 xAxis:{
                     categories: date,
-                    visible: false
+                    gridLineWidth:1,
+                    format: 'datetime',
+                    // visible: false
                 },
 
                 legend: {
@@ -323,8 +330,12 @@
                     tooltip: {
                         valueSuffix: unit
                     },
+                    lineWidth: 3,
                     color: color,
-                    marker: { enabled: true },
+                    marker: { 
+                        enabled: true,
+                        radius: 5
+                    },
                 }]
             });
 
@@ -336,7 +347,9 @@
 
     <script>
         const graph_back = document.getElementById("graph_back")
+        const graph_wrap = document.getElementById("graph_wrap")
 
+        const graph_sensor_name = document.getElementById("graph_sensor_name")
 
         const graph_close = () => {
             graph_back.style.display = 'none';
@@ -345,6 +358,9 @@
         const graph_show = (num) =>{
             select_index = num;
             graph_back.style.display = 'flex';
+
+            graph_wrap.style.backgroundColor = sensor_color[select_index]
+            graph_sensor_name.innerText = sensor_title[select_index]
 
             draw_highchart(sensor_value[sensor_name[select_index]], sensor_value.date, parseFloat(sensor_high[select_index].innerText), parseFloat(sensor_low[select_index].innerText), sensor_title[select_index], sensor_unit[select_index], sensor_color[select_index])
         }

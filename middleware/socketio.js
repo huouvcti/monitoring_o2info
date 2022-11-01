@@ -32,16 +32,24 @@ const socketio = (server) => {
             count = 0;
 
             socket.join(room)
+
+            console.log(data);
             console.log(room + " join")
 
             parameters = {
                 user_key: room
             }
 
-            if(parameters.user_key != undefined){
-                const sensor_before = await sensorDAO.sensor.before(parameters);
-                await socket.emit("sensor_before", sensor_before)
+            if(isNaN(room)){
+                console.log("user_key NaN");
+            } else{
+                if(parameters.user_key != undefined){
+                    const sensor_before = await sensorDAO.sensor.before(parameters);
+                    await socket.emit("sensor_before", sensor_before)
+                }
             }
+
+            
         })
 
         socket.on('sensor_send', async (data) =>{
