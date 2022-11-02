@@ -22,7 +22,7 @@ const sensorSend = async (req, res) => {
 }
 
 const monitoring = async (req, res) => {
-    let ejs = '/test/monitoring'
+    let ejs = '/sensor/monitoring'
     session_check(req, res, ejs)
 }
 
