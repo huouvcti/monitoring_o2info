@@ -32,13 +32,22 @@ const sensor_value = {
 
 const log_graph_select = () =>  {
     const sensor_name = ['Tc', 'DO', 'DOper', 'pH', 'Sa', 'ORP', 'TUR']
-    const sensor_title = ['수온', 'DO (mg/L)', 'DO (%)', 'pH', '염도', 'ORP', 'TUR']
-    const sensor_unit = [' C', ' mg/L', ' %', '', '', '', '']
-    const sensor_color = ['', '', '', '', '', '', '']
+    const sensor_title = ['수온 (°C)', '산소 (mg/L)', '산소 (%)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)']
+    const sensor_unit = [' °C', ' mg/L', ' %', ' pH', ' ppt', ' mV', ' NTU']
+    const sensor_color = ["#fa5252", "#52bafa", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
 
     let select_index = document.getElementById("graph_sensor_select").selectedIndex
+
     
-    log_highchart(sensor_value[sensor_name[select_index]], sensor_value.date, sensor_title[select_index], sensor_unit[select_index], sensor_color[select_index])
+    
+    if(select_index > 0){
+        select_index -= 1
+
+        log_highchart(sensor_value[sensor_name[select_index]], sensor_value.date, sensor_title[select_index], sensor_unit[select_index], sensor_color[select_index])
+    } else {
+        log_all_highchart(sensor_value, sensor_value.date, sensor_title, sensor_unit, sensor_color)
+    }
+    
 }
 
 
@@ -95,11 +104,147 @@ const log_graph_api = () => {
 /* highchart 그래프 설정  */
 let chart;
 
+const log_all_highchart = (sensor_data, date, title, unit, color) => {
+    chart = new Highcharts.chart('graph_container', {
+        chart: {
+            renderTo: 'graph_container',
+            height: '470px',
+        },
+        title: {
+            margin: 30,
+            text: '.'
+        },
+
+        subtitle: {
+            text: ''
+        },
+
+        yAxis: {
+            title: {
+                text: ''
+            },
+
+            color:'#000',
+
+            lineColor: '#000',
+
+            labels : {
+                style:{
+                    color: '#000',
+                    fontSize: '1rem',
+                borderWidth: 0,
+                color: (
+                    Highcharts.defaultOptions.title &&
+                    Highcharts.defaultOptions.title.style &&
+                    Highcharts.defaultOptions.title.style.color
+                ) || '#333333',
+                style: {
+                    fontSize: '16px'
+                }
+                }
+            }
+        },
+
+        xAxis:{
+            categories: date,
+            // visible: false,
+
+            gridLineWidth:1,
+
+            labels : {
+                style:{
+                    color: '#000',
+                    fontSize: '1rem',
+                    top: '100px'
+                }
+            },
+
+            tickInterval: 100,
+        },
+
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle'
+        },
+
+        tooltip:{
+            formatter: this.x,
+        },
+        credits: {
+            enabled: false
+        },
+
+
+        series: [{
+            name: title[0],
+            data: sensor_value.Tc,
+            tooltip: {
+                valueSuffix: unit[0]
+            },
+            color: color[0],
+            marker: { enabled: false }
+        }, {
+            name: title[1],
+            data: sensor_value.DO,
+            tooltip: {
+                valueSuffix: unit[1]
+            },
+            color: color[1],
+            marker: { enabled: false }
+        }, {
+            name: title[2],
+            data: sensor_value.DOper,
+            tooltip: {
+                valueSuffix: unit[2]
+            },
+            color: color[2],
+            marker: { enabled: false }
+        }, {
+            name: title[3],
+            data: sensor_value.pH,
+            tooltip: {
+                valueSuffix: unit[3]
+            },
+            color: color[3],
+            marker: { enabled: false }
+        }, {
+            name: title[4],
+            data: sensor_value.Sa,
+            tooltip: {
+                valueSuffix: unit[4]
+            },
+            color: color[4],
+            marker: { enabled: false }
+        }, {
+            name: title[5],
+            data: sensor_value.ORP,
+            tooltip: {
+                valueSuffix: unit[5]
+            },
+            color: color[5],
+            marker: { enabled: false }
+        }, {
+            name: title[6],
+            data: sensor_value.TUR,
+            tooltip: {
+                valueSuffix: unit[6]
+            },
+            color: color[6],
+            marker: { enabled: false }
+        }]
+
+
+    });
+
+    return chart
+}
+
 const log_highchart = (sensor_data, date, title, unit, color) => {
     chart = new Highcharts.chart('graph_container', {
         chart: {
             renderTo: 'graph_container',
-            height: '470px'
+            height: '470px',
         },
         title: {
             margin: 30,
@@ -113,12 +258,44 @@ const log_highchart = (sensor_data, date, title, unit, color) => {
         yAxis: {
             title: {
                 text: ''
+            },
+
+            color:'#000',
+
+            lineColor: '#000',
+
+            labels : {
+                style:{
+                    color: '#000',
+                    fontSize: '1rem',
+                borderWidth: 0,
+                color: (
+                    Highcharts.defaultOptions.title &&
+                    Highcharts.defaultOptions.title.style &&
+                    Highcharts.defaultOptions.title.style.color
+                ) || '#333333',
+                style: {
+                    fontSize: '16px'
+                }
+                }
             }
         },
 
         xAxis:{
             categories: date,
-            visible: false,
+            // visible: false,
+
+            gridLineWidth:1,
+
+            labels : {
+                style:{
+                    color: '#000',
+                    fontSize: '1rem',
+                    top: '100px'
+                }
+            },
+
+            tickInterval: 100,
         },
 
         legend: {
