@@ -51,7 +51,7 @@ const socketio = (server) => {
             }
 
 
-            if(parameters.user_key != undefined){
+            if(parameters.user_key != undefined || parameters.user_key != ''){
                 const sensor_before = await sensorDAO.sensor.before(parameters);
                 await socket.emit("sensor_before", sensor_before)
             }
