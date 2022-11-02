@@ -76,14 +76,14 @@
 
                     <div id="grid_wrap">
                         <% for (let i=0; i<6; i++){ %>
-                            <div class="monitoring_grid" style="background-color: <%=backgroundColor[i]%>">
+                            <div class="monitoring_grid">
                                 <div class="sensor_name_wrap" style="background-color: <%=backgroundColor[i]%>">
                                     <p><%=sensor_name[i]%></p>
                                     <button onclick="graph_show(<%=i%>)"><img src="/public/images/icon/chart.png"></button>
                                 </div>
 
-                                <div class="sensor_values_wrap">
-                                    <div class="sensor_value_detail" style="border-color: <%=backgroundColor[i]%>">
+                                <div class="sensor_values_wrap"> 
+                                    <div class="sensor_value_detail" style="border-color: <%=backgroundColor[i]%>" >
                                         <div class="sensor_value">
                                             <p>최고 임계치</p>
                                             <p><span class="sensor_high sensor_data">3</span><span> <%=sensor_unit[i]%></span></p>
@@ -101,7 +101,9 @@
                                     </div>
                                     <div class="now_value">
                                         <div id="gauge_chart<%=i%>"></div>
-                                        <div class="sensor_now_big">-</div>
+                                        <div class="sensor_now_wrap">
+                                            <span class="sensor_now_big"> - </span> <span><%=sensor_unit[i]%></span>
+                                        </div>
                                     </div>
                                     
                                 </div>
@@ -150,11 +152,8 @@
         
 
         function init() {
-
             clock();
-
             setInterval(clock, 500);
-
         }
 
         init()
@@ -241,16 +240,29 @@ class
                 await sensor_value.TUR.unshift((Math.round(data[i]['TUR'] * 100) / 100));
                 await sensor_value.date.unshift(data[i]['date']);
 
-                if(i == data.length-1){
-                    for(let i=0; i<sensor_name.length; i++){
-                        let newly_data = Math.round(data[i][sensor_name[i]] * 100) / 100
+                if(i == 0){
+                    for(let j=0; j<sensor_name.length; j++){
+                        let newly_data = Math.round(data[i][sensor_name[j]] * 100) / 100
 
-                        sensor_now[i].innerText = newly_data
-                        sensor_now_big[i].innerText = newly_data
+                        sensor_now[j].innerText = newly_data
+                        sensor_now_big[j].innerText = newly_data
+
+
+                        let high = parseFloat(sensor_high[j].innerText)
+                        let low = parseFloat(sensor_low[j].innerText)
+
+                        // alert
+                        if(newly_data > high){
+                            alert_high(j)
+                        } else if(newly_data < low){
+                            alert_low(j)
+                        } else {
+                            alert_stop(j)
+                        }
 
                         // 게이지 차트
-                        let gauge_chart_container = "gauge_chart"+i
-                        gauge_chart_draw(gauge_chart_container, newly_data, sensor_high[i].innerText, sensor_low[i].innerText)
+                        let gauge_chart_container = "gauge_chart"+j
+                        gauge_chart_draw(gauge_chart_container, newly_data, high, low)
                     }
                 }
             }
@@ -260,13 +272,29 @@ class
 
         socket.on("sensor_update", async (data) =>{
             for(let i=0; i<sensor_name.length; i++){
-                sensor_now[i].innerText = data[sensor_name[i]]
+                let now = data[sensor_name[i]]
 
-                sensor_now_big[i].innerText = data[sensor_name[i]]
+                sensor_now[i].innerText = now
+                sensor_now_big[i].innerText = now
+
+                let high = parseFloat(sensor_high[i].innerText)
+                let low = parseFloat(sensor_low[i].innerText)
+
+                if(now > high){
+                    alert_high(i)
+                } else if(now < low){
+                    alert_low(i)
+                } else {
+                    alert_stop(i)
+                }
+
 
                 // 게이지 차트
                 let gauge_chart_container = "gauge_chart"+i
-                gauge_chart_draw(gauge_chart_container, data[sensor_name[i]], sensor_high[i].innerText, sensor_low[i].innerText)
+                gauge_chart_draw(gauge_chart_container, now, high, low)
+
+
+
             }
 
             let shift = chart.series[0].data.length >= 20
@@ -279,6 +307,24 @@ class
             chart.xAxis[0].setCategories(sensor_value.date, false);
             chart.redraw()
         })
+    </script>
+
+
+    <script>
+        const monitoring_grid = document.getElementsByClassName("monitoring_grid")
+
+        const alert_high = (num) => {
+            monitoring_grid[num].style.animationName = "alert_high";
+        }
+
+        const alert_low = (num) => {
+            monitoring_grid[num].style.animationName = "alert_low";
+        }
+
+        const alert_stop = (num) => {
+            monitoring_grid[num].style.animationName = "";
+        }
+
     </script>
 
     <script>
@@ -302,7 +348,8 @@ class
 
                 chart: {
                     type: 'gauge',
-                    height: '60%'
+                    height: '60%',
+                    backgroundColor: 'none'
                 },
 
                 title: {
@@ -324,7 +371,7 @@ class
                 yAxis: {
                     min: low-5,
                     max: high+5,
-                    tickPixelInterval: 72,
+                    tickPixelInterval: 100,
                     tickPosition: 'inside',
                     tickColor: '#FFFFFF',
                     tickLength: 30,
@@ -395,7 +442,7 @@ class
                     },
                     pivot: {
                         visible: false,
-                        backgroundColor: '#fff',
+                        backgroundColor: 'none',
                         radius: 6,
                         enabled: false
                     },
