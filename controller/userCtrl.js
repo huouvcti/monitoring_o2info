@@ -22,7 +22,7 @@ const login = async (req, res) => {
         result.msg = "login success";
 
         // 토큰 추가
-        if(token != null){
+        if(parameters.token != null){
             const token_parameters = {
                 user_key: result.user_key,
                 token: parameters.token
