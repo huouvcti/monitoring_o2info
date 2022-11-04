@@ -131,7 +131,7 @@ const socketio = (server) => {
 
                     let token_list = await userDAO.token.get(token_parameters)
 
-                    let sensor_set_db = await sensor_set.before(token_parameters)
+                    let sensor_set_db = await sensorDAO.sensor_set.before(token_parameters)
                     let sensor_set = sensor_set_db[0]
 
                     for(let i; i<6; i++){
