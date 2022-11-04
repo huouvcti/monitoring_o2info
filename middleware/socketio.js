@@ -109,7 +109,7 @@ const socketio = (server) => {
 
                 console.log(parameters)
 
-                if(isNaN(parameters.user_key)){
+                if(isNaN(parameters.user_key) || parameters.user_key == ''){
                     console.log("user_key: ", parameters.user_key)
                 } else{
                     await sensorDAO.sensor.insert(parameters);
@@ -137,7 +137,6 @@ const socketio = (server) => {
                     let sensor_set = sensor_set_db[0]
 
                     for(let i=0; i<6; i++){
-                        console.log(sensor_set[sensor_name[i]+'_low'])
                         if(parameters[sensor_name[i]] != null){
                             if(parameters[sensor_name[i]] < sensor_set[sensor_name[i]+'_low']){
                                 console.log(parameters.user_key + ", 임계치 미만")
@@ -150,19 +149,17 @@ const socketio = (server) => {
                                             title: "센서값 경고",
                                             body: sensor_name_show[i] + " 값이 임계치 미만입니다."
                                         },
-                                        token: token_list[i]['token'] 
+                                        token: token_list[j]['token'] 
                                     })
-
-                                    fcm_admin.messaging().sendAll(msg)
-                                        .then((response) => {
-                                            // Response is a message ID string.
-                                            console.log('Successfully sent message:', response);
-                                        })
-                                        .catch((error) => {
-                                            console.log('Error sending message:', error);
-                                        });
-
                                 }
+                                fcm_admin.messaging().sendAll(msg)
+                                    .then((response) => {
+                                        // Response is a message ID string.
+                                        console.log('Successfully sent message:', response);
+                                    })
+                                    .catch((error) => {
+                                        console.log('Error sending message:', error);
+                                    });
                                 
 
                             } else if(parameters[sensor_name[i]] > sensor_set[sensor_name[i]+'_high']){
@@ -178,19 +175,15 @@ const socketio = (server) => {
                                         },
                                         token: token_list[j]['token']
                                     })
-
-                                    fcm_admin.messaging().sendAll(msg)
-                                        .then((response) => {
-                                            // Response is a message ID string.
-                                            console.log('Successfully sent message:', response);
-                                        })
-                                        .catch((error) => {
-                                            console.log('Error sending message:', error);
-                                        });
-
                                 }
-
-                                
+                                fcm_admin.messaging().sendAll(msg)
+                                    .then((response) => {
+                                        // Response is a message ID string.
+                                        console.log('Successfully sent message:', response);
+                                    })
+                                    .catch((error) => {
+                                        console.log('Error sending message:', error);
+                                    });
                             }
 
                             
