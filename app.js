@@ -16,12 +16,10 @@ const path = require('path');
 const webRouter = require("./routes/web");
 const testRouter = require("./routes/test");
 
-
 const userRouter = require("./routes/api/user");
-
-
-
 const sensorRouter = require("./routes/api/sensor");
+
+
 
 
 app.use(express.json());

@@ -2,6 +2,8 @@ const {db} = require('../config/dbconn');
 
 const user_info = {}
 
+const token = {}
+
 const user_check = (parameters) =>{
     return new Promise((resolve, reject) =>{
         db.query(`SELECT * FROM user WHERE (id=? AND pw=?)`, [parameters.id, parameters.pw], (err, db_data) => {
@@ -42,9 +44,53 @@ user_info.fishery = (parameters) =>{
 }
 
 
+token.check = (parameters) =>{
+    console.log(parameters)
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT * FROM user_device WHERE user_key=? AND token=?`, [parameters.user_key, parameters.token], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+
+token.insert = (parameters) =>{
+    console.log(parameters)
+    return new Promise((resolve, reject) =>{
+        db.query(`INSERT INTO user_device(user_key, token) VALUES(?, ?)`, [parameters.user_key, parameters.token], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+
+token.get = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT token FROM user_device WHERE user_key=?`, (parameters.user_key), (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+
 module.exports = {
     user_check,
     pw_update,
 
-    user_info
+    user_info,
+    
+    token
+
 }

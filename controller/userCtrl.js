@@ -1,13 +1,17 @@
 "use strict"
 
-const session = require('express-session');
+const { token } = require('morgan');
 const userDAO = require('../model/userDAO');
+
+
 
 
 const login = async (req, res) => {
     const parameters = {
         id: req.body.id,
-        pw: req.body.pw
+        pw: req.body.pw,
+
+        token: (req.get('token') != "" && req.get('token') != undefined) ? req.get('token') : null,
     }
     const result = {}
 
@@ -16,6 +20,22 @@ const login = async (req, res) => {
     if(db_data.length != 0){
         result.user_key = db_data[0].user_key;
         result.msg = "login success";
+
+        // 토큰 추가
+        if(token != null){
+            const token_parameters = {
+                user_key: result.user_key,
+                token: parameters.token
+            }
+
+            const token_check = await userDAO.token.check(token_parameters);
+
+            if(token_check.length == 0){
+                await userDAO.token.insert(token_parameters);
+                console.log(`${token_parameters.user_key}, new token !`);
+            }
+        }
+        
 
         res.send({"result": result});
     } else{
