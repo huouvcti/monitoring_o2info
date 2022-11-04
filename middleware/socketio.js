@@ -117,9 +117,11 @@ const socketio = (server) => {
                     const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]
                     const time = new Date().toTimeString().split(" ")[0];
                     parameters.date = date + ' ' + time
-                    
+
                     // parameters.date = time;
                     console.log(parameters.date);
+
+                    io.in(room).emit('sensor_update', parameters);
 
 
 
@@ -134,10 +136,11 @@ const socketio = (server) => {
                     let sensor_set_db = await sensorDAO.sensor_set.before(token_parameters)
                     let sensor_set = sensor_set_db[0]
 
-                    for(let i; i<6; i++){
+                    for(let i=0; i<6; i++){
+                        console.log(sensor_set[sensor_name[i]+'_low'])
                         if(parameters[sensor_name[i]] != null){
-                            if(parameters[sensor_name[i]] < sensor_set[sensor_name[i+'_low']]){
-                                console.log(user_key1 + ", 임계치 미만")
+                            if(parameters[sensor_name[i]] < sensor_set[sensor_name[i]+'_low']){
+                                console.log(parameters.user_key + ", 임계치 미만")
                                 // 임계치 보다 작은 값
                                 let msg = [];
 
@@ -150,20 +153,20 @@ const socketio = (server) => {
                                         token: token_list[i]['token'] 
                                     })
 
+                                    fcm_admin.messaging().sendAll(msg)
+                                        .then((response) => {
+                                            // Response is a message ID string.
+                                            console.log('Successfully sent message:', response);
+                                        })
+                                        .catch((error) => {
+                                            console.log('Error sending message:', error);
+                                        });
+
                                 }
                                 
-                                fcm_admin.messaging().sendAll(msg)
-                                    .then((response) => {
-                                        // Response is a message ID string.
-                                        console.log('Successfully sent message:', response);
-                                    })
-                                    .catch((error) => {
-                                        console.log('Error sending message:', error);
-                                    });
-                                
 
-                            } else if(parameters[sensor_name[i]] > sensor_set[sensor_name[i+'_high']]){
-                                console.log(user_key1 + ", 임계치 초과")
+                            } else if(parameters[sensor_name[i]] > sensor_set[sensor_name[i]+'_high']){
+                                console.log(parameters.user_key + ", 임계치 초과")
                                 // 임계치 보다 큰 값
                                 let msg = [];
 
@@ -176,21 +179,25 @@ const socketio = (server) => {
                                         token: token_list[j]['token']
                                     })
 
+                                    fcm_admin.messaging().sendAll(msg)
+                                        .then((response) => {
+                                            // Response is a message ID string.
+                                            console.log('Successfully sent message:', response);
+                                        })
+                                        .catch((error) => {
+                                            console.log('Error sending message:', error);
+                                        });
+
                                 }
 
-                                fcm_admin.messaging().sendAll(msg)
-                                    .then((response) => {
-                                        // Response is a message ID string.
-                                        console.log('Successfully sent message:', response);
-                                    })
-                                    .catch((error) => {
-                                        console.log('Error sending message:', error);
-                                    });
+                                
                             }
+
+                            
                         }
                     }
         
-                    io.in(room).emit('sensor_update', parameters);
+                    
                 }
             }
 
