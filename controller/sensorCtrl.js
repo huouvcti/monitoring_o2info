@@ -13,6 +13,8 @@ const fs = require('fs');
 const set = {}
 const log = {}
 
+const gap = {}
+
 set.before = async (req, res) => {
     const parameters = {
         user_key1: checkNaN_int(req.get('user_key')),
@@ -170,9 +172,67 @@ log.del = async (req, res) => {
 
 
 
+gap.before = async (req, res) => {
+    const parameters = {
+        user_key1: checkNaN_int(req.get('user_key')),
+        user_key2: checkNaN_int(req.session.user_key),
+    }
+
+    if(parameters == null && parameters && null){
+        console.log("user_key: ", user_key1, user_key2)
+
+        res.send({"result": "user_key null"})
+    } else{
+        let db_data = await sensorDAO.sensor_gap.before(parameters)
+        const result = db_data[0]
+
+        res.send({"result": result})
+    }
+    
+}
+
+gap.update = async (req, res) => {
+    const parameters = {
+        user_key1: checkNaN_int(req.get('user_key')),
+        user_key2: checkNaN_int(req.session.user_key),
+
+        DO: checkNaN_float(req.body.DO),
+        pH: checkNaN_float(req.body.pH),
+        Sa: checkNaN_float(req.body.Sa),
+        ORP: checkNaN_float(req.body.ORP),
+        Tc: checkNaN_float(req.body.Tc),
+        TUR: checkNaN_float(req.body.TUR),
+    }
+
+    if(parameters == null && parameters && null){
+        console.log("user_key: ", user_key1, user_key2)
+        res.send({"result": "user_key null"})
+
+    } else{
+        if(parameters.DO == null || parameters.pH == null ||
+            parameters.Sa == null || parameters.ORP == null ||
+            parameters.Tc == null || parameters.TUR == null) {
+
+            res.send({"result": "setting value null"})
+        } else {
+            await sensorDAO.sensor_gap.update(parameters)
+
+            let db_data = await sensorDAO.sensor_gap.before(parameters)
+            const result = db_data[0]
+
+            res.send({"result": result})
+        }
+    }
+}
+
+
+
+
 
 
 module.exports = {
     set,
-    log
+    log,
+
+    gap
 }

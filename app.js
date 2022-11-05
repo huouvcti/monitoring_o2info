@@ -14,6 +14,7 @@ const path = require('path');
  * router import
  */
 const webRouter = require("./routes/web");
+const adminRouter = require("./routes/admin");
 const testRouter = require("./routes/test");
 
 const userRouter = require("./routes/api/user");
@@ -53,6 +54,8 @@ app.use(logger('dev'));
 
 // 웹페이지(ejs) rendering
 app.use("/", webRouter)
+
+app.use("/admin", adminRouter)
 
 app.use("/test", testRouter)
 

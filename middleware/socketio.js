@@ -107,11 +107,21 @@ const socketio = (server) => {
                     TUR: checkNaN_float(data.turbidity),
                 }
 
-                console.log(parameters)
+                
 
                 if(isNaN(parameters.user_key) || parameters.user_key == ''){
                     console.log("user_key: ", parameters.user_key)
                 } else{
+                    // 오차 조정
+                    let sensor_gap_db = await sensorDAO.sensor_gap.before({user_key1: room});
+                    let sensor_gap = sensor_gap_db[0]
+
+                    for(let i=0; i<sensor_name.length; i++){
+                        parameters[sensor_name[i]] += sensor_gap[sensor_name[i]]
+                    }
+
+                    console.log(parameters)
+
                     await sensorDAO.sensor.insert(parameters);
 
                     const date = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0]

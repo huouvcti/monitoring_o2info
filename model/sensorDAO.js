@@ -6,6 +6,8 @@ const sensor = {}       // 대시보드
 const sensor_set = {}   // 임계치 설정
 const sensor_log = {}   // 로그
 
+const sensor_gap = {}   // 오차 설정
+
 
 
 sensor.before = (parameters) =>{
@@ -120,8 +122,36 @@ sensor_log.del = (parameters) =>{
     })
 }
 
+
+
+sensor_gap.before = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT * FROM sensor_gap WHERE user_key=? OR user_key=?;`, [parameters.user_key1, parameters.user_key2], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+sensor_gap.update = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`UPDATE sensor_gap SET DO=?, pH=?, Sa=?, ORP=?, Tc=?, TUR=? WHERE user_key=? OR user_key=?;`, [parameters.DO, parameters.pH, parameters.Sa, parameters.ORP, parameters.Tc, parameters.TUR, parameters.user_key1, parameters.user_key2], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
 module.exports = {
     sensor,
     sensor_set,
-    sensor_log
+    sensor_log,
+
+    sensor_gap
 }

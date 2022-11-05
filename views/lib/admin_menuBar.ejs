@@ -1,0 +1,88 @@
+<head>
+    <link rel="stylesheet" href="../../public/stylesheets/admin_menuBar.css" />
+</head>
+
+<script src="https://kit.fontawesome.com/b619a30116.js" crossorigin="anonymous"></script>
+
+<h1 class="visually-hidden">Sidebars examples</h1>
+
+<div class="d-flex flex-column flex-shrink-0 p-3 menu" id="sidebar" style="transition: 0.5s;">
+    
+    <div>
+        <div class="col" >
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none" style="">
+                <img src="/public/images/logo/o2_logo.jpg" id="o2_logo">
+            </a>
+        </div>
+    </div>
+
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto" id="menuBar">
+        <li style="margin-bottom: 5vh;">
+            <a href="/admin" class="text-white user_select">
+                <span class="menu_text">경북 의성</span>
+            </a>
+
+            <ul class="nav nav-pills  flex-column mb-auto">
+                <li class="select_list">
+                    <a href="/admin" class="nav-link text-white" aria-current="page">
+                        <i class="fa-solid fa-gauge-high" style="font-size: 20px;"></i>
+                        <span class="menu_text">모니터링</span>
+                    </a>
+                </li>
+                <li class="select_list">
+                    <a href="/admin/1/log" class="nav-link text-white">
+                        <i class="fa-regular fa-clipboard" style="margin-left: 2px; font-size: 20px;"></i>
+                        <span class="menu_text">기록</span>
+                    </a>
+                </li>
+                <li class="select_list">
+                    <a href="/admin/1/setting" class="nav-link text-white">
+                        <i class="fa-solid fa-gear" style="font-size: 20px;"></i>
+                        <span class="menu_text">설정</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="/admin/2" class="text-white user_select" >
+                <span class="menu_text">경북 포항</span>
+            </a>
+
+            <ul class="nav nav-pills  flex-column mb-auto">
+                <li class="select_list">
+                    <a href="/admin/2" class="nav-link text-white" aria-current="page">
+                        <i class="fa-solid fa-gauge-high" style="font-size: 20px;"></i>
+                        <span class="menu_text">모니터링</span>
+                    </a>
+                </li>
+                <li class="select_list">
+                    <a href="/admin/2/log" class="nav-link text-white">
+                        <i class="fa-regular fa-clipboard" style="margin-left: 2px; font-size: 20px;"></i>
+                        <span class="menu_text">기록</span>
+                    </a>
+                </li>
+                <li  class="select_list">
+                    <a href="/admin/2/setting" class="nav-link text-white">
+                        <i class="fa-solid fa-gear" style="font-size: 20px;"></i>
+                        <span class="menu_text">설정</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+    
+       
+    </ul>
+
+    <hr>
+
+    <button type="button" id="logout_btn" class="btn btn-outline-light" style="margin: 5%" onclick="location.href='/logout'">로그아웃</button>
+
+
+
+</div>
+
+

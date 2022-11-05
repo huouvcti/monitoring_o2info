@@ -16,11 +16,10 @@
         <link rel="stylesheet" href="../../public/stylesheets/style.css" />
 
         <!-- Bar css -->
-        <link rel="stylesheet" href="../../public/stylesheets/menuBar.css" />
         <link rel="stylesheet" href="../../public/stylesheets/topBar.css" />
 
+        
         <link rel="stylesheet" href="../../public/stylesheets/monitoring.css" />
-
 
 
         <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
@@ -33,26 +32,42 @@
 
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
 
-
-        
-
      </head>
 
     <body>
 
         <main class="d-flex flex-nowrap">
 
-            <%-include('../lib/menuBar.ejs') %>
+        <script>
+            let select_list = document.getElementsByClassName("select_list");
+        </script>
 
-            <script>
-                let menubar = document.getElementById("menuBar")
-                menubar.children[0].children[0].className = "nav-link active";
-            </script>
+        <% if(locals.admin){ %>
+            <%- include('../lib/admin_menuBar.ejs') %>
 
+            <% if(locals.user_key == 2){ %>
+                <script>
+                    select_list[3].children[0].className = "nav-link active";
+                </script>
+            <% } else { %>
+                <script>
+                    select_list[0].children[0].className = "nav-link active";
+                </script>
+            <% } %>
             
 
+        <%  } else{ %>
+                <%- include('../lib/menuBar.ejs') %>
+
+                <script>
+                    let menubar = document.getElementById("menuBar")
+                    menubar.children[0].children[0].className = "nav-link active";
+                </script>
+        <%  } %>
             
             
+            
+        
             <%
             let sensor_name = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)']
             let sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU']
@@ -129,12 +144,6 @@
                     <div id="graph_draw"></div>
                 </div>
             </div>
-
-
-            
-
-            
-
         </main> 
 
     </body>

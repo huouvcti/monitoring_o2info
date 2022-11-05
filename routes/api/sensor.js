@@ -25,4 +25,10 @@ router.get('/log/del', sensorCtrl.log.del);
 
 
 
+router.get('/gapSet', sensorCtrl.gap.before);
+router.post('/gapSet', sensorCtrl.gap.update);
+
+
+
+
 module.exports = router;

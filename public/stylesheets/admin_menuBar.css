@@ -82,11 +82,12 @@ hr{
 
 
 .menu{
-    background-color: #2F4187;
+    background-color: #555;
+    color: #000;
 }
 
 .nav-pills{
-    --bs-nav-pills-link-active-bg: #1b264f;
+    --bs-nav-pills-link-active-bg: #333;
 }
 
 
@@ -95,4 +96,15 @@ hr{
     padding: 10px;
     background-color: #fff;
     border-radius: 10px;;
+}
+
+.user_select{
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 150%;
+    margin: 10vh 0;
+}
+
+.user_select ul{
+    list-style: none;
 }
