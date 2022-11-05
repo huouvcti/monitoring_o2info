@@ -32,28 +32,13 @@
                 let select_list = document.getElementsByClassName("select_list");
             </script>
     
-            <% if(locals.admin){ %>
-                <%- include('../lib/admin_menuBar.ejs') %>
-    
-                <% if(locals.user_key == 2){ %>
-                    <script>
-                        select_list[5].children[0].className = "nav-link active";
-                    </script>
-                <% } else { %>
-                    <script>
-                        select_list[2].children[0].className = "nav-link active";
-                    </script>
-                <% } %>
-                
-    
-            <%  } else{ %>
-                    <%- include('../lib/menuBar.ejs') %>
-    
-                    <script>
-                        let menubar = document.getElementById("menuBar")
-                        menubar.children[1].children[0].className = "nav-link active";
-                    </script>
-            <%  } %>
+
+            <%- include('../lib/menuBar.ejs') %>
+
+            <script>
+                let menubar = document.getElementById("menuBar")
+                menubar.children[2].children[0].className = "nav-link active";
+            </script>
 
             
 

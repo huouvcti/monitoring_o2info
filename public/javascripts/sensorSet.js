@@ -57,10 +57,7 @@ const sensorSet_update_ajax = function(parameters){
         url:`/api/sensor/set`,
         success : function(responseData) {
             
-            alert("임계값 설정이 완료되었습니다.")
-            window.location.href = "/setting";
-
-            
+            alert("임계값 설정이 완료되었습니다.") 
         },
         error : function(error) {
         }
