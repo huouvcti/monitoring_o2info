@@ -54,7 +54,7 @@ const socketio = (server) => {
 
             room = parseInt(data.room);
 
-            if(isNaN(room) && room == 'logout'){
+            if(isNaN(room) || room == 'logout'){
                 console.log("android socket");
 
                 
