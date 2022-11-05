@@ -10,9 +10,13 @@ const adminCtrl = require('../controller/adminCtrl');
 // user
 router.get("/login", adminCtrl.admin.login);
 
-// router.get("/user_info", webCtrl.user.info)
+// 로그인
+// body: id(string), pw(string)
+router.post("/login", adminCtrl.admin_login.login);
 
-// router.get("/setting/pw_update", webCtrl.user.pw_update);
+// 로그아웃
+router.get("/logout", adminCtrl.admin_login.logout);
+
 
 
 router.get("/", adminCtrl.admin.monitoring);
@@ -24,21 +28,9 @@ router.get("/:user_key/setting", adminCtrl.admin.setting);
 router.get("/:user_key/sensorSet", adminCtrl.admin.sensorSet);
 router.get("/:user_key/gapSet", adminCtrl.admin.gapSet);
 
-// router.get("/monitoring", webCtrl.sensor.monitoring);
-// router.get("/log", webCtrl.sensor.log);
-
-// router.get("/setting", webCtrl.sensor.setting);
-
-// router.get("/setting/sensorSet", webCtrl.sensor.sensorSet);
 
 
 
-// 로그인
-// body: id(string), pw(string)
-router.post("/login", adminCtrl.admin_login.login);
-
-// 로그아웃
-router.get("/logout", adminCtrl.admin_login.logout);
 
 
 

@@ -25,20 +25,15 @@ const session_check = async (req, res, ejs) => {
 admin.login = async (req, res) => {
     if(req.session.admin_key){
         const parameters = {
-            user_key: req.session.admin_key,
+            admin_key: req.session.admin_key,
         }
-        res.send(`<script>location.href='/admin';</script>`);
+        res.send(`<script>location.href='/';</script>`);
     } else{
-        res.render(`../views/admin/login.ejs`);if(req.session.admin_key){
-            const parameters = {
-                user_key: req.session.admin_key,
-            }
-            res.render(`../views${ejs}.ejs`, );
-        } else{
-            res.send(`<script>location.href='/login';</script>`);
-        }
+        res.render(`../views/admin/login.ejs`);
     }
 }
+
+
 
 admin.monitoring = async (req, res) => {
     let ejs = '/sensor/monitoring'
@@ -86,6 +81,7 @@ admin_login.login = async (req, res) => {
 
 admin_login.logout = async (req, res) => {
     delete req.session.admin_key;
+    delete req.session.user_key;
 
     res.send("<script>alert(`로그아웃 성공`); location.href='/admin/login';</script>");
 }
