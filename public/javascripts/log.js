@@ -74,14 +74,13 @@ const log_graph_api = () => {
             const log = responseData.result;
             
             for(let i=0; i<log.length; i++){
-                sensor_value.Tc.unshift(log[i]['Tc'])
-                sensor_value.DO.unshift(log[i]['DO'])
-                sensor_value.DOper.unshift(log[i]['DOper'])
-                sensor_value.pH.unshift(log[i]['pH'])
-                sensor_value.Sa.unshift(log[i]['Sa'])
-                sensor_value.ORP.unshift(log[i]['ORP'])
-                sensor_value.TUR.unshift(log[i]['TUR'])
-                sensor_value.date.unshift(log[i]['date'])
+                sensor_value.Tc.unshift((Math.round(log[i]['Tc'] * 100) / 100));
+                sensor_value.DO.unshift((Math.round(log[i]['DO'] * 100) / 100));
+                sensor_value.pH.unshift((Math.round(log[i]['pH'] * 100) / 100));
+                sensor_value.Sa.unshift((Math.round(log[i]['Sa'] * 100) / 100));
+                sensor_value.ORP.unshift((Math.round(log[i]['ORP'] * 100) / 100));
+                sensor_value.TUR.unshift((Math.round(log[i]['TUR'] * 100) / 100));
+                sensor_value.date.unshift(log[i]['date']);
             }
 
             console.log(sensor_value)

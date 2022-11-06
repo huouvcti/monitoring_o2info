@@ -36,7 +36,7 @@
 
     <body>
 
-        
+
         <main class="d-flex flex-nowrap">
 
         <script>
@@ -282,7 +282,7 @@ class
 
         socket.on("sensor_update", async (data) =>{
             for(let i=0; i<sensor_name.length; i++){
-                let now = data[sensor_name[i]]
+                let now = (Math.round(data[sensor_name[i]] * 100) / 100)
 
                 sensor_now[i].innerText = now
                 sensor_now_big[i].innerText = now

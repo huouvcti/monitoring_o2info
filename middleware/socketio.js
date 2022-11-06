@@ -150,13 +150,14 @@ const socketio = (server) => {
 
                     for(let i=0; i<6; i++){
                         if(parameters[sensor_name[i]] != null){
+                            let msg = [];
+                            
                             if(parameters[sensor_name[i]] < sensor_set[sensor_name[i]+'_low']){
                                 console.log(parameters.user_key + ", 임계치 미만")
                                 // 임계치 보다 작은 값
-                                let msg = [];
 
                                 for(let j=0; j<token_list.length; j++){
-                                    msg.push({
+                                    await msg.push({
                                         notification: {
                                             title: "센서값 경고",
                                             body: sensor_name_show[i] + " 값이 임계치 미만입니다."
@@ -164,23 +165,13 @@ const socketio = (server) => {
                                         token: token_list[j]['token'] 
                                     })
                                 }
-                                fcm_admin.messaging().sendAll(msg)
-                                    .then((response) => {
-                                        // Response is a message ID string.
-                                        console.log('Successfully sent message:', response);
-                                    })
-                                    .catch((error) => {
-                                        console.log('Error sending message:', error);
-                                    });
-                                
-
                             } else if(parameters[sensor_name[i]] > sensor_set[sensor_name[i]+'_high']){
                                 console.log(parameters.user_key + ", 임계치 초과")
                                 // 임계치 보다 큰 값
-                                let msg = [];
+                                
 
                                 for(let j=0; j<token_list.length; j++){
-                                    msg.push({
+                                    await msg.push({
                                         notification: {
                                             title: "센서값 경고",
                                             body: sensor_name_show[i] + " 값이 임계치 초과입니다."
@@ -188,14 +179,17 @@ const socketio = (server) => {
                                         token: token_list[j]['token']
                                     })
                                 }
-                                fcm_admin.messaging().sendAll(msg)
-                                    .then((response) => {
-                                        // Response is a message ID string.
-                                        console.log('Successfully sent message:', response);
-                                    })
-                                    .catch((error) => {
-                                        console.log('Error sending message:', error);
-                                    });
+                            }
+
+                            if(msg.length != 0){
+                                await fcm_admin.messaging().sendAll(msg)
+                                .then((response) => {
+                                    // Response is a message ID string.
+                                    console.log('Successfully sent message:', response);
+                                })
+                                .catch((error) => {
+                                    console.log('Error sending message:', error);
+                                });
                             }
 
                             
