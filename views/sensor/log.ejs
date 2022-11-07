@@ -87,14 +87,51 @@
                 <div id="log_search">
                     <!-- 검색을 위한 부분 -->
                     <div class="search_part">
-                        검색 기간 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- 검색 기간 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="date" id="start_date">
                         <input type="time" id="start_time">
                         &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
                         <input type="date" id="end_date">
                         <input type="time" id="end_time">
 
-                        <button class="search_btn" onclick="log_pageMove(0); log_graph_api();">검색</button>
+                        <button class="search_btn" onclick="log_pageMove(0); log_graph_api();">검색</button> -->
+                        
+                        <label for="search_year">연도별</label>
+                        <select id="search_year">
+                            <% for (let i=0; i<=2; i++){ %>
+                                <% if(i==0){ %>
+                                    <option class="search_year">전체</option>
+                                <% } else { %>
+                                    <option class="search_year"><%= i + 2021%>년</option>
+                                <% } %>
+                                
+                            <% } %>
+                        </select>
+
+                        <label for="search_month">월별</label>
+                        <select id="search_month">
+                            <% for (let i=0; i<=12; i++){ %>
+                                <% if(i==0){ %>
+                                    <option class="search_month">전체</option>
+                                <% } else { %>
+                                    <option class="search_month"><%= i %>월</option>
+                                <% } %>
+                            <% } %>
+                        </select>
+
+                        <label for="search_day">일별</label>
+                        <select id="search_day">
+                            <% for (let i=0; i<=31; i++){ %>
+                                <% if(i==0){ %>
+                                    <option class="search_day">전체</option>
+                                <% } else { %>
+                                    <option class="search_day"><%= i %>일</option>
+                                <% } %>
+                            <% } %>
+                        </select>
+
+                        <button onclick="log_graph_api()">검색</button>
+
                     </div>
 
                     <!-- 다운로드, 삭제 -->

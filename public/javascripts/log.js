@@ -1,20 +1,42 @@
 /* 기간별 검색 */
-const log_search = function(){
-    let start_input = document.getElementById("start_date").value + " "+ document.getElementById("start_time").value;
-    let end_input = document.getElementById("end_date").value + " "+ document.getElementById("end_time").value;
+// const log_search = function(){
+//     // let start_input = document.getElementById("start_date").value + " "+ document.getElementById("start_time").value;
+//     // let end_input = document.getElementById("end_date").value + " "+ document.getElementById("end_time").value;
+
+//     let start_input = ''
+//     let end_input = ''
 
     
 
-    let start = new Date(start_input);            
-    let end = new Date(end_input);
+//     let start = new Date(start_input);            
+//     let end = new Date(end_input);
 
-    if(start > end){
-        alert("잘못된 날짜 입력");
-        return "";
-    } else if(!isNaN(start.getDate()) || !isNaN(end.getDate())){
-        return `&start=${start_input}&end=${end_input}`;
+//     if(start > end){
+//         alert("잘못된 날짜 입력");
+//         return "";
+//     } else if(!isNaN(start.getDate()) || !isNaN(end.getDate())){
+//         return `&start=${start_input}&end=${end_input}`;
+//     } else {
+//         return "";
+//     }
+// }
+
+// 연도별, 월별, 일별 검색
+const log_search = () => {
+    const select_year = document.getElementById('search_year');
+    const select_month = document.getElementById('search_month');
+    const select_day = document.getElementById('search_day');
+
+    const option_year = document.getElementsByClassName('search_year');
+    const option_month = document.getElementsByClassName('search_month');
+    const option_day = document.getElementsByClassName('search_day');
+
+    if(select_year.selectedIndex == 0 && (select_month.selectedIndex != 0 || select_day.selectedIndex != 0)){
+        alert("연도 선택을 해주세요")
+    } else if(select_month.selectedIndex == 0 && select_day.selectedIndex != 0){
+        alert("월 선택을 해주세요")
     } else {
-        return "";
+        return `&year=${select_year.selectedIndex}&month=${select_month.selectedIndex}&day=${select_day.selectedIndex}`;
     }
 }
 
@@ -86,8 +108,6 @@ const log_graph_api = () => {
             console.log(sensor_value)
 
             console.log(search)
-
-            search_split = search.split("=")
 
             log_graph_select();
             
@@ -182,7 +202,8 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit[0]
             },
             color: color[0],
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }, {
             name: title[1],
             data: sensor_value.DO,
@@ -190,7 +211,8 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit[1]
             },
             color: color[1],
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }, {
             name: title[2],
             data: sensor_value.DOper,
@@ -198,7 +220,8 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit[2]
             },
             color: color[2],
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }, {
             name: title[3],
             data: sensor_value.pH,
@@ -206,7 +229,8 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit[3]
             },
             color: color[3],
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }, {
             name: title[4],
             data: sensor_value.Sa,
@@ -214,7 +238,8 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit[4]
             },
             color: color[4],
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }, {
             name: title[5],
             data: sensor_value.ORP,
@@ -222,7 +247,8 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit[5]
             },
             color: color[5],
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }, {
             name: title[6],
             data: sensor_value.TUR,
@@ -230,7 +256,8 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit[6]
             },
             color: color[6],
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }]
 
 
@@ -318,7 +345,8 @@ const log_highchart = (sensor_data, date, title, unit, color) => {
                 valueSuffix: unit
             },
             color: color,
-            marker: { enabled: false }
+            marker: { enabled: false },
+            lineWidth: 3
         }]
 
 
