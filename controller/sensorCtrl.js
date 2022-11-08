@@ -10,6 +10,57 @@ const dayjs = require("dayjs");
 const fastcsv = require('fast-csv');
 const fs = require('fs');
 
+
+const log_search = (year, month, day) => {
+    const parameters = {
+    }
+
+    year = parseInt(year)
+    month = parseInt(month)
+    day = parseInt(day)
+
+    let start_year=0, start_month=0, start_day=0;
+    let end_year=0, end_month=0, end_day=0;
+
+
+    if(year == 0){
+        start_year = 0;
+        end_year = 3000;
+    } else {
+        if(month == 0){
+            start_year = year + 2021;
+            end_year = start_year+1;
+
+            start_month = 0;
+            end_month = 1;
+            
+        } else {
+            start_year = year + 2021;
+            end_year = start_year;
+
+            if(day == 0){
+                start_month = month;
+                end_month = month+1;
+
+                start_day = 0;
+                end_day = 1;
+            } else {
+                start_month = month;
+                end_month = start_month;
+
+                start_day = day;
+                end_day = day+1;  
+            }
+        }
+
+    }
+
+    parameters.date_start = start_year+'-'+start_month+'-'+start_day;
+    parameters.date_end = end_year+'-'+end_month+'-'+end_day;
+
+    return parameters
+}
+
 const set = {}
 const log = {}
 
@@ -88,11 +139,19 @@ log.list = async (req, res) => {
 
     const parameters = {
         user_key: req.session.user_key,
-        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        // date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+
         offset: page.offset,
         limit: page.limit,
     }
+
+    let date_format = log_search(req.query.year, req.query.month, req.query.day)
+
+    parameters.date_start = date_format.date_start
+    parameters.date_end = date_format.date_end
+
+
     console.log(parameters)
     const pageCnt = await sensorDAO.sensor_log.list_cnt(parameters);
     const cnt = parseInt(pageCnt[0].cnt / pageSize);
@@ -109,10 +168,15 @@ log.list = async (req, res) => {
 log.graph = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key,
-        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
-
+        // date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
+
+    let date_format = log_search(req.query.year, req.query.month, req.query.day)
+
+    parameters.date_start = date_format.date_start
+    parameters.date_end = date_format.date_end
+
     const db_data =  await sensorDAO.sensor_log.graph(parameters);
 
     res.send({result:db_data});
@@ -122,9 +186,14 @@ log.graph = async (req, res) => {
 log.down = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key,
-        date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        // date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
+
+    let date_format = log_search(req.query.year, req.query.month, req.query.day)
+
+    parameters.date_start = date_format.date_start
+    parameters.date_end = date_format.date_end
 
     console.log(parameters)
 
@@ -154,9 +223,14 @@ log.down = async (req, res) => {
 log.del = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key,
-        date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        // date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
+
+    let date_format = log_search(req.query.year, req.query.month, req.query.day)
+
+    parameters.date_start = date_format.date_start
+    parameters.date_end = date_format.date_end
 
     console.log(parameters)
 
@@ -165,7 +239,13 @@ log.del = async (req, res) => {
     const result = {}
     result.user_key = parameters.user_key;
     result.msg = "log delete success"
-    res.send("<script>alert(`데이터 삭제 완료`); location.href='/log';</script>")
+
+    if(req.session.admin_key){
+        res.send("<script>alert(`데이터 삭제 완료`); location.href = '/admin' </script>")
+    } else {
+        res.send("<script>alert(`데이터 삭제 완료`); location.href = '/log' </script>")
+    }
+    
 }
 
 

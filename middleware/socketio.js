@@ -54,7 +54,7 @@ const socketio = (server) => {
 
             room = parseInt(data.room);
 
-            if(isNaN(room) || room == 'logout'){
+            if(isNaN(room) || room == 'logout' || room == undefined){
                 console.log("android socket");
 
                 
@@ -151,7 +151,7 @@ const socketio = (server) => {
                     for(let i=0; i<6; i++){
                         if(parameters[sensor_name[i]] != null){
                             let msg = [];
-                            
+
                             if(parameters[sensor_name[i]] < sensor_set[sensor_name[i]+'_low']){
                                 console.log(parameters.user_key + ", 임계치 미만")
                                 // 임계치 보다 작은 값

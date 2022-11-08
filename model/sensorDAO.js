@@ -98,7 +98,7 @@ sensor_log.graph = (parameters) => {
 
 sensor_log.down = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, Tc as '수온 (C)', DO as 'DO (mg/L)', DOper as 'DO (%)', pH, Sa as '염도', ORP, TUR as '탁도' FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, format(Tc, 2) as '수온 (C)', format(DO, 2) as 'DO (mg/L)', format(DOper, 2) as 'DO (%)', format(pH, 2) as pH, format(Sa, 2) as '염도', format(ORP, 2) as ORP, format(TUR, 2) as '탁도' FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {

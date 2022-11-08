@@ -16,10 +16,11 @@
     
 }
 
-#log_search .search_part input{
+#log_search .search_part select{
     height: 80%;
     border: 1px solid #bbb;
-    padding: 0 1%;
+    padding: 0 2%;
+    margin-right: 3%;
 }
 
 
