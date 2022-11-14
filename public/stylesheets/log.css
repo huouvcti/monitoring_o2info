@@ -12,7 +12,7 @@
     width: 80%;
     display: grid;
 
-    grid-template-columns: 7fr 1fr 1fr;
+    grid-template-columns: 4fr 4fr 1fr 1fr;
     
 }
 
@@ -51,6 +51,36 @@
     background-color: red;
     color: #fff;
 }
+
+#newly_search {
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+}
+
+#newly_search input{
+    display: none;
+}
+
+#newly_search label{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    height: 80%;
+    padding: 0 3%;
+    border-radius: 20px;
+    background-color: #efefef;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+#newly_search label:hover {
+    background-color: #354793;
+    color: #fff;
+}
+
 
 
 #select_form{

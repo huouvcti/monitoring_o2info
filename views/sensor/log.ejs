@@ -131,13 +131,31 @@
                         </select>
 
                         <button onclick="log_pageMove(); log_graph_api();">검색</button>
-
+                    
                     </div>
+
+                    <div id="newly_search">
+                        <input type="radio" name="newly" id="newly_month" onchange="log_pageMove()">
+                        <label for="newly_month" class="newly_label">최근 한 달</label>
+
+                        <input type="radio" name="newly" id="newly_week"  onchange="log_pageMove()">
+                        <label for="newly_week" class="newly_label">최근 일주일</label>
+
+                        <input type="radio" name="newly" id="newly_day"  onchange="log_pageMove()">
+                        <label for="newly_day" class="newly_label">오늘</label>
+
+                        <input type="radio" name="newly" id="newly_x"  onchange="log_pageMove()">
+                        <label for="newly_x" class="newly_label">x</label>
+                    </div>
+
+                    
 
                     <!-- 다운로드, 삭제 -->
                     <button class="download_btn" onclick="log_down()"><i class="fa fa-download"></i> &nbsp;&nbsp;&nbsp;&nbsp;다운로드</button>
                     <button class="delete_btn" onclick="log_del()"><i class="fa-regular fa-trash-can"></i> &nbsp;&nbsp;&nbsp;&nbsp;삭제</button>
                 </div>
+
+                
                 
                 <div id="select_form">
                     <input type="radio" name="type" id="check_table" checked>
@@ -176,7 +194,7 @@
                         <option>ORP (mV)</option>
                         <option>탁도 (NTU)</option>
                     </select>
-                    <div id="graph_container"></div>
+                    <div id="graph_container"></div> 
                 </div>
 
 

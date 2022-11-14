@@ -40,6 +40,36 @@ const log_search = () => {
     }
 }
 
+let newly_num;
+
+const newly_search = (num) => {
+    let newly;
+    newly_num = num;
+
+    for(let i=0; i<4; i++){
+        document.getElementsByClassName("newly_label")[i].style.backgroundColor = "#efefef";
+        document.getElementsByClassName("newly_label")[i].style.color = "#000";
+
+        if(i == num){
+            document.getElementsByClassName("newly_label")[num].style.backgroundColor = "#354793";
+            document.getElementsByClassName("newly_label")[num].style.color = "#fff";
+        }
+            
+    }
+
+    if(num == 0){
+        newly = 'month';    
+    } else if(num == 1) {
+        newly = 'week';
+    } else if(num == 2){
+        newly = 'day';
+    } else {
+        newly = '';
+    }
+
+    return `&newly=${newly}`
+}
+
 
 const sensor_value = {
     Tc: [],
@@ -321,7 +351,7 @@ const log_highchart = (sensor_data, date, title, unit, color) => {
                 }
             },
 
-            tickInterval: 100,
+            tickInterval: 50,
         },
 
         legend: {
@@ -370,6 +400,16 @@ let page_span = document.getElementById("page")
 
 const log_pageMove = function(move){
     let search = log_search();
+
+    let newly_check_index = 100;
+
+    for(let i=0; i<4; i++){
+        if(document.getElementsByName('newly')[i].checked){
+            newly_check_index = i;
+        }
+    }
+    let newly = newly_search(newly_check_index);
+
     console.log(search)
     let log_table_inner = `<tr>
                                 <th>date</th>
@@ -403,7 +443,7 @@ const log_pageMove = function(move){
     $.ajax({
         type:'get',
         dataType:'json',
-        url:`/api/sensor/log?page=${log_page}${search}`,
+        url:`/api/sensor/log?page=${log_page}${search}${newly}`,
         success : function(responseData) {
             const log = responseData.result;
             log_cnt = responseData.cnt;

@@ -148,6 +148,32 @@ sensor_gap.update = (parameters) =>{
     })
 }
 
+
+
+sensor_log.list_newly = (parameters) => {
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT format(Tc, 2) as Tc, format(DO, 2) as DO, format(DOper, 2) as DOper, format(pH, 2) as pH, format(Sa, 2) as Sa, format(ORP, 2) as ORP, format(TUR, 2) as TUR, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE user_key=? AND date BETWEEN DATE_ADD(NOW(), INTERVAL -1 ${parameters.newly}) AND NOW() ORDER BY date DESC LIMIT ?, ?`, [ parameters.user_key, parameters.offset, parameters.limit], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+sensor_log.list_newly_cnt = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT COUNT(*) as cnt FROM sensor WHERE user_key=? AND date BETWEEN DATE_ADD(NOW(), INTERVAL -1 ${parameters.newly}) AND NOW();`, [parameters.user_key], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
 module.exports = {
     sensor,
     sensor_set,
