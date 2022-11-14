@@ -107,12 +107,12 @@ user_info.fishery = async (req, res) => {
     const db_data = await userDAO.user_info.fishery(parameters);
     
 
-    const result = {}
+    let result;
 
     if(db_data.length != 0){
-        result.fishery = db_data[0].fishery
+        result = db_data[0]
     } else{
-        result.fishery = 'Not found'
+        result= 'Not found'
     }
 
     console.log(result)

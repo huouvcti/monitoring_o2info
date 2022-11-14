@@ -33,7 +33,7 @@ const pw_update = (parameters) =>{
 
 user_info.fishery = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT fishery FROM user_info WHERE user_key=? OR user_key=?`, [parameters.user_key1, parameters.user_key2], (err, db_data) => {
+        db.query(`SELECT * FROM user_info WHERE user_key=? OR user_key=?`, [parameters.user_key1, parameters.user_key2], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {

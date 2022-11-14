@@ -1,20 +1,21 @@
 <div id="topBar_wrap">
     <div id="topBar">
-        <p><span id="fishery"></span><span id="menu_title"></span></p>
+        <p><span id="topBar_company"></span><span id="menu_title"></span></p>
     </div>
 </div>
 <script>
-    let fishery = document.getElementById("fishery")
+    let topBar_company = document.getElementById("topBar_company")
     $.ajax({
         type:'get',
         dataType:'json',
         url:`/api/user/user_info/fishery`,
         success : function(responseData) {
             let result = responseData.result;
+            let profile_company = result.company
 
-            let fishery_val = result.fishery
+            console.log(profile_company)
 
-            fishery.innerText = fishery_val
+            topBar_company.innerText = profile_company
             
         },
         error : function(error) {
