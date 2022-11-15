@@ -44,8 +44,27 @@
 
     <button type="button" id="logout_btn" class="btn btn-outline-light" style="margin: 5%" onclick="location.href='/logout'">로그아웃</button>
 
-
-
 </div>
+
+<script>
+    $.ajax({
+        type:'post',
+        dataType:'json',
+        url:`/api/user/user_key`,
+        success : function(responseData) {
+            let user_key = responseData.result.user_key;
+            
+            console.log(user_key)
+
+            if(user_key == 10){
+                document.getElementById('o2_logo').src = "/public/images/logo/ramst_logo.png"
+            }
+            
+            
+        },
+        error : function(error) {
+        }
+    });
+</script>
 
 

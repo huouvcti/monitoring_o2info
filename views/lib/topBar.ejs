@@ -16,6 +16,11 @@
             console.log(profile_company)
 
             topBar_company.innerText = profile_company
+
+
+            if(result.user_key == 10){
+                topBar_company.innerText = '지중해담치'
+            }
             
         },
         error : function(error) {
