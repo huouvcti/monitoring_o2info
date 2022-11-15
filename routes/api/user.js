@@ -24,7 +24,10 @@ router.post("/user_key", userCtrl.user_key);
 
 
 // 양식장 이름
-router.get("/user_info/fishery", userCtrl.user_info.fishery);
+router.get("/logout", userCtrl.logout);
+
+
+router.post 
 
 
 

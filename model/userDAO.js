@@ -74,7 +74,20 @@ token.insert = (parameters) =>{
 
 token.get = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT token FROM user_device WHERE user_key=?`, (parameters.user_key), (err, db_data) => {
+        db.query(`SELECT token FROM user_device WHERE user_key=? AND login=1`, (parameters.user_key), (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
+
+const logout = (parameters) =>{
+    return new Promise((resolve, reject) =>{
+        db.query(`UPDATE user_device set login=0 where user_key=? AND token=?`, (parameters.user_key, parameters.token), (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -91,6 +104,8 @@ module.exports = {
 
     user_info,
     
-    token
+    token,
+
+    logout
 
 }

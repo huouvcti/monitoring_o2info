@@ -120,11 +120,32 @@ user_info.fishery = async (req, res) => {
     res.send({"result": result})
 }
 
+
+const logout = async (req, res) => {
+    const parameters = {
+        user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
+        token: (req.get('token') != "" && req.get('token') != undefined) ? req.get('token') : null,
+    }
+
+    if(parameters.user_key != null && parameters.token != null){
+        await userDAO.logout(parameters);
+        res.send({"result": parameters})
+    } else {
+        res.send({"result": parameters})
+    }
+
+    
+
+    
+}
+
 module.exports = {
     login,
     // logout,
     pw_update,
     user_key,
 
-    user_info
+    user_info,
+
+    logout
 }
