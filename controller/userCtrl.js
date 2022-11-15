@@ -33,6 +33,8 @@ const login = async (req, res) => {
             if(token_check.length == 0){
                 await userDAO.token.insert(token_parameters);
                 console.log(`${token_parameters.user_key}, new token !`);
+            } else {
+                await userDAO.login(token_parameters);
             }
         }
         
