@@ -136,10 +136,6 @@ const logout = async (req, res) => {
     } else {
         res.send({"result": parameters})
     }
-
-    
-
-    
 }
 
 module.exports = {
