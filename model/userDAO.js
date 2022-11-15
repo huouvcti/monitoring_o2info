@@ -86,7 +86,7 @@ token.get = (parameters) =>{
 
 const login = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`UPDATE user_device set login=1 where user_key=? AND token=?`, (parameters.user_key, parameters.token), (err, db_data) => {
+        db.query(`UPDATE user_device set login=1 where user_key=? AND token=?`, [parameters.user_key, parameters.token], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -99,7 +99,7 @@ const login = (parameters) =>{
 
 const logout = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`UPDATE user_device set login=0 where user_key=? AND token=?`, (parameters.user_key, parameters.token), (err, db_data) => {
+        db.query(`UPDATE user_device set login=0 where user_key=? AND token=?`, [parameters.user_key, parameters.token], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
