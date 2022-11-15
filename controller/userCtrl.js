@@ -128,6 +128,7 @@ const logout = async (req, res) => {
         user_key: (req.get('user_key') != "" && req.get('user_key') != undefined) ? req.get('user_key') : null,
         token: (req.get('token') != "" && req.get('token') != undefined) ? req.get('token') : null,
     }
+    console.log(parameters);
 
     if(parameters.user_key != null && parameters.token != null){
         await userDAO.logout(parameters);
