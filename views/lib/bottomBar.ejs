@@ -3,12 +3,12 @@
         <!-- <img src="/public/images/logo/gb_logo.png" alt="">
         <h2>어업기술센터</h2> -->
 
-        <a href="http://ramst.or.kr/" target="_blank" style="margin: auto 0; background-color: #fff;"><img src="/public/images/logo/ramst_logo.png" style="width: 100px; height: 80%; padding: 10px; margin: auto 0; background-color: #fff;"></a>
-        <p style="font-weight: normal; font-size:70%; margin: auto 0; font-weight: bold;" >사단법인 해양수산과학기술연구조합</p>
-        <p style="font-weight: normal; font-size:50%; text-align: left; margin: auto 0;">
-            주소 : 전남 여수시 삼동3길 17 전남여수산학융합원 기업연구관 211호 대표이사 : 박주삼 <br>
-            Tel : 061-921-7744 Fax : 061-921-7745 E-mail : seuly776@ramst.or.kr
-        </p>
+        <!-- <a href="http://ramst.or.kr/" target="_blank" style="margin: auto 0; background-color: #fff;"><img src="/public/images/logo/ramst_logo.png" style="width: 100px; height: 80%; padding: 10px; margin: auto 0; background-color: #fff;"></a>
+        <p style=" font-weight: normal; font-size:70%; margin: auto 0; font-weight: bold;" >사단법인 해양수산과학기술연구조합</p>
+        <p style="color: #333; font-weight: 500; font-size:50%; text-align: left; margin: auto 0;">
+            주소 : 전남 여수시 삼동3길 17 전남여수산학융합원 기업연구관 211호 &nbsp;&nbsp; 대표이사 : 박주삼 <br>
+            Tel : 061-921-7744 &nbsp;&nbsp; Fax : 061-921-7745 &nbsp;&nbsp; E-mail : seuly776@ramst.or.kr
+        </p> -->
     </div>
 </div>
 
@@ -26,6 +26,12 @@
             let bottomBar = document.getElementById('bottomBar');
 
             if(user_key == 10){
+                bottomBar.innerHTML = `<a href="http://ramst.or.kr/" target="_blank" style="margin: auto 0; background-color: #fff;"><img src="/public/images/logo/ramst_logo.png" style="width: 100px; height: 80%; padding: 10px; margin: auto 0; background-color: #fff;"></a>
+        <p style=" font-weight: normal; font-size:70%; margin: auto 0; font-weight: bold;" >사단법인 해양수산과학기술연구조합</p>
+        <p style="color: #333; font-weight: 500; font-size:50%; text-align: left; margin: auto 0;">
+            주소 : 전남 여수시 삼동3길 17 전남여수산학융합원 기업연구관 211호 &nbsp;&nbsp; 대표이사 : 박주삼 <br>
+            Tel : 061-921-7744 &nbsp;&nbsp; Fax : 061-921-7745 &nbsp;&nbsp; E-mail : seuly776@ramst.or.kr
+        </p>`
                 bottomBar.style.gap = '0';
                 bottomBar.style.width = "100%";
                 bottomBar.style.justifyContent = 'space-evenly'
