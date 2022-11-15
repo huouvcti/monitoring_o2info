@@ -118,6 +118,7 @@ module.exports = {
     
     token,
 
+    login,
     logout
 
 }
