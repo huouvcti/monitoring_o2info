@@ -89,7 +89,9 @@
                             </div>
                             <div class="menu_btn_wrap">
                                 <% if(locals.user_key == 2){ %>
-                                    <button onclick="location.href='/admin/2/sensorSet'">설정</button>div
+                                    <button onclick="location.href='/admin/2/sensorSet'">설정</button>
+                                <% } else { %>
+                                    <button onclick="location.href='/admin/1/sensorSet'">설정</button>
                                 <% } %>
 
                                 
@@ -107,6 +109,8 @@
                                 <% } else { %>
                                     <button onclick="location.href='/admin/1/gapSet'">설정</button>
                                 <% } %>
+
+                            
 
                                 
                             </div>
