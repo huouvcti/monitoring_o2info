@@ -242,6 +242,9 @@ log.graph = async (req, res) => {
         date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
 
+    parameters.date_start += ' 00:00:00'
+    parameters.date_end += ' 23:59:59'
+
     const db_data =  await sensorDAO.sensor_log.graph(parameters);
 
     res.send({result:db_data});
@@ -251,11 +254,14 @@ log.graph = async (req, res) => {
 log.down = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key,
-        // date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
 
-    let date_format = log_search(req.query.year, req.query.month, req.query.day)
+    parameters.date_start += ' 00:00:00'
+    parameters.date_end += ' 23:59:59'
+
+    // let date_format = log_search(req.query.year, req.query.month, req.query.day)
 
     parameters.date_start = date_format.date_start
     parameters.date_end = date_format.date_end
@@ -288,11 +294,11 @@ log.down = async (req, res) => {
 log.del = async (req, res) => {
     const parameters = {
         user_key: req.session.user_key,
-        // date_start: (req.query.start == " " || req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
     }
 
-    let date_format = log_search(req.query.year, req.query.month, req.query.day)
+    // let date_format = log_search(req.query.year, req.query.month, req.query.day)
 
     parameters.date_start = date_format.date_start
     parameters.date_end = date_format.date_end
