@@ -131,7 +131,7 @@ set.update = async (req, res) => {
 
 
 
-
+/*
 log.list = async (req, res) => {
     let currentPage = req.query.page;
     const pageSize = 10;
@@ -189,18 +189,53 @@ log.list = async (req, res) => {
         res.send({result:db_data, total_cnt, cnt});
     }
 }
+*/
 
-log.graph = async (req, res) => {
+log.list = async (req, res) => {
+    let currentPage = req.query.page;
+    const pageSize = 10;
+    const page = paging(currentPage, pageSize);
+
     const parameters = {
         user_key: req.session.user_key,
-        // date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
-        // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+
+        offset: page.offset,
+        limit: page.limit,
     }
 
-    let date_format = log_search(req.query.year, req.query.month, req.query.day)
+    console.log(parameters)
 
-    parameters.date_start = date_format.date_start
-    parameters.date_end = date_format.date_end
+    const pageCnt = await sensorDAO.sensor_log.list_cnt(parameters);
+    const cnt = parseInt(pageCnt[0].cnt / pageSize);
+
+    const total_cnt = pageCnt[0].cnt
+    
+    const db_data =  await sensorDAO.sensor_log.list(parameters);
+
+    // console.log(db_data)
+
+    res.send({result:db_data, total_cnt, cnt});
+}
+
+log.graph = async (req, res) => {
+    // const parameters = {
+    //     user_key: req.session.user_key,
+    //     // date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+    //     // date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+    // }
+
+    // let date_format = log_search(req.query.year, req.query.month, req.query.day)
+
+    // parameters.date_start = date_format.date_start
+    // parameters.date_end = date_format.date_end
+
+    const parameters = {
+        user_key: req.session.user_key,
+        date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,
+        date_end: (req.query.end == "" || req.query.end == undefined) ? "3000:01:01" : req.query.end,
+    }
 
     const db_data =  await sensorDAO.sensor_log.graph(parameters);
 

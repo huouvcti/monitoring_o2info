@@ -1,74 +1,129 @@
 /* 기간별 검색 */
-// const log_search = function(){
-//     // let start_input = document.getElementById("start_date").value + " "+ document.getElementById("start_time").value;
-//     // let end_input = document.getElementById("end_date").value + " "+ document.getElementById("end_time").value;
 
-//     let start_input = ''
-//     let end_input = ''
+
+
+const log_search = function(){
+    let start_input = document.getElementById("start_date").value;
+    let end_input = document.getElementById("end_date").value;
+
+    // let start_input = ''
+    // let end_input = ''
+
+    let start = new Date(start_input);            
+    let end = new Date(end_input);
+
+    if(start > end){
+        alert("잘못된 날짜 입력");
+        return "";
+    } else if(!isNaN(start.getDate()) || !isNaN(end.getDate())){
+        console.log(end_input)
+        return `&start=${start_input}&end=${end_input}`;
+    } else {
+        return "";
+    }
+}
+
+function date_format(y, m, d) {
+    if(m < 10){
+        m = '0'+m
+    }
+    if(d < 10){
+        d = '0'+d
+    }
+
+    return y+'-'+m+'-'+d
+}
+
+const newly_search = function(selected){
+    let start_input = document.getElementById("start_date");
+    let end_input = document.getElementById("end_date");
+
+    let today = new Date();
+
+    let year = today.getFullYear(); // 년도
+    let month = today.getMonth() + 1;  // 월
+    let day = today.getDate();  // 날짜
+
+
+    end_input.value = date_format(year, month, day)
+
+    if(selected == 'month'){
+        month -= 1
+
+        if(month < 1){
+            year -= 1
+            month = 1
+        }
+        start_input.value = date_format(year, month, day)
+    } else if(selected == 'week'){
+        for (let i=0; i<7; i++){
+            day -= 1
+            if(day < 1){
+                month -= 1
+                day = 30
+            }
+        }
+        start_input.value = date_format(year, month, day)
+    } else if(selected == 'day'){
+        start_input.value = date_format(year, month, day)
+    } else {
+        start_input.value = ''
+        end_input.value = ''
+    }
 
     
+}
 
-//     let start = new Date(start_input);            
-//     let end = new Date(end_input);
+// 연도별, 월별, 일별 검색
+// const log_search = () => {
+//     const select_year = document.getElementById('search_year');
+//     const select_month = document.getElementById('search_month');
+//     const select_day = document.getElementById('search_day');
 
-//     if(start > end){
-//         alert("잘못된 날짜 입력");
-//         return "";
-//     } else if(!isNaN(start.getDate()) || !isNaN(end.getDate())){
-//         return `&start=${start_input}&end=${end_input}`;
+//     const option_year = document.getElementsByClassName('search_year');
+//     const option_month = document.getElementsByClassName('search_month');
+//     const option_day = document.getElementsByClassName('search_day');
+
+//     if(select_year.selectedIndex == 0 && (select_month.selectedIndex != 0 || select_day.selectedIndex != 0)){
+//         alert("연도 선택을 해주세요")
+//     } else if(select_month.selectedIndex == 0 && select_day.selectedIndex != 0){
+//         alert("월 선택을 해주세요")
 //     } else {
-//         return "";
+//         return `&year=${select_year.selectedIndex}&month=${select_month.selectedIndex}&day=${select_day.selectedIndex}`;
 //     }
 // }
 
-// 연도별, 월별, 일별 검색
-const log_search = () => {
-    const select_year = document.getElementById('search_year');
-    const select_month = document.getElementById('search_month');
-    const select_day = document.getElementById('search_day');
+// let newly_num;
 
-    const option_year = document.getElementsByClassName('search_year');
-    const option_month = document.getElementsByClassName('search_month');
-    const option_day = document.getElementsByClassName('search_day');
+// const newly_search = (num) => {
+//     let newly;
+//     newly_num = num;
 
-    if(select_year.selectedIndex == 0 && (select_month.selectedIndex != 0 || select_day.selectedIndex != 0)){
-        alert("연도 선택을 해주세요")
-    } else if(select_month.selectedIndex == 0 && select_day.selectedIndex != 0){
-        alert("월 선택을 해주세요")
-    } else {
-        return `&year=${select_year.selectedIndex}&month=${select_month.selectedIndex}&day=${select_day.selectedIndex}`;
-    }
-}
+//     for(let i=0; i<4; i++){
+//         document.getElementsByClassName("newly_label")[i].style.backgroundColor = "#efefef";
+//         document.getElementsByClassName("newly_label")[i].style.color = "#000";
 
-let newly_num;
-
-const newly_search = (num) => {
-    let newly;
-    newly_num = num;
-
-    for(let i=0; i<4; i++){
-        document.getElementsByClassName("newly_label")[i].style.backgroundColor = "#efefef";
-        document.getElementsByClassName("newly_label")[i].style.color = "#000";
-
-        if(i == num){
-            document.getElementsByClassName("newly_label")[num].style.backgroundColor = "#354793";
-            document.getElementsByClassName("newly_label")[num].style.color = "#fff";
-        }
+//         if(i == num){
+//             document.getElementsByClassName("newly_label")[num].style.backgroundColor = "#354793";
+//             document.getElementsByClassName("newly_label")[num].style.color = "#fff";
+//         }
             
-    }
+//     }
 
-    if(num == 0){
-        newly = 'month';    
-    } else if(num == 1) {
-        newly = 'week';
-    } else if(num == 2){
-        newly = 'day';
-    } else {
-        newly = '';
-    }
+//     if(num == 0){
+//         newly = 'month';    
+//     } else if(num == 1) {
+//         newly = 'week';
+//     } else if(num == 2){
+//         newly = 'day';
+//     } else {
+//         newly = '';
+//     }
 
-    return `&newly=${newly}`
-}
+//     return `&newly=${newly}`
+// }
+
+
 
 
 const sensor_value = {
@@ -99,7 +154,22 @@ const log_graph_select = () =>  {
     } else {
         log_all_highchart(sensor_value, sensor_value.date, sensor_title, sensor_unit, sensor_color)
     }
-    
+}
+
+
+const log_graph_show = () =>{
+    const sensor_name = ['Tc', 'DO', 'DOper', 'pH', 'Sa', 'ORP', 'TUR']
+    const sensor_title = ['수온 (°C)', '산소 (mg/L)', '산소 (%)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)']
+    const sensor_unit = [' °C', ' mg/L', ' %', ' pH', ' ppt', ' mV', ' NTU']
+    const sensor_color = ["#fa5252", "#52bafa", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
+
+
+    for(let i=0; i<7; i++){
+        if(i != 2){
+            log_highchart(('graph_container_'+sensor_name[i]), sensor_value[sensor_name[i]], sensor_value.date, sensor_title[i], sensor_unit[i], sensor_color[i])
+        }
+        
+    }
 }
 
 
@@ -118,6 +188,23 @@ const log_graph_api = () => {
     sensor_value.date = []
 
     let search = log_search();
+
+    let search_tick_value = document.querySelector('input[name="search_tick"]:checked').value
+    let search_tick
+
+    if(search_tick_value == '5m'){
+        // 5분
+        search_tick = 15
+    } else if(search_tick_value == '10m'){
+        search_tick = 30
+    } else{
+        // 20초
+        search_tick = 1
+    }
+    
+    console.log(search_tick)
+    
+
     $.ajax({
         type:'get',
         dataType:'json',
@@ -125,7 +212,7 @@ const log_graph_api = () => {
         success : function(responseData) {
             const log = responseData.result;
             
-            for(let i=0; i<log.length; i++){
+            for(let i=0; i<log.length; i+=search_tick){
                 sensor_value.Tc.unshift((Math.round(log[i]['Tc'] * 100) / 100));
                 sensor_value.DO.unshift((Math.round(log[i]['DO'] * 100) / 100));
                 sensor_value.pH.unshift((Math.round(log[i]['pH'] * 100) / 100));
@@ -139,7 +226,10 @@ const log_graph_api = () => {
 
             console.log(search)
 
-            log_graph_select();
+
+            log_graph_show();
+
+            // log_graph_select();
             
 
         },
@@ -296,11 +386,11 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
     return chart
 }
 
-const log_highchart = (sensor_data, date, title, unit, color) => {
-    chart = new Highcharts.chart('graph_container', {
+const log_highchart = (container, sensor_data, date, title, unit, color) => {
+    chart = new Highcharts.chart(container, {
         chart: {
-            renderTo: 'graph_container',
-            height: '470px',
+            renderTo: container,
+            height: '350px',
         },
         title: {
             margin: 30,
@@ -506,7 +596,13 @@ const select_graph = () =>{
 /* 로그 다운로드 */
 const log_down = function(){
     let search = log_search();
-    location.href = `/api/sensor/log/down?${search}`;
+
+    if(search == ''){
+        alert('검색 기간을 설정해주세요')
+    } else {
+        location.href = `/api/sensor/log/down?${search}`;
+    }
+    
 }
 
 /* 로그 삭제 */
