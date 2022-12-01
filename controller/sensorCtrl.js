@@ -207,6 +207,9 @@ log.list = async (req, res) => {
         limit: page.limit,
     }
 
+    parameters.date_start += ' 00:00:00'
+    parameters.date_end += ' 23:59:59'
+
     console.log(parameters)
 
     const pageCnt = await sensorDAO.sensor_log.list_cnt(parameters);
