@@ -62,7 +62,7 @@ sensor_set.update = (parameters) =>{
 
 sensor_log.list = (parameters) => {
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT format(Tc, 2) as Tc, format(DO, 2) as DO, format(DOper, 2) as DOper, format(pH, 2) as pH, format(Sa, 2) as Sa, format(ORP, 2) as ORP, format(TUR, 2) as TUR, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC LIMIT ?, ?`, [ parameters.user_key, parameters.date_start, parameters.date_end, parameters.offset, parameters.limit], (err, db_data) => {
+        db.query(`SELECT format(Tc, 2) as Tc, format(DO, 2) as DO, format(DOper, 2) as DOper, format(pH, 2) as pH, format(Sa, 2) as Sa, format(ORP, 2) as ORP, format(TUR, 2) as TUR, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE (user_key=?) AND (date >= ? AND date =< ?) ORDER BY date DESC LIMIT ?, ?`, [ parameters.user_key, parameters.date_start, parameters.date_end, parameters.offset, parameters.limit], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -74,7 +74,7 @@ sensor_log.list = (parameters) => {
 
 sensor_log.list_cnt = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT COUNT(*) as cnt FROM sensor WHERE user_key=? AND (date > ? AND date < ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`SELECT COUNT(*) as cnt FROM sensor WHERE user_key=? AND (date >= ? AND date =< ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -86,7 +86,7 @@ sensor_log.list_cnt = (parameters) =>{
 
 sensor_log.graph = (parameters) => {
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC`, [ parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE (user_key=?) AND (date >= ? AND date =< ?) ORDER BY date DESC`, [ parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -98,7 +98,7 @@ sensor_log.graph = (parameters) => {
 
 sensor_log.down = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, format(Tc, 2) as 'RTD (C)', format(DO, 2) as 'DO (mg/L)', format(DOper, 2) as 'DO (%)', format(pH, 2) as pH, format(Sa, 2) as 'Salt', format(ORP, 2) as ORP, format(TUR, 2) as 'TUR' FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, format(Tc, 2) as 'RTD (C)', format(DO, 2) as 'DO (mg/L)', format(DOper, 2) as 'DO (%)', format(pH, 2) as pH, format(Sa, 2) as 'Salt', format(ORP, 2) as ORP, format(TUR, 2) as 'TUR' FROM sensor WHERE (user_key=?) AND (date >= ? AND date =< ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
@@ -112,7 +112,7 @@ sensor_log.down = (parameters) =>{
 
 sensor_log.del = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`DELETE FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
+        db.query(`DELETE FROM sensor WHERE (user_key=?) AND (date >= ? AND date =< ?);`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
