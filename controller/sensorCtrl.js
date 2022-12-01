@@ -263,8 +263,8 @@ log.down = async (req, res) => {
 
     // let date_format = log_search(req.query.year, req.query.month, req.query.day)
 
-    parameters.date_start = date_format.date_start
-    parameters.date_end = date_format.date_end
+    // parameters.date_start = date_format.date_start
+    // parameters.date_end = date_format.date_end
 
     console.log(parameters)
 
@@ -300,8 +300,8 @@ log.del = async (req, res) => {
 
     // let date_format = log_search(req.query.year, req.query.month, req.query.day)
 
-    parameters.date_start = date_format.date_start
-    parameters.date_end = date_format.date_end
+    // parameters.date_start = date_format.date_start
+    // parameters.date_end = date_format.date_end
 
     console.log(parameters)
 
