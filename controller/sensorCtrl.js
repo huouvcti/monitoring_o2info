@@ -196,6 +196,8 @@ log.list = async (req, res) => {
     const pageSize = 10;
     const page = paging(currentPage, pageSize);
 
+    console.log(req.query)
+
     const parameters = {
         user_key: req.session.user_key,
         date_start: (req.query.start == "" || req.query.start == undefined) ? "1970:01:01" : req.query.start,

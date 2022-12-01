@@ -66,7 +66,7 @@ const newly_search = function(selected){
         start_input.value = date_format(year, month, day)
     } else if(selected == 'day'){
         start_input.value = date_format(year, month, day)
-    } else {
+    } else if(selected == 'x'){
         start_input.value = ''
         end_input.value = ''
     }
@@ -493,12 +493,12 @@ const log_pageMove = function(move){
 
     let newly_check_index = 100;
 
-    for(let i=0; i<4; i++){
-        if(document.getElementsByName('newly')[i].checked){
-            newly_check_index = i;
-        }
-    }
-    let newly = newly_search(newly_check_index);
+    // for(let i=0; i<4; i++){
+    //     if(document.getElementsByName('newly')[i].checked){
+    //         newly_check_index = i;
+    //     }
+    // }
+    // let newly = newly_search(newly_check_index);
 
     console.log(search)
     let log_table_inner = `<tr>
@@ -533,7 +533,7 @@ const log_pageMove = function(move){
     $.ajax({
         type:'get',
         dataType:'json',
-        url:`/api/sensor/log?page=${log_page}${search}${newly}`,
+        url:`/api/sensor/log?page=${log_page}${search}`,
         success : function(responseData) {
             const log = responseData.result;
             log_cnt = responseData.cnt;
