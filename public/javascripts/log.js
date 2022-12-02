@@ -134,8 +134,10 @@ const sensor_value = {
     Sa: [],
     ORP: [],
     TUR: [],
-    date: []
+    date: [],
 }
+
+let sensor_data_length = 0;
 
 const log_graph_select = () =>  {
     const sensor_name = ['Tc', 'DO', 'DOper', 'pH', 'Sa', 'ORP', 'TUR']
@@ -187,6 +189,8 @@ const log_graph_api = () => {
     sensor_value.TUR = []
     sensor_value.date = []
 
+    sensor_data_length = 0;
+
     let search = log_search();
 
     let search_tick_value = document.querySelector('input[name="search_tick"]:checked').value
@@ -211,6 +215,8 @@ const log_graph_api = () => {
         url:`/api/sensor/log/graph?page=${search}`,
         success : function(responseData) {
             const log = responseData.result;
+
+            sensor_data_length = log.length
             
             for(let i=0; i<log.length; i+=search_tick){
                 sensor_value.Tc.unshift((Math.round(log[i]['Tc'] * 100) / 100));
@@ -441,7 +447,7 @@ const log_highchart = (container, sensor_data, date, title, unit, color) => {
                 }
             },
 
-            tickInterval: 50,
+            tickInterval: sensor_data_length/(sensor_data_length*0.1),
         },
 
         legend: {
