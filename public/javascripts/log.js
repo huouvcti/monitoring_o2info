@@ -447,7 +447,7 @@ const log_highchart = (container, sensor_data, date, title, unit, color) => {
                 }
             },
 
-            tickInterval: Math.round(sensor_data_length*0.5),
+            tickInterval: Math.round(sensor_data_length*0.1),
             // tickLength: 100
         },
 
