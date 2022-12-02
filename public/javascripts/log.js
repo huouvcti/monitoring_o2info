@@ -216,7 +216,7 @@ const log_graph_api = () => {
         success : function(responseData) {
             const log = responseData.result;
 
-            sensor_data_length = log.length
+            sensor_data_length = log.length / search_tick
             
             for(let i=0; i<log.length; i+=search_tick){
                 sensor_value.Tc.unshift((Math.round(log[i]['Tc'] * 100) / 100));
@@ -447,7 +447,7 @@ const log_highchart = (container, sensor_data, date, title, unit, color) => {
                 }
             },
 
-            tickInterval: Math.round(sensor_data_length*0.3),
+            tickInterval: Math.round(sensor_data_length),
             // tickLength: 100
         },
 
