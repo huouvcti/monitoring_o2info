@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>o2 정보통신</title>
+
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
+
+        <!-- 폰트 -->
+        <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../public/stylesheets/style.css" />
+
+        <!-- Bar css -->
+        <link rel="stylesheet" href="../../public/stylesheets/topBar.css" />
+
+        <link rel="stylesheet" href="../../public/stylesheets/log.css" />
+
+
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+        
+
+        <script>
+            $(document).ready(function() {
+                newly_search('day')
+                log_pageMove();
+                log_graph_api()
+
+                document.getElementById('graph_container_wrap').style.gridTemplateRows = '1fr 1fr';
+		    });
+        </script>
+
+     </head>
+
+    <body>
+
+        <main class="d-flex flex-nowrap">
+
+            <script>
+                let select_list = document.getElementsByClassName("select_list");
+            </script>
+    
+            <% if(locals.admin){ %>
+                <%- include('../lib/admin_menuBar.ejs') %>
+    
+                <% if(locals.user_key == 2){ %>
+                    <script>
+                        select_list[4].children[0].className = "nav-link active";
+                    </script>
+                <% } else { %>
+                    <script>
+                        select_list[1].children[0].className = "nav-link active";
+                    </script>
+                <% } %>
+                
+    
+            <%  } else{ %>
+                    <%- include('../lib/menuBar.ejs') %>
+    
+                    <script>
+                        let menubar = document.getElementById("menuBar")
+                        menubar.children[1].children[0].className = "nav-link active";
+                    </script>
+            <%  } %>
+
+            
+
+            <div class="b-example-divider b-example-vr" id="board">
+
+                <%-include('../lib/topBar.ejs') %>
+
+                <script>
+                    let topBar_title = document.getElementById("menu_title")
+                    topBar_title.innerText = " 양식장 기록 화면"
+                </script>
+                
+                <h1></h1>
+
+                <div id="log_search">
+                    <!-- 검색을 위한 부분 -->
+                    <div class="search_part">
+                        검색 기간 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="date" id="start_date">
+                        <!-- <input type="time" id="start_time"> -->
+                        &nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;
+                        <input type="date" id="end_date">
+                        <!-- <input type="time" id="end_time"> -->
+
+                        <button class="search_btn" onclick="log_pageMove(0); log_graph_api();">검색</button>
+                        
+                        <!-- <label for="search_year">연도별: </label>
+                        <select id="search_year">
+                            <% for (let i=0; i<=2; i++){ %>
+                                <% if(i==0){ %>
+                                    <option class="search_year">전체</option>
+                                <% } else { %>
+                                    <option class="search_year"><%= i + 2021%>년</option>
+                                <% } %>
+                                
+                            <% } %>
+                        </select>
+
+                        <label for="search_month">월별: </label>
+                        <select id="search_month">
+                            <% for (let i=0; i<=12; i++){ %>
+                                <% if(i==0){ %>
+                                    <option class="search_month">전체</option>
+                                <% } else { %>
+                                    <option class="search_month"><%= i %>월</option>
+                                <% } %>
+                            <% } %>
+                        </select>
+
+                        <label for="search_day">일별: </label>
+                        <select id="search_day">
+                            <% for (let i=0; i<=31; i++){ %>
+                                <% if(i==0){ %>
+                                    <option class="search_day">전체</option>
+                                <% } else { %>
+                                    <option class="search_day"><%= i %>일</option>
+                                <% } %>
+                            <% } %>
+                        </select>
+
+                        <button onclick="log_pageMove(); log_graph_api();">검색</button> -->
+                    
+                    </div>
+
+                    <div id="newly_search">
+                        <input type="radio" name="newly" id="newly_month" onchange="newly_search('month')">
+                        <label for="newly_month" class="newly_label">최근 한 달</label>
+
+                        <input type="radio" name="newly" id="newly_week"  onchange="newly_search('week')">
+                        <label for="newly_week" class="newly_label">최근 일주일</label>
+
+                        <input type="radio" name="newly" id="newly_day"  onchange="newly_search('day')">
+                        <label for="newly_day" class="newly_label">오늘</label>
+
+                        <input type="radio" name="newly" id="newly_x"  onchange="newly_search('x')">
+                        <label for="newly_x" class="newly_label">x</label>
+                    </div>
+
+                    
+
+                    <!-- 다운로드, 삭제 -->
+                    <button class="download_btn" onclick="log_down()"><i class="fa fa-download"></i> &nbsp;&nbsp;&nbsp;&nbsp;다운로드</button>
+                    <button class="delete_btn" onclick="log_del()"><i class="fa-regular fa-trash-can"></i> &nbsp;&nbsp;&nbsp;&nbsp;삭제</button>
+                </div>
+
+                
+                
+                <div id="select_form">
+                    <input type="radio" name="type" id="check_table" checked>
+                    <label for="check_table" id="selet_table" onclick="select_table()">표</label>
+
+                    <input type="radio" name="type" id="check_graph">
+                    <label for="check_graph" id="selet_graph" onclick="select_graph()">그래프</label>
+                </div>
+            
+                <div id="table_section" class="select_section">
+                    <div id="table_wrap">
+                        <table id="log_table"></table>
+                    </div>
+
+                    <!-- 이전, 다음 -->
+                    <div id="log_paging">
+                        <div id="log_paging_btn">
+                            <button id="paging_prev" onclick="log_pageMove('prev'); "><</button>
+                            <span id="page"></span>
+                            <button id="paging_next" onclick="log_pageMove('next')">></button>
+                        </div>
+
+                        <span id="total_page"></span>
+                    </div>
+                </div>
+
+                
+                <div id="graph_section" class="select_section" >
+                    <!-- <select id="graph_sensor_select" onchange="log_graph_api()">
+                        <option>전체</option>
+                        <option>수온 (°C)</option>
+                        <option>산소 (mg/L)</option>
+                        <option>산소 (%)</option>
+                        <option>PH (pH)</option>
+                        <option>염도 (ppt)</option>
+                        <option>ORP (mV)</option>
+                        <option>탁도 (NTU)</option>
+                    </select>
+                    <div id="graph_container"></div>  -->
+                    <div>
+                        검색 주기: 
+                        
+                        <input type="radio" name="search_tick" id="search_tick_20s" value="20s" checked onchange="log_graph_api()">
+                        <label for="search_tick_20s">20초</label>
+
+                        <input type="radio" name="search_tick" id="search_tick_5m" value="5m" onchange="log_graph_api()">
+                        <label for="search_tick_5m">5분</label>
+
+                        <input type="radio" name="search_tick" id="search_tick_10m" value="10m" onchange="log_graph_api()">
+                        <label for="search_tick_10m">10분</label>
+
+                    </div>
+
+                    <div id="graph_container_wrap">
+                        <div id="graph_container_Tc"></div>
+                        <div id="graph_container_DO"></div>
+                        <div id="graph_container_pH"></div>
+                        <div id="graph_container_Sa"></div>
+                    </div>
+                </div>
+
+
+
+
+                <%-include('../lib/bottomBar.ejs') %>
+
+                
+            </div>
+
+            
+            
+        </main>
+
+        
+
+    </body>
+
+    
+    <script src="../../public/javascripts/log2.js"></script>
+    
+    <!-- <script src="../../public/javascripts/menubar.js"></script> -->
+</html>
+

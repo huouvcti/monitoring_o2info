@@ -44,13 +44,25 @@ user.pw_update = async (req, res) => {
 
 // sensor
 sensor.monitoring = async (req, res) => {
-    let ejs = '/sensor/monitoring'
-    session_check(req, res, ejs)
+    if (req.session.user_key >= 20){
+        let ejs = '/sensor/monitoring2'
+        session_check(req, res, ejs)
+    } else {
+        let ejs = '/sensor/monitoring'
+        session_check(req, res, ejs)
+    }
 }
 
 sensor.log = async (req, res) => {
-    let ejs = '/sensor/log'
-    session_check(req, res, ejs)
+    
+
+    if (req.session.user_key >= 20){
+        let ejs = '/sensor/log2'
+        session_check(req, res, ejs)
+    } else {
+        let ejs = '/sensor/log'
+        session_check(req, res, ejs)
+    }
 }
 sensor.setting = async (req, res) => {
     let ejs = '/sensor/setting'
