@@ -52,7 +52,7 @@ const newly_search = function(selected){
 
         if(month < 1){
             year -= 1
-            month = 1
+            month = 12
         }
         start_input.value = date_format(year, month, day)
     } else if(selected == 'week'){
