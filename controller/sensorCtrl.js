@@ -252,12 +252,18 @@ log.graph = async (req, res) => {
 
 log.graph_tick = async (req, res) => {
     const parameters = {
-        user_key: req.get('user_key'),
+        user_key: checkNaN_int(req.get('user_key'))
     }
+    if(parameters.user_key != null){
+        const db_data =  await sensorDAO.sensor_log.graph_tick(parameters);
 
-    const db_data =  await sensorDAO.sensor_log.graph_tick(parameters);
+        res.send({result:db_data});
+    } else {
+        res.send({result:"user_key null"});
+    }
+    
 
-    res.send({result:db_data});
+    
 }
 
 

@@ -98,7 +98,7 @@ sensor_log.graph = (parameters) => {
 
 sensor_log.graph_tick = (parameters) => {
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT * sensor
+        db.query(`SELECT * from sensor
         where user_key=?
         AND mod(date_format(date, '%i'), 10)=0
         AND date_format(date, '%S') <= 15 ORDER BY date DESC limit 20`, [ parameters.user_key], (err, db_data) => {
