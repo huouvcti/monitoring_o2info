@@ -96,6 +96,21 @@ sensor_log.graph = (parameters) => {
     })
 }
 
+sensor_log.graph_tick = (parameters) => {
+    return new Promise((resolve, reject) =>{
+        db.query(`SELECT * sensor
+        where user_key=?
+        AND mod(date_format(date, '%i'), 10)=0
+        AND date_format(date, '%S') <= 15 ORDER BY date DESC limit 20`, [ parameters.user_key], (err, db_data) => {
+            if(err) {
+                reject(err);
+            } else {
+                resolve(db_data);
+            }
+        })
+    })
+}
+
 sensor_log.down = (parameters) =>{
     return new Promise((resolve, reject) =>{
         db.query(`SELECT DATE_FORMAT(date, '%Y-%m-%d %T') as date, format(Tc, 2) as 'RTD (C)', format(DO, 2) as 'DO (mg/L)', format(DOper, 2) as 'DO (%)', format(pH, 2) as pH, format(Sa, 2) as 'Salt', format(ORP, 2) as ORP, format(TUR, 2) as 'TUR' FROM sensor WHERE (user_key=?) AND (date > ? AND date < ?) ORDER BY date DESC;`, [parameters.user_key, parameters.date_start, parameters.date_end], (err, db_data) => {

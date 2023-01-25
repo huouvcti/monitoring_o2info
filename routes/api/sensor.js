@@ -19,6 +19,8 @@ router.get('/log', sensorCtrl.log.list);
 
 router.get('/log/graph', sensorCtrl.log.graph);
 
+router.get('/log/graph_tick', sensorCtrl.log.graph_tick);
+
 router.get('/log/down', sensorCtrl.log.down);
 router.get('/log/del', sensorCtrl.log.del);
 

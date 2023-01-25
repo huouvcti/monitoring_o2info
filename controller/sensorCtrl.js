@@ -250,6 +250,16 @@ log.graph = async (req, res) => {
     res.send({result:db_data});
 }
 
+log.graph_tick = async (req, res) => {
+    const parameters = {
+        user_key: req.get('user_key'),
+    }
+
+    const db_data =  await sensorDAO.sensor_log.graph_tick(parameters);
+
+    res.send({result:db_data});
+}
+
 
 log.down = async (req, res) => {
     const parameters = {
