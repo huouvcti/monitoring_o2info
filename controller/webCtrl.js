@@ -54,8 +54,6 @@ sensor.monitoring = async (req, res) => {
 }
 
 sensor.log = async (req, res) => {
-    
-
     if (req.session.user_key >= 20){
         let ejs = '/sensor/log2'
         session_check(req, res, ejs)
@@ -64,6 +62,12 @@ sensor.log = async (req, res) => {
         session_check(req, res, ejs)
     }
 }
+
+sensor.cctv = async (req, res) => {
+    let ejs = '/sensor/cctv'
+    session_check(req, res, ejs)
+}
+
 sensor.setting = async (req, res) => {
     let ejs = '/sensor/setting'
     session_check(req, res, ejs)

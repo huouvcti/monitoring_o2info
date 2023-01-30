@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>o2 정보통신</title>
+
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
+
+
+        <!-- 폰트 -->
+        <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../public/stylesheets/style.css" />
+
+        <!-- Bar css -->
+        <link rel="stylesheet" href="../../public/stylesheets/topBar.css" />
+
+        <link rel="stylesheet" href="../../public/stylesheets/cctv.css" />
+
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+        <!-- <script src="../../kakao_key.js"></script> -->
+
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.1/jsmpg.js"></script>
+
+        
+        <script src="https://cdn.jsdelivr.net/npm/jsmpeg-player@3/build/jsmpeg-player.min.js"></script>
+
+        
+     </head>
+
+    <body>
+
+        
+
+        
+
+        <main class="d-flex flex-nowrap">
+
+            <script>
+                let select_list = document.getElementsByClassName("select_list");
+            </script>
+    
+
+            <%- include('../lib/menuBar.ejs') %>
+
+            <script>
+                let menubar = document.getElementById("menuBar")
+                menubar.children[2].children[0].className = "nav-link active";
+            </script>
+
+            
+
+            <div class="b-example-divider b-example-vr" id="board" style="position:absolute; width: 90%; right: 0;">
+
+                <%-include('../lib/topBar.ejs') %>
+
+            <script>
+                let topBar_title = document.getElementById("menu_title")
+                topBar_title.innerText = " 양식장 설정 화면"
+            </script>
+
+                <!-- <h1></h1> -->
+
+
+                <div id="cctv">
+
+
+                    <canvas style="height:100%; width: 100%;"></canvas>
+
+                    <script>
+                        var client = new WebSocket('ws://localhost:9999');
+                        var canvas = document.querySelector('canvas');
+                        var player = new jsmpeg(client, {
+                          canvas: canvas 
+                        });
+
+                      </script>
+                    
+                    
+                </div>
+            
+            
+                <%-include('../lib/bottomBar.ejs') %>
+        
+            
+            </div>
+
+            
+            
+            
+
+        </main> 
+
+    </body>
+
+
+
+    <!-- <script src="../../public/javascripts/menubar.js"></script> -->
+</html>

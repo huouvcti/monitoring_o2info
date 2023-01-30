@@ -20,6 +20,8 @@ router.get("/", webCtrl.sensor.monitoring);
 router.get("/monitoring", webCtrl.sensor.monitoring);
 router.get("/log", webCtrl.sensor.log);
 
+router.get("/cctv", webCtrl.sensor.cctv);
+
 router.get("/setting", webCtrl.sensor.setting);
 
 router.get("/setting/sensorSet", webCtrl.sensor.sensorSet);

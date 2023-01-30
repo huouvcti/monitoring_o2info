@@ -1,0 +1,14 @@
+#board{
+    position:absolute;
+    width: 90%;
+    right: 0;
+    
+    /* display: grid;
+    grid-template-rows: 50px auto 100px; */
+}
+
+#cctv {
+    width: 80%;
+    margin: 100px auto;
+    border: 1px solid #000;
+}
