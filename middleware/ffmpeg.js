@@ -8,3 +8,6 @@ stream = new Stream({
 //   width: 1080,
 //   height: 800
 });
+
+
+// ffmpeg -rtsp_transport tcp -i rtsp://210.99.70.120:1935/live/cctv009.stream -vcodec libx264 -hls_flags delete_segments  test.m3u8
