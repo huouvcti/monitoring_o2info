@@ -1,6 +1,6 @@
 .env
 node_modules
-firebase-key.json
-kakao_key.js
+
+
 public/cctv/
 public/csv/
