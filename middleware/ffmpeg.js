@@ -1,12 +1,14 @@
 const Stream = require('node-rtsp-stream');
 
 const streamUrl = [
-    "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/101",
+    
     "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/201",
     "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/301",
     "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/401",
 
     "rtsp://210.99.70.120:1935/live/cctv009.stream",
+
+    "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/101",
 
 ]
 
