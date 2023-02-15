@@ -30,15 +30,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.1/jsmpg.js"></script>
 
         
-        <!-- <script src="https://cdn.jsdelivr.net/npm/jsmpeg-player@3/build/jsmpeg-player.min.js"></script>
 
 
-        <link href="https://unpkg.com/video.js@7.3.0/dist/video-js.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/video.js@7.3.0/dist/video.min.js"></script>
-<script src="newskin.js"></script> -->
+        <!-- <link href="https://unpkg.com/video.js@7.3.0/dist/video-js.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/video.js@7.3.0/dist/video.min.js"></script>
+        <script src="newskin.js"></script> -->
+        
+        
 
-
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
         
      </head>
@@ -76,47 +75,38 @@
 
                 <div id="cctv">
 
-                    <!-- <video id="vplay0_1675055864124" class="embed-responsive-item rounded" muted="muted" controls="" width="100%" height="100%" style="background-color: #000;" src="http://its.asan.go.kr/ac9d8dc6-e260-4e43-8207-62e3fade9129"></video> -->
-
-                    <!-- <video id="video" 
+                    <!-- <video id="player" 
                     class="video-js"  class="video-js" controls preload="none" width="1200" height="700">
                         <source src="../../public/cctv/test.m3u8" type="application/x-mpegURL">
-                      </video> -->
-
-                    <video id="video" controls preload="none" width="50%"></video>
-                    
-                    <canvas style="width: 50%;"></canvas>
+                      </video>
 
                     <script>
-                        var client = new WebSocket('ws://localhost:9999');
-                        var canvas = document.querySelector('canvas');
-                        var player = new jsmpeg(client, {
-                          canvas: canvas 
-                        });
-
-                    </script>
-
-                    <script>
-                        // var player = videojs('player');
-                        // player.play();
+                        var player = videojs('player');
+                        player.play();
+                    </script> -->
 
 
-                        var video = document.getElementById('video');
-                        var videoSrc = '../../public/cctv/test.m3u8';
-                        
-                        // HLS를 지원하는지 체크
-                        if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                            video.src = videoSrc;
+                    <!-- <video id="video" controls preload="none" width="100%"></video> -->
+                    
+                    <div class="cctv_view_wrap">
+                        <canvas class="cctv_view" style="display: block;"></canvas>
+                        <canvas class="cctv_view"></canvas>
+                        <canvas class="cctv_view"></canvas>
+                        <canvas class="cctv_view"></canvas>
 
-                        // HLS를 지원하지 않는다면 hls.js를 지원
-                        } else if (Hls.isSupported()) {
-                            var hls = new Hls();
-                            hls.loadSource(videoSrc);
-                            hls.attachMedia(video);
-                        }
-                    </script>
+                        <canvas class="cctv_view"></canvas>
+                    </div>
                     
                     
+                    <div class="cctv_select_wrap">
+                        <h3>카메라 선택</h3>
+                        <button class="cctv_select" onclick="cctv_select_click(0)">CCTV 1</button>
+                        <button class="cctv_select" onclick="cctv_select_click(1)">CCTV 2</button>
+                        <button class="cctv_select" onclick="cctv_select_click(2)">CCTV 3</button>
+                        <button class="cctv_select" onclick="cctv_select_click(3)">CCTV 4</button>
+
+                        <button class="cctv_select" onclick="cctv_select_click(4)">수중카메라</button>
+                    </div>
                 </div>
             
             
@@ -127,7 +117,51 @@
 
             
             
+            <script>
+                const client0 = new WebSocket('ws://localhost:9000');
+                const client1 = new WebSocket('ws://localhost:9001');
+                const client2 = new WebSocket('ws://localhost:9002');
+                const client3 = new WebSocket('ws://localhost:9003');
+                const client4 = new WebSocket('ws://localhost:9004');
+
+                const cctv_view = document.getElementsByClassName('cctv_view');
+
+                const cctv_select = document.getElementsByClassName('cctv_select');
+                
+                
+
+                let player0 = new jsmpeg(client0, {
+                  canvas: cctv_view[0],
+                });
+
+                let player1 = new jsmpeg(client1, {
+                  canvas: cctv_view[1],
+                });
+
+                let player2 = new jsmpeg(client2, {
+                  canvas: cctv_view[2],
+                });
+
+                let player3 = new jsmpeg(client3, {
+                  canvas: cctv_view[3],
+                });
+
+                let player4 = new jsmpeg(client4, {
+                  canvas: cctv_view[4],
+                });
+
+
+                let cctv_select_click = function(num) {
+                    for(let i=0; i<cctv_view.length; i++){
+                        cctv_view[i].style.display = 'none';
+                    }
+                    
+                    cctv_view[num].style.display = 'block';
+                }
             
+
+                
+             </script>
 
         </main> 
 

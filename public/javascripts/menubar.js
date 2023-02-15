@@ -8,7 +8,7 @@ const logout_btn = document.getElementById("logout_btn");
 
 const menu_text = document.getElementsByClassName("menu_text");
 
-const menu_category = ['모니터링', '기록', 'CCTV', '설정']
+const menu_category = ['모니터링', '기록', '설정']
 
 
 
