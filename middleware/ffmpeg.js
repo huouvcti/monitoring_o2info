@@ -15,7 +15,7 @@ const streamUrl = [
 let stream0 = new Stream({
   name: 'foscam_stream',
   streamUrl: streamUrl[0],
-  wsPort: 9000,
+  wsPort: 8500,
 //   width: ,
 //   height: 100
 });
