@@ -89,23 +89,23 @@
                     <!-- <video id="video" controls preload="none" width="100%"></video> -->
                     
                     <div class="cctv_view_wrap">
-                        <canvas class="cctv_view" style="display: block;"></canvas>
+                        <canvas class="cctv_view"></canvas>
                         <canvas class="cctv_view"></canvas>
                         <canvas class="cctv_view"></canvas>
                         <canvas class="cctv_view"></canvas>
 
-                        <canvas class="cctv_view"></canvas>
+                        <!-- <canvas class="cctv_view"></canvas> -->
                     </div>
                     
                     
                     <div class="cctv_select_wrap">
                         <h3>카메라 선택</h3>
+                        <button class="cctv_select" onclick="cctv_select_click(4)">전체 카메라</button>
                         <button class="cctv_select" onclick="cctv_select_click(0)">CCTV 1</button>
                         <button class="cctv_select" onclick="cctv_select_click(1)">CCTV 2</button>
                         <button class="cctv_select" onclick="cctv_select_click(2)">CCTV 3</button>
-                        <button class="cctv_select" onclick="cctv_select_click(3)">CCTV 4</button>
 
-                        <button class="cctv_select" onclick="cctv_select_click(4)">수중카메라</button>
+                        <button class="cctv_select" onclick="cctv_select_click(3)">수중카메라</button>
                     </div>
                 </div>
             
@@ -122,9 +122,11 @@
                 const client1 = new WebSocket('ws://localhost:9001');
                 const client2 = new WebSocket('ws://localhost:9002');
                 const client3 = new WebSocket('ws://localhost:9003');
-                const client4 = new WebSocket('ws://localhost:9004');
+                // const client4 = new WebSocket('ws://localhost:9004');
 
                 const cctv_view = document.getElementsByClassName('cctv_view');
+
+                const cctv_view_wrap = document.getElementsByClassName('cctv_view_wrap')[0];
 
                 const cctv_select = document.getElementsByClassName('cctv_select');
                 
@@ -146,17 +148,25 @@
                   canvas: cctv_view[3],
                 });
 
-                let player4 = new jsmpeg(client4, {
-                  canvas: cctv_view[4],
-                });
+                // let player4 = new jsmpeg(client4, {
+                //   canvas: cctv_view[4],
+                // });
 
 
                 let cctv_select_click = function(num) {
-                    for(let i=0; i<cctv_view.length; i++){
-                        cctv_view[i].style.display = 'none';
+                    if(num == 4){
+                        cctv_view_wrap.style.display = "grid";
+                        for(let i=0; i<cctv_view.length; i++){
+                            cctv_view[i].style.display = 'block';
+                        }
+                    } else{
+                        cctv_view_wrap.style.display = "block";
+                        for(let i=0; i<cctv_view.length; i++){
+                            cctv_view[i].style.display = 'none';
+                        }
+                        cctv_view[num].style.display = 'block';
                     }
                     
-                    cctv_view[num].style.display = 'block';
                 }
             
 

@@ -5,10 +5,9 @@ const streamUrl = [
     "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/201",
     "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/301",
     "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/401",
+    "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/101",
 
     "rtsp://210.99.70.120:1935/live/cctv009.stream",
-
-    "rtsp://admin:Haeri5515!@o2.iptime.org:5575/Streaming/Channels/101",
 
 ]
 
@@ -16,6 +15,7 @@ let stream0 = new Stream({
   name: 'foscam_stream',
   streamUrl: streamUrl[0],
   wsPort: 9000,
+
 //   width: ,
 //   height: 100
 });
@@ -38,11 +38,11 @@ let stream3 = new Stream({
     wsPort: 9003,
 });
 
-let stream4 = new Stream({
-    name: 'foscam_stream',
-    streamUrl: streamUrl[4],
-    wsPort: 9004,
-});
+// let stream4 = new Stream({
+//     name: 'foscam_stream',
+//     streamUrl: streamUrl[4],
+//     wsPort: 9004,
+// });
 
 
 
