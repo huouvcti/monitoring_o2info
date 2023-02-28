@@ -14,7 +14,7 @@ const streamUrl = [
 let stream0 = new Stream({
   name: 'foscam_stream',
   streamUrl: streamUrl[0],
-  wsPort: 9000,
+  wsPort: 3500,
 
 //   width: ,
 //   height: 100
@@ -23,19 +23,19 @@ let stream0 = new Stream({
 let stream1 = new Stream({
     name: 'foscam_stream',
     streamUrl: streamUrl[1],
-    wsPort: 9001,
+    wsPort: 3501,
 });
 
 let stream2 = new Stream({
     name: 'foscam_stream',
     streamUrl: streamUrl[2],
-    wsPort: 9002,
+    wsPort: 3502,
 });
 
 let stream3 = new Stream({
     name: 'foscam_stream',
     streamUrl: streamUrl[3],
-    wsPort: 9003,
+    wsPort: 3503,
 });
 
 // let stream4 = new Stream({
