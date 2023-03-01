@@ -16,10 +16,6 @@ let stream0 = new Stream({
   streamUrl: streamUrl[0],
   wsPort: 9000,
 
-  ffmpegOptions: { // options ffmpeg flags
-    '-stats': '', // an option with no neccessary value uses a blank string
-    '-force_fps': 30 // options with required values specify the value after the key, 30:blur있음
-  }
 
 //   width: ,
 //   height: 100
