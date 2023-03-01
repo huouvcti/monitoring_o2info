@@ -15,31 +15,29 @@ let stream0 = new Stream({
   name: 'foscam_stream',
   streamUrl: streamUrl[0],
   wsPort: 9000,
-
+  
 
 //   width: ,
 //   height: 100
 });
 
-// let stream1 = new Stream({
-//     name: 'foscam_stream',
-//     streamUrl: streamUrl[1],
-//     wsPort: 9001,
-// });
+let stream1 = new Stream({
+    name: 'foscam_stream',
+    streamUrl: streamUrl[1],
+    wsPort: 9001,
+});
 
-// let stream2 = new Stream({
-//     name: 'foscam_stream',
-//     streamUrl: streamUrl[2],
-//     wsPort: 9002,
-// });
+let stream2 = new Stream({
+    name: 'foscam_stream',
+    streamUrl: streamUrl[2],
+    wsPort: 9002,
+});
 
-// let stream3 = new Stream({
-//     name: 'foscam_stream',
-//     streamUrl: streamUrl[3],
-//     wsPort: 9003,
-// });
-
-
+let stream3 = new Stream({
+    name: 'foscam_stream',
+    streamUrl: streamUrl[3],
+    wsPort: 9003,
+});
 
 // let stream4 = new Stream({
 //     name: 'foscam_stream',
@@ -57,3 +55,21 @@ let stream0 = new Stream({
 // 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
 
 //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
+
+/*
+
+this.spawnOptions = [
+    "-rtsp_transport", "tcp", "-i",
+    this.url,
+    '-f',
+    'mpeg1video',
+    '-b:v', '1000k',
+    '-maxrate', '1000k',
+    '-bufsize', '1000k',
+     '-an', '-r', '24',
+    // additional ffmpeg options go here
+    ...this.additionalFlags,
+    '-'
+  ]
+
+  */
