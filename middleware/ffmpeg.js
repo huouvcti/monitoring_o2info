@@ -16,27 +16,34 @@ let stream0 = new Stream({
   streamUrl: streamUrl[0],
   wsPort: 9000,
 
+  ffmpegOptions: { // options ffmpeg flags
+    '-stats': '', // an option with no neccessary value uses a blank string
+    '-force_fps': 30 // options with required values specify the value after the key, 30:blur있음
+  }
+
 //   width: ,
 //   height: 100
 });
 
-let stream1 = new Stream({
-    name: 'foscam_stream',
-    streamUrl: streamUrl[1],
-    wsPort: 9001,
-});
+// let stream1 = new Stream({
+//     name: 'foscam_stream',
+//     streamUrl: streamUrl[1],
+//     wsPort: 9001,
+// });
 
-let stream2 = new Stream({
-    name: 'foscam_stream',
-    streamUrl: streamUrl[2],
-    wsPort: 9002,
-});
+// let stream2 = new Stream({
+//     name: 'foscam_stream',
+//     streamUrl: streamUrl[2],
+//     wsPort: 9002,
+// });
 
-let stream3 = new Stream({
-    name: 'foscam_stream',
-    streamUrl: streamUrl[3],
-    wsPort: 9003,
-});
+// let stream3 = new Stream({
+//     name: 'foscam_stream',
+//     streamUrl: streamUrl[3],
+//     wsPort: 9003,
+// });
+
+
 
 // let stream4 = new Stream({
 //     name: 'foscam_stream',
