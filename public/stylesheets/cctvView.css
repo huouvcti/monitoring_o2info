@@ -6,12 +6,12 @@ body{
     scroll-margin-top: 50px;
 }
 
-.cctv_wrap {
-    width: 90%;
-    margin: 70px auto 30px auto;
+.blanck {
+    height:70px;
+}
 
-    display: flex;
-    flex-direction: column;
+.cctv_wrap {
+    
 }
 
 .cctv_select_wrap{
@@ -67,9 +67,12 @@ body{
 }
 
 .cctv_view_wrap {
+    width: 90%;
+    margin: 0px auto 30px auto;
+
+    gap: 30px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
 }
 
 .cctv_view {
