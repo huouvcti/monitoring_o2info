@@ -68,6 +68,12 @@ sensor.cctv = async (req, res) => {
     session_check(req, res, ejs)
 }
 
+
+sensor.cctvView = async (req, res) => {
+    let ejs = '/sensor/cctvView'
+    session_check(req, res, ejs)
+}
+
 sensor.setting = async (req, res) => {
     let ejs = '/sensor/setting'
     session_check(req, res, ejs)

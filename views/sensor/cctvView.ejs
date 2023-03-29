@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>o2 정보통신</title>
+
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
+
+
+        <!-- 폰트 -->
+        <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+
+
+
+        <link rel="stylesheet" href="../../public/stylesheets/cctvView.css" />
+
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+        <!-- <script src="../../kakao_key.js"></script> -->
+
+
+        
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmpeg/0.1/jsmpg.js"></script>
+
+        
+
+
+        <!-- <link href="https://unpkg.com/video.js@7.3.0/dist/video-js.min.css" rel="stylesheet">
+        <script src="https://unpkg.com/video.js@7.3.0/dist/video.min.js"></script>
+        <script src="newskin.js"></script> -->
+        
+        
+
+
+        
+     </head>
+
+    <body>
+        <div class="cctv_select_wrap">
+            <a class="cctv_select" href="#cctv1">CCTV 1</a>
+            <a class="cctv_select" href="#cctv2">CCTV 2</a>
+            <a class="cctv_select" href="#cctv3">CCTV 3</a>
+
+            <a class="cctv_select" href="#cctv4">수중<br/>카메라</a>
+        </div>
+
+        <div class="cctv_wrap">
+            
+    
+            <div class="cctv_view_wrap">
+                <div class="cctv_div" id="cctv1">
+                    <p>CCTV 1</p>
+                    <canvas class="cctv_view"></canvas>
+                </div>
+                <div class="cctv_div" id="cctv2">
+                    <p>CCTV 2</p>
+                    <canvas class="cctv_view"></canvas>
+                </div>
+                <div class="cctv_div" id="cctv3">
+                    <p>CCTV 3</p>
+                    <canvas class="cctv_view"></canvas>
+                </div>
+                <div class="cctv_div" id="cctv4">
+                    <p>Water Camera</p>
+                    <canvas class="cctv_view"></canvas>
+                </div class="cctv_div">
+
+    
+                <!-- <canvas class="cctv_view"></canvas> -->
+            </div>
+        </div>
+        
+        
+
+        <script>
+            // const client0 = new WebSocket('ws://211.184.227.81:9000');
+            const client0 = new WebSocket('ws://211.184.227.81:9000');
+            const client1 = new WebSocket('ws://211.184.227.81:9001');
+            const client2 = new WebSocket('ws://211.184.227.81:9002');
+            const client3 = new WebSocket('ws://211.184.227.81:9003');
+            // const client4 = new WebSocket('ws://localhost:9004');
+
+            const cctv_view = document.getElementsByClassName('cctv_view');
+
+            const cctv_view_wrap = document.getElementsByClassName('cctv_view_wrap')[0];
+
+            const cctv_select = document.getElementsByClassName('cctv_select');
+            
+            
+
+            let player0 = new jsmpeg(client0, {
+              canvas: cctv_view[0],
+            });
+
+            let player1 = new jsmpeg(client1, {
+              canvas: cctv_view[1],
+            });
+
+            let player2 = new jsmpeg(client2, {
+              canvas: cctv_view[2],
+            });
+
+            let player3 = new jsmpeg(client3, {
+              canvas: cctv_view[3],
+            });
+
+            // let player4 = new jsmpeg(client4, {
+            //   canvas: cctv_view[4],
+            // });
+
+
+
+        
+
+            
+         </script>
+
+    </body>
+
+
+
+    <!-- <script src="../../public/javascripts/menubar.js"></script> -->
+</html>

@@ -160,15 +160,29 @@
                         for(let i=0; i<cctv_view.length; i++){
                             cctv_view[i].style.display = 'block';
                         }
+
+                        for(let i=0; i<5; i++){
+                            cctv_select[i].style.backgroundColor = '#aaa';
+                        }
+                        cctv_select[0].style.backgroundColor = '#2F4187';
                     } else{
                         cctv_view_wrap.style.display = "block";
                         for(let i=0; i<cctv_view.length; i++){
                             cctv_view[i].style.display = 'none';
                         }
                         cctv_view[num].style.display = 'block';
+
+                        for(let i=0; i<5; i++){
+                            cctv_select[i].style.backgroundColor = '#aaa';
+                        }
+                        cctv_select[num+1].style.backgroundColor = '#2F4187';
+
+                        
                     }
                     
                 }
+
+                cctv_select_click(4)
             
 
                 

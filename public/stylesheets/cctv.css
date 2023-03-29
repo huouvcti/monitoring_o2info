@@ -54,6 +54,11 @@
 .cctv_select{
     padding: 10%;
     font-size: 130%;
-    background-color: #2F4187;
+    background-color: #aaa;
+    font-weight: bold;
     color: #fff;
+    border: none;
+    transition: 0.3s;
 }
+
+/* #2F4187; */
