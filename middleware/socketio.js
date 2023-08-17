@@ -22,6 +22,8 @@ if (!admin.apps.length) {
 }
 
 
+let connect_count = 0;
+
 
 // 버퍼 -> 조인 후 처음 값은 무시
 let count = 0;
@@ -37,6 +39,7 @@ const socketio = (server) => {
     
         console.log("socket 접속");
 
+
         // disconnect
         socket.on('disconnect', () => {
             console.log('socket disconnected');
@@ -50,6 +53,10 @@ const socketio = (server) => {
         
         await socket.on('join', async (data) => {
             console.log(data);
+
+
+            let roomCount = io.sockets.adapter.rooms.get(1)?.size;
+            console.log(roomCount)
 
 
             room = parseInt(data.room);
