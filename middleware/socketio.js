@@ -56,7 +56,7 @@ const socketio = (server) => {
 
 
             let roomCount = io.sockets.adapter.rooms.get(1)?.size;
-            console.log(roomCount)
+            console.log("user1 count: ", roomCount)
 
 
             room = parseInt(data.room);
