@@ -52,7 +52,7 @@ const socketio = (server) => {
 
         
         await socket.on('join', async (data) => {
-            console.log(data);
+            // console.log(data);
 
 
             let roomCount = io.sockets.adapter.rooms.get(1)?.size;
@@ -140,7 +140,7 @@ const socketio = (server) => {
                     parameters.date = date + ' ' + time
 
                     // parameters.date = time;
-                    console.log(parameters.date);
+                    // console.log(parameters.date);
 
                     io.in(room).emit('sensor_update', parameters);
 
@@ -175,7 +175,7 @@ const socketio = (server) => {
                                     })
                                 }
                             } else if(parameters[sensor_name[i]] > sensor_set[sensor_name[i]+'_high']){
-                                console.log(parameters.user_key + ", 임계치 초과")
+                                // console.log(parameters.user_key + ", 임계치 초과")
                                 // 임계치 보다 큰 값
                                 
 
@@ -194,10 +194,10 @@ const socketio = (server) => {
                                 await fcm_admin.messaging().sendAll(msg)
                                 .then((response) => {
                                     // Response is a message ID string.
-                                    console.log('Successfully sent message:', response);
+                                    // console.log('Successfully sent message:', response);
                                 })
                                 .catch((error) => {
-                                    console.log('Error sending message:', error);
+                                    // console.log('Error sending message:', error);
                                 });
                             }
 
