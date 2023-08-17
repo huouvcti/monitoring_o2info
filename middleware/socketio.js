@@ -55,8 +55,7 @@ const socketio = (server) => {
             // console.log(data);
 
 
-            let roomCount = io.sockets.adapter.rooms.get(1)?.size;
-            console.log("user1 count: ", roomCount)
+            
 
 
             room = parseInt(data.room);
@@ -88,6 +87,10 @@ const socketio = (server) => {
                 const sensor_before = await sensorDAO.sensor.before(parameters);
                 await socket.emit("sensor_before", sensor_before)
             }
+
+
+            let roomCount = io.sockets.adapter.rooms.get(1)?.size;
+            console.log("user1 count: ", roomCount)
 
             
         })
