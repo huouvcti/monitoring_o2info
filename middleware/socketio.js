@@ -125,13 +125,13 @@ const socketio = (server) => {
                     let sensor_gap_db = await sensorDAO.sensor_gap.before({user_key1: room});
                     let sensor_gap = sensor_gap_db[0]
 
-                    console.log(sensor_gap_db)
+                    // console.log(sensor_gap_db)
 
                     for(let i=0; i<sensor_name.length; i++){
                         parameters[sensor_name[i]] += sensor_gap[sensor_name[i]]
                     }
 
-                    console.log(parameters)
+                    // console.log(parameters)
 
                     await sensorDAO.sensor.insert(parameters);
 
