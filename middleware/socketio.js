@@ -147,7 +147,7 @@ const socketio = (server) => {
 
                     io.in(room).emit('sensor_update', parameters);
 
-                    console.log("user_key: ", room, "\nupdate")
+                    console.log("user_key: ", room, " update")
 
 
 
