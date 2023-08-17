@@ -93,7 +93,7 @@ const socketio = (server) => {
         })
 
         socket.on('sensor_send', async (data) =>{
-            console.log(data);
+            // console.log(data);
 
             // { "RTD" : "25.77" , "DOMG" : "0.01" , "PH" : "7.91" , "SALT" : "42.55" , "DOpersent" : "100.02" , "ORP" : "xxx.xx"}
             // DOMG: 용존산소 : DO
@@ -162,7 +162,7 @@ const socketio = (server) => {
                             let msg = [];
 
                             if(parameters[sensor_name[i]] < sensor_set[sensor_name[i]+'_low']){
-                                console.log(parameters.user_key + ", 임계치 미만")
+                                // console.log(parameters.user_key + ", 임계치 미만")
                                 // 임계치 보다 작은 값
 
                                 for(let j=0; j<token_list.length; j++){
