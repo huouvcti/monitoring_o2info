@@ -416,7 +416,7 @@ sensor.update = async (req, res) => {
         res.send({"result": "user_key null"})
     } else {
         await sensorDAO.sensor.insert(parameters);
-        res.send({"result": "sensor update"})
+        res.send({"result": "sensor update", "data": parameters})
     }
 
     
