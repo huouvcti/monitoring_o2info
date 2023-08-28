@@ -31,7 +31,7 @@ router.post('/gapSet', sensorCtrl.gap.update);
 
 
 
-router.get('/sensor/update', sensorCtrl.sensor.update);
+router.post('/sensor/update', sensorCtrl.sensor.update);
 
 
 module.exports = router;
