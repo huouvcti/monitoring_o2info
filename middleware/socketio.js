@@ -54,10 +54,6 @@ const socketio = (server) => {
         await socket.on('join', async (data) => {
             // console.log(data);
 
-
-            
-
-
             room = parseInt(data.room);
 
             if(isNaN(room) || room == 'logout' || room == undefined){
@@ -69,10 +65,6 @@ const socketio = (server) => {
                 room = parseInt(data_android.room)
             }
             count = 0;
-
-
-            
-
             socket.join(room)
 
             
@@ -81,7 +73,6 @@ const socketio = (server) => {
             parameters = {
                 user_key: room
             }
-
 
             if(!isNaN(parameters.user_key) && parameters.user_key != undefined && parameters.user_key != ''){
                 const sensor_before = await sensorDAO.sensor.before(parameters);

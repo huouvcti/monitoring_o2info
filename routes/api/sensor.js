@@ -24,13 +24,14 @@ router.get('/log/graph_tick', sensorCtrl.log.graph_tick);
 router.get('/log/down', sensorCtrl.log.down);
 router.get('/log/del', sensorCtrl.log.del);
 
-
-
-
 router.get('/gapSet', sensorCtrl.gap.before);
 router.post('/gapSet', sensorCtrl.gap.update);
 
 
+
+
+
+router.get('/sensor/update', sensorCtrl.sensor.update);
 
 
 module.exports = router;

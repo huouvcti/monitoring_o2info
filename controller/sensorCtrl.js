@@ -66,6 +66,10 @@ const log = {}
 
 const gap = {}
 
+
+const sensor = {}
+
+
 set.before = async (req, res) => {
     const parameters = {
         user_key1: checkNaN_int(req.get('user_key')),
@@ -395,11 +399,30 @@ gap.update = async (req, res) => {
 
 
 
+sensor.update = async (req, res) => {
+    const parameters = {
+        user_key: checkNaN_int(req.get('user_key')),
+        
+        Tc: checkNaN_float(req.body.temperature),
+        DO: checkNaN_float(req.body.domg),
+        DOper: checkNaN_float(req.body.DOpercent),
+        pH: checkNaN_float(req.body.ph),
+        Sa: checkNaN_float(req.body.salt),
+        ORP: checkNaN_float(req.body.orp),
+        TUR: checkNaN_float(req.body.turbidity),
+    }
+
+    await sensorDAO.sensor.insert(parameters);
+
+    res.send({"result": "sensor update"})
+}
+
 
 
 module.exports = {
     set,
     log,
 
-    gap
+    gap,
+    sensor
 }
