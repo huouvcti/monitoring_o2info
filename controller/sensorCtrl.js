@@ -412,9 +412,14 @@ sensor.update = async (req, res) => {
         TUR: checkNaN_float(req.body.turbidity),
     }
 
-    await sensorDAO.sensor.insert(parameters);
+    if(isNaN(parameters.user_key) || parameters.user_key == ''){
+        res.send({"result": "user_key null"})
+    } else {
+        await sensorDAO.sensor.insert(parameters);
+        res.send({"result": "sensor update"})
+    }
 
-    res.send({"result": "sensor update"})
+    
 }
 
 
