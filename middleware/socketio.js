@@ -114,7 +114,7 @@ const socketio = (server) => {
                 
 
                 if(!isNaN(parameters.user_key) || parameters.user_key == ''){
-                    console.log("user_key: ", null)
+                    console.log("user_key: ", parameters.user_key, typeof parameters.user_key)
                 } else{
                     // 오차 조정
                     let sensor_gap_db = await sensorDAO.sensor_gap.before({user_key1: room});
