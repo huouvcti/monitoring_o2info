@@ -53,16 +53,13 @@ const socketio = (server) => {
         });
 
         
-        await socket.on('join', async (data) => {
+        socket.on('join', async (data) => {
             // console.log(data);
 
-            room = parseInt(data.room);
+            room = await parseInt(data.room);
 
             if(isNaN(room) || room == 'logout' || room == undefined){
                 console.log("android socket");
-
-                
-
                 let data_android = JSON.parse(data)
                 room = parseInt(data_android.room)
             }
@@ -82,8 +79,8 @@ const socketio = (server) => {
             }
 
 
-            let roomCount = io.sockets.adapter.rooms.get(1)?.size;
-            console.log("user1 count: ", roomCount)
+            // let roomCount = io.sockets.adapter.rooms.get(1)?.size;
+            // console.log("user1 count: ", roomCount)
 
             
         })
