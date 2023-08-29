@@ -56,7 +56,7 @@ const socketio = (server) => {
         socket.on('join', async (data) => {
             // console.log(data);
 
-            room = await parseInt(data.room);
+            room = parseInt(data.room);
 
             if(isNaN(room) || room == 'logout' || room == undefined){
                 console.log("android socket");
@@ -65,12 +65,13 @@ const socketio = (server) => {
             }
             count = 0;
             socket.join(room)
+            socket.room = room;
 
             
-            console.log(room + " join")
+            console.log(socket.room + " join")
 
             parameters = {
-                user_key: room
+                user_key: socket.room
             }
 
             if(!isNaN(parameters.user_key) && parameters.user_key != undefined && parameters.user_key != ''){
@@ -87,7 +88,7 @@ const socketio = (server) => {
 
         socket.on('sensor_send', async (data) =>{
 
-            console.log("user_key: ", room, " receive")
+            console.log("user_key: ", socket.room, " receive")
             console.log(data);
 
             // { "RTD" : "25.77" , "DOMG" : "0.01" , "PH" : "7.91" , "SALT" : "42.55" , "DOpersent" : "100.02" , "ORP" : "xxx.xx"}
@@ -100,7 +101,7 @@ const socketio = (server) => {
 
             if(count != 0){         // 첫번째 값 무시
                 const parameters = {
-                    user_key: room,
+                    user_key: socket.room,
 
                     Tc: checkNaN_float(data.RTD),
                     DO: checkNaN_float(data.DOMG),
