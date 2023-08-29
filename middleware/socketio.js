@@ -42,6 +42,7 @@ const socketio = (server) => {
 
         // disconnect
         socket.on('disconnect', () => {
+            socket.leave(room)
             console.log('socket disconnected');
         });
     
@@ -89,7 +90,7 @@ const socketio = (server) => {
         socket.on('sensor_send', async (data) =>{
 
             console.log("user_key: ", room, " receive")
-            // console.log(data);
+            console.log(data);
 
             // { "RTD" : "25.77" , "DOMG" : "0.01" , "PH" : "7.91" , "SALT" : "42.55" , "DOpersent" : "100.02" , "ORP" : "xxx.xx"}
             // DOMG: 용존산소 : DO
