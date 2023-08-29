@@ -101,7 +101,7 @@ const socketio = (server) => {
 
             if(count != 0){         // 첫번째 값 무시
                 const parameters = {
-                    user_key: socket.room,
+                    user_key: await socket.room,
 
                     Tc: checkNaN_float(data.RTD),
                     DO: checkNaN_float(data.DOMG),
