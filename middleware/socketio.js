@@ -113,7 +113,7 @@ const socketio = (server) => {
 
                 
 
-                if(!isNaN(parameters.user_key) || parameters.user_key == ''){
+                if(isNaN(parameters.user_key) || parameters.user_key == ''){
                     console.log("user_key: ", "/"+parameters.user_key+"/", typeof parameters.user_key)
                 } else{
                     // 오차 조정
