@@ -32,7 +32,8 @@ let sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR']
 let sensor_name_show = ['수온', '산소', 'pH', '염도', 'ORP', '탁도']
 
 const socketio = (server) => {
-    const io = SocketIO(server, { path: '/socket.io', pingTimeout: 60000 });
+    // const io = SocketIO(server, { path: '/socket.io', pingTimeout: 60000 });
+    const io = SocketIO(server, { path: '/socket.io'});
 
     io.on('connection',  async (socket) => {
         let room = "";
