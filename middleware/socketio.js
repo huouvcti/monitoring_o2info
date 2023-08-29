@@ -139,10 +139,12 @@ const socketio = (server) => {
 
                     // parameters.date = time;
                     // console.log(parameters.date);
+                    
+                    console.log("update======================================")
+                    console.log(parameters)
 
-                    io.in(room).emit('sensor_update', parameters);
+                    io.in(parameters.user_key).emit('sensor_update', parameters);
 
-                    console.log("user_key: ", room, " update")
 
 
 
