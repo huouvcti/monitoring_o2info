@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>o2 정보통신</title>
+
+
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/sidebars/">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" />
+
+
+        <!-- 폰트 -->
+        <link href="http://fonts.googleapis.com/earlyaccess/notosanskr.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../public/stylesheets/style.css" />
+
+        <!-- Bar css -->
+        <link rel="stylesheet" href="../../public/stylesheets/topBar.css" />
+
+        
+        <link rel="stylesheet" href="../../public/stylesheets/monitoring.css" />
+
+
+        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+        <script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+     </head>
+
+    <body>
+
+
+        <main class="d-flex flex-nowrap">
+
+        <script>
+            let select_list = document.getElementsByClassName("select_list");
+        </script>
+
+        <% if(locals.admin){ %>
+            <%- include('../lib/admin_menuBar.ejs') %>
+
+            <% if(locals.user_key == 2){ %>
+                <script>
+                    select_list[3].children[0].className = "nav-link active";
+                </script>
+            <% } else { %>
+                <script>
+                    select_list[0].children[0].className = "nav-link active";
+                </script>
+            <% } %>
+            
+
+        <%  } else{ %>
+                <%- include('../lib/menuBar.ejs') %>
+
+                <script>
+                    let menubar = document.getElementById("menuBar")
+                    menubar.children[0].children[0].className = "nav-link active";
+                </script>
+        <%  } %>
+            
+            
+            
+
+            <%
+            let sensor_name = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)']
+            let sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU']
+
+            let backgroundColor = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
+            %>
+
+            <div class="b-example-divider b-example-vr" id="board">
+
+                <%-include('../lib/topBar.ejs') %>
+
+                <script>
+                    let topBar_title = document.getElementById("menu_title")
+                    topBar_title.innerText = " 양식장 모니터링 화면"
+                </script>
+
+
+                <div id="content_wrap">
+                    <h1></h1>
+                    <div id="time_wrap">time</div>
+
+                    <div id="grid_wrap">
+                        <% for (let i=0; i<6; i++){ %>
+                            <div class="monitoring_grid">
+                                <div class="sensor_name_wrap" style="background-color: <%=backgroundColor[i]%>">
+                                    <p><%=sensor_name[i]%></p>
+                                    <button onclick="graph_show(<%=i%>)"><img src="/public/images/icon/chart.png"></button>
+                                </div>
+
+                                <div class="sensor_values_wrap"> 
+                                    <div class="sensor_value_detail" style="border-color: <%=backgroundColor[i]%>" >
+                                        <div class="sensor_value">
+                                            <p>최고 임계치</p>
+                                            <p><span class="sensor_high sensor_data">3</span><span> <%=sensor_unit[i]%></span></p>
+                                        </div>
+                                        <hr style="border-color: <%=backgroundColor[i]%>">
+                                        <div class="sensor_value">
+                                            <p>실시간 수치</p>
+                                            <p><span  class="sensor_now sensor_data">-</span><span> <%=sensor_unit[i]%></span></p>
+                                        </div>
+                                        <hr style="border-color: <%=backgroundColor[i]%>">
+                                        <div class="sensor_value">
+                                            <p>최소 임계치</p>
+                                            <p><span class="sensor_low sensor_data">3</span><span> <%=sensor_unit[i]%></span></p>
+                                        </div>
+                                    </div>
+                                    <div class="now_value">
+                                        <div id="gauge_chart<%=i%>"></div>
+                                        <div class="sensor_now_wrap">
+                                            <span class="sensor_now_big"> - </span> <span><%=sensor_unit[i]%></span>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+
+                <%-include('../lib/bottomBar.ejs') %>
+            </div>
+
+
+
+            <div id="graph_back">
+                
+                <div id="graph_wrap">
+                    <div id="graph_close_wrap"><button id="graph_close" onclick="graph_close()"><img src="/public/images/icon/x.png" alt=""></button></div>
+                    
+                    <h2 id="graph_sensor_name">센서 이름</h2>
+                    <div id="graph_draw"></div>
+                </div>
+            </div>
+        </main> 
+
+    </body>
+
+
+    <script>
+
+        
+        let current_time = document.getElementById('time_wrap')
+
+        let clock = () =>{
+            let today = new Date();
+            current_time.innerText = today.toLocaleString()
+        }
+        
+
+        function init() {
+            clock();
+            setInterval(clock, 500);
+        }
+
+        init()
+    </script>
+class
+    <script>
+        const sensor_high = document.getElementsByClassName('sensor_high')
+        const sensor_low = document.getElementsByClassName('sensor_low')
+        const sensor_now = document.getElementsByClassName('sensor_now')
+        const sensor_now_big = document.getElementsByClassName('sensor_now_big')
+
+        const sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR']
+
+        // 임계값 불러오기
+        $.ajax({
+            type:'GET',
+            dataType:'json',
+            url:`/api/sensor/set`,
+            success : function(responseData) {
+                let result = responseData.result;
+                
+                console.log(result)
+
+                for(let i=0; i<sensor_name.length; i++){
+                    sensor_high[i].innerText = result[sensor_name[i]+'_high']
+                    sensor_low[i].innerText = result[sensor_name[i]+'_low']
+                }
+            },
+            error : function(error) {
+            }
+        });
+    </script>
+
+    <script>
+        const sensor_value = {
+            Tc: [],
+            DO: [],
+            pH: [],
+            Sa: [],
+            ORP: [],
+            TUR: [],
+            date: []
+        }
+
+        const sensor_title = ['수온 (°C)', '용존산소 (mg/L)', '수소이온농도 (pH)', '염도 (mV)', '전기전도도 (㎲/㎝)', 'TDS(총용존 고형물) (ppm)']
+        const sensor_unit = [' °C', ' mg/L', ' pH', ' mV', ' ㎲/㎝', ' ppm']
+        const sensor_color = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
+
+        let select_index = 0;
+    </script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io.connect( {
+            transports: ['websocket']
+        });
+
+        $.ajax({
+            type:'post',
+            dataType:'json',
+            url:`/api/user/user_key`,
+            success : function(responseData) {
+                let result = responseData.result;
+    
+                let user_key = result.user_key
+                
+                // join
+                socket.emit('join', {room: user_key});
+            },
+            error : function(error) {
+            }
+        });
+
+
+
+        socket.on("sensor_before", async (data) =>{
+            for(let i=0; i<data.length; i++){
+
+                await sensor_value.Tc.unshift((Math.round(data[i]['Tc'] * 100) / 100));
+                await sensor_value.DO.unshift((Math.round(data[i]['DO'] * 100) / 100));
+                await sensor_value.pH.unshift((Math.round(data[i]['pH'] * 100) / 100));
+                await sensor_value.Sa.unshift((Math.round(data[i]['Sa'] * 100) / 100));
+                await sensor_value.ORP.unshift((Math.round(data[i]['ORP'] * 100) / 100));
+                await sensor_value.TUR.unshift((Math.round(data[i]['TUR'] * 100) / 100));
+                await sensor_value.date.unshift(data[i]['date']);
+
+                if(i == 0){
+                    for(let j=0; j<sensor_name.length; j++){
+                        let newly_data = Math.round(data[i][sensor_name[j]] * 100) / 100
+
+                        sensor_now[j].innerText = newly_data
+                        sensor_now_big[j].innerText = newly_data
+
+
+                        let high = parseFloat(sensor_high[j].innerText)
+                        let low = parseFloat(sensor_low[j].innerText)
+
+                        // alert
+                        if(newly_data > high){
+                            alert_high(j)
+                        } else if(newly_data < low){
+                            alert_low(j)
+                        } else {
+                            alert_stop(j)
+                        }
+
+                        // 게이지 차트
+                        let gauge_chart_container = "gauge_chart"+j
+                        gauge_chart_draw(gauge_chart_container, newly_data, high, low)
+                    }
+                }
+            }
+
+            console.log(sensor_value)
+        })
+
+        socket.on("sensor_update", async (data) =>{
+            for(let i=0; i<sensor_name.length; i++){
+                let now = (Math.round(data[sensor_name[i]] * 100) / 100)
+
+                sensor_now[i].innerText = now
+                sensor_now_big[i].innerText = now
+
+                let high = parseFloat(sensor_high[i].innerText)
+                let low = parseFloat(sensor_low[i].innerText)
+
+                if(now > high){
+                    alert_high(i)
+                } else if(now < low){
+                    alert_low(i)
+                } else {
+                    alert_stop(i)
+                }
+
+
+                // 게이지 차트
+                let gauge_chart_container = "gauge_chart"+i
+                gauge_chart_draw(gauge_chart_container, now, high, low)
+            }
+
+            let shift = chart.series[0].data.length >= 20
+
+            chart.series[0].addPoint({
+                y: Math.round(data[sensor_name[select_index]] * 100) / 100,
+            }, true, shift=shift);
+
+            sensor_value.date.push(String(data["date"]))
+            chart.xAxis[0].setCategories(sensor_value.date, false);
+            chart.redraw()
+        })
+    </script>
+
+
+    <script>
+        const monitoring_grid = document.getElementsByClassName("monitoring_grid")
+
+        const alert_high = (num) => {
+            monitoring_grid[num].style.animationName = "alert_high";
+        }
+
+        const alert_low = (num) => {
+            monitoring_grid[num].style.animationName = "alert_low";
+        }
+
+        const alert_stop = (num) => {
+            monitoring_grid[num].style.animationName = "";
+        }
+
+    </script>
+
+    <script>
+        let gauge_chart_draw = (container, sensor_data, high, low) =>{
+            console.log(container, sensor_data, high, low)
+
+            high = parseFloat(high)
+            low = parseFloat(low)
+            sensor_data = parseFloat(sensor_data)
+
+            if(sensor_data > high+5){
+                sensor_data = high+5
+            }
+            
+            if(sensor_data < low-5){
+                sensor_data = low-5
+            }
+
+
+            return new Highcharts.chart(container, {
+
+                chart: {
+                    type: 'gauge',
+                    height: '60%',
+                    backgroundColor: 'none'
+                },
+
+                title: {
+                    text: ''
+                },
+
+                pane: {
+                    startAngle: -90,
+                    endAngle: 90,
+                    innerSize: '40%',
+                    background: null,
+                    center: ['50%', '100%'],
+                    size: '150%'
+                },
+
+                
+
+                // the value axis
+                yAxis: {
+                    min: low-5,
+                    max: high+5,
+                    tickPixelInterval: 100,
+                    tickPosition: 'inside',
+                    tickColor: '#FFFFFF',
+                    tickLength: 30,
+                    tickWidth: 0,
+                    minorTickInterval: null,
+
+                    labels: {
+                        distance: 10,
+                        style: {
+                            fontSize: '14px'
+                        }
+                    },
+
+
+                    plotBands: [{
+                        from: low-10,
+                        to: low,
+                        color: '#55f', // blue
+                        thickness: 30,
+                    },
+                    // {
+                    //     from: low-0.5,
+                    //     to: low+0.5,
+                    //     color: '#fff', 
+                    //     thickness: 30,
+                    // },
+                    {
+                        from: low,
+                        to: high,
+                        color: '#5f5', // green
+                        thickness: 30,
+                    },
+                    // {
+                    //     from: high-0.5,
+                    //     to: high+0.5,
+                    //     color: '#fff', 
+                    //     thickness: 30,
+                    // },
+                    {
+                        from: high,
+                        to: high+5,
+                        color: '#f55', // red
+                        thickness: 30,
+                    },]
+                },
+
+                credits: {
+                    enabled: false
+                },
+
+                tooltip: {
+                    valueSuffix: ' km/h',
+                    enabled: false
+                },
+
+                series: [{
+                    name: 'value',
+                    data: [sensor_data],
+
+                    dial: {
+                        radius: '80%',
+                        backgroundColor: 'gray',
+                        baseWidth: 30,
+                        margin: '10%',
+                        distance: 10,
+                        baseLength: '80%',
+                        rearLength: '-80%'
+                    },
+                    pivot: {
+                        visible: false,
+                        backgroundColor: 'none',
+                        radius: 6,
+                        enabled: false
+                    },
+
+                    dataLabels: {
+                        enabled: false
+                    },
+                    
+
+                }]
+
+            });
+    
+        }
+
+    </script>
+
+
+    <script>
+        /* highchart 그래프 설정 - barchart */
+        let chart;
+
+        const draw_highchart = (sensor_data, date, high, low, title, unit, color) => {
+
+            chart = new Highcharts.chart('graph_draw', {
+                chart: {
+                    renderTo: 'graph_draw',
+                    height: '470vh',
+
+                    style: {
+                        color: '#000',
+                    },
+                    
+                    
+                    scrollablePlotArea : {
+
+                    }
+                },
+                title: {
+                    // text: title
+                    text: ''
+                },
+
+                subtitle: {
+                    text: ''
+                },
+
+                yAxis: {
+                    title: {
+                        text: unit
+                    },
+
+                    color:'#000',
+
+                    lineColor: '#000',
+
+                    // 기준선
+                    plotLines : [{ 
+                        value : high,
+                        color : 'red',
+                        dashStyle : 'shortdot',
+                        width : 2,
+                        label : { 
+                            text: `최고 임계치 ${high} ${unit}`, 
+                            style : {color:'red'}
+                        }
+                    }, { 
+                        value : low,
+                        color : 'blue',
+                        dashStyle : 'shortdot',
+                        width : 2,
+                        label : { 
+                            text: `최저 임계치 ${low} ${unit}`, 
+                            style : {color:'blue'}
+                        }
+                    }],
+                    max: high+1,
+                    min: low-1,
+
+                    
+                    labels : {
+                        style:{
+                            color: '#000',
+                            fontSize: '1rem',
+                        borderWidth: 0,
+                        color: (
+                            Highcharts.defaultOptions.title &&
+                            Highcharts.defaultOptions.title.style &&
+                            Highcharts.defaultOptions.title.style.color
+                        ) || '#333333',
+                        style: {
+                            fontSize: '16px'
+                        }
+                        }
+                    }
+                },
+
+                xAxis:{
+                    categories: date,
+                    gridLineWidth:1,
+                    // visible: false
+                    lineColor: '#000',
+
+                    labels : {
+                        style:{
+                            color: '#000',
+                            fontSize: '1rem'
+                        }
+                    },
+
+                    tickInterval: 3,
+                },
+
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+
+                tooltip:{
+                    formatter: this.x,
+                },
+                credits: {
+                    enabled: false
+                },
+
+
+                series: [{
+                    name: title,
+                    data: sensor_data,
+                    tooltip: {
+                        valueSuffix: unit
+                    },
+                    lineWidth: 3,
+                    color: color,
+                    marker: { 
+                        enabled: true,
+                        radius: 5
+                    },
+                }]
+            });
+
+            return chart
+        }
+    </script>
+
+
+
+    <script>
+        const graph_back = document.getElementById("graph_back")
+        const graph_wrap = document.getElementById("graph_wrap")
+
+        
+
+        const graph_sensor_name = document.getElementById("graph_sensor_name")
+
+        const graph_close = () => {
+            graph_back.style.display = 'none';
+        }
+
+        const graph_show = (num) =>{
+            select_index = num;
+            graph_back.style.display = 'flex';
+
+            graph_wrap.style.backgroundColor = sensor_color[select_index]
+            graph_sensor_name.innerText = sensor_title[select_index]
+
+            draw_highchart(sensor_value[sensor_name[select_index]], sensor_value.date, parseFloat(sensor_high[select_index].innerText), parseFloat(sensor_low[select_index].innerText), sensor_title[select_index], sensor_unit[select_index], sensor_color[select_index])
+        }
+
+        
+    </script>
+
+    <!-- <script src="../../public/javascripts/menubar.js"></script> -->
+</html>
