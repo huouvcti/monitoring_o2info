@@ -351,7 +351,7 @@ class
             }
 
 
-            return new Highcharts.chart(container, {
+            return Highcharts.chart(container, {
 
                 chart: {
                     type: 'gauge',
@@ -474,7 +474,7 @@ class
 
         const draw_highchart = (sensor_data, date, high, low, title, unit, color) => {
 
-            chart = new Highcharts.chart('graph_draw', {
+            chart = Highcharts.chart('graph_draw', {
                 chart: {
                     renderTo: 'graph_draw',
                     height: '470vh',
