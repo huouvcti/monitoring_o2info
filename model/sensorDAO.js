@@ -12,7 +12,7 @@ const sensor_gap = {}   // 오차 설정
 
 sensor.before = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE user_key=? ORDER BY date DESC LIMIT 20;`, [parameters.user_key], (err, db_data) => {
+        db.query(`SELECT *, DATE_FORMAT(date, '%Y-%m-%d %T') as date FROM sensor WHERE user_key=? ORDER BY sensor_key DESC LIMIT 20;`, [parameters.user_key], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
