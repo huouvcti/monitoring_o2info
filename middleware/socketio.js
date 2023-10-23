@@ -28,8 +28,8 @@ let connect_count = 0;
 // 버퍼 -> 조인 후 처음 값은 무시
 let count = 0;
 
-let sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR']
-let sensor_name_show = ['수온', '산소', 'pH', '염도', 'ORP', '탁도']
+let sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR', "CHL"]
+let sensor_name_show = ['수온', '산소', 'pH', '염도', 'ORP', '탁도', "엽록소"]
 
 const socketio = (server) => {
     // const io = SocketIO(server, { path: '/socket.io', pingTimeout: 60000 });
@@ -110,6 +110,7 @@ const socketio = (server) => {
                     Sa: checkNaN_float(data.SALT),
                     ORP: checkNaN_float(data.ORP),
                     TUR: checkNaN_float(data.turbidity),
+                    CHL: checkNaN_float(data.CHL),
                 }
 
                 
