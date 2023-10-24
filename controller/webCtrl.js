@@ -60,8 +60,11 @@ sensor.monitoring = async (req, res) => {
 }
 
 sensor.log = async (req, res) => {
-    if (req.session.user_key >= 20){
+    if (req.session.user_key >= 20 && req.session.user_key < 30){
         let ejs = '/sensor/log2'
+        session_check(req, res, ejs)
+    } else if (req.session.user_key == 30){
+        let ejs = '/sensor/log7'
         session_check(req, res, ejs)
     } else {
         let ejs = '/sensor/log'

@@ -250,7 +250,7 @@ const log_graph_api = () => {
 let chart;
 
 const log_all_highchart = (sensor_data, date, title, unit, color) => {
-    chart = new Highcharts.chart('graph_container', {
+    chart = Highcharts.chart('graph_container', {
         chart: {
             renderTo: 'graph_container',
             height: '470px',
@@ -393,7 +393,7 @@ const log_all_highchart = (sensor_data, date, title, unit, color) => {
 }
 
 const log_highchart = (container, sensor_data, date, title, unit, color) => {
-    chart = new Highcharts.chart(container, {
+    chart = Highcharts.chart(container, {
         chart: {
             renderTo: container,
             height: '350px',

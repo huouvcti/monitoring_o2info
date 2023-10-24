@@ -78,7 +78,7 @@
             
 
             <%
-            let sensor_name = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)', 'CHL(엽록소)']
+            let sensor_name = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)', '엽록소 (ug)']
             let sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU', 'ug']
 
             let backgroundColor = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c", "#9cda82"]
@@ -183,7 +183,7 @@ class
         const sensor_now = document.getElementsByClassName('sensor_now')
         const sensor_now_big = document.getElementsByClassName('sensor_now_big')
 
-        const sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR']
+        const sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR', "CHL"]
 
         // 임계값 불러오기
         $.ajax({
@@ -213,12 +213,13 @@ class
             Sa: [],
             ORP: [],
             TUR: [],
+            CHL: [],
             date: []
         }
 
-        const sensor_title = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)']
-        const sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU']
-        const sensor_color = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c"]
+        const sensor_title = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)', '엽록소 (ug)']
+        const sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU', "ug"]
+        const sensor_color = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c", "#9cda82"]
 
         let select_index = 0;
     </script>
@@ -256,6 +257,7 @@ class
                 await sensor_value.Sa.unshift((Math.round(data[i]['Sa'] * 100) / 100));
                 await sensor_value.ORP.unshift((Math.round(data[i]['ORP'] * 100) / 100));
                 await sensor_value.TUR.unshift((Math.round(data[i]['TUR'] * 100) / 100));
+                await sensor_value.CHL.unshift((Math.round(data[i]['CHL'] * 100) / 100));
                 await sensor_value.date.unshift(data[i]['date']);
 
                 if(i == 0){
