@@ -52,7 +52,7 @@ const newly_search = function(selected){
 
         if(month < 1){
             year -= 1
-            month = 1
+            month = 12
         }
         start_input.value = date_format(year, month, day)
     } else if(selected == 'week'){
@@ -129,19 +129,21 @@ const newly_search = function(selected){
 const sensor_value = {
     Tc: [],
     DO: [],
-    DOper: [],
     pH: [],
     Sa: [],
+    ORP: [],
+    TUR: [],
+    CHL: [],
     date: [],
 }
 
 let sensor_data_length = 0;
 
 const log_graph_select = () =>  {
-    const sensor_name = ['Tc', 'DO', 'DOper', 'pH', 'Sa']
-    const sensor_title = ['수온 (°C)', '산소 (mg/L)', '산소 (%)', 'pH (pH)', '염도 (ppt)']
-    const sensor_unit = [' °C', ' mg/L', ' %', ' pH', ' ppt']
-    const sensor_color = ["#fa5252", "#52bafa", "#52bafa", "#665d54", "#3c8f70"]
+    const sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR', 'CHL']
+    const sensor_title = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)', '엽록소 (ug)']
+    const sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU', ' ug']
+    const sensor_color = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c", "#9cda82"]
 
     let select_index = document.getElementById("graph_sensor_select").selectedIndex
 
@@ -158,13 +160,13 @@ const log_graph_select = () =>  {
 
 
 const log_graph_show = () =>{
-    const sensor_name = ['Tc', 'DO', 'DOper', 'pH', 'Sa']
-    const sensor_title = ['수온 (°C)', '산소 (mg/L)', '산소 (%)', 'pH (pH)', '염도 (ppt)']
-    const sensor_unit = [' °C', ' mg/L', ' %', ' pH', ' ppt']
-    const sensor_color = ["#fa5252", "#52bafa", "#52bafa", "#665d54", "#3c8f70"]
+    const sensor_name = ['Tc', 'DO', 'pH', 'Sa', 'ORP', 'TUR', 'CHL']
+    const sensor_title = ['수온 (°C)', '산소 (mg/L)', 'pH (pH)', '염도 (ppt)', 'ORP (mV)', '탁도 (NTU)', '엽록소 (ug)']
+    const sensor_unit = [' °C', ' mg/L', ' pH', ' ppt', ' mV', ' NTU', ' ug']
+    const sensor_color = ["#fa5252", "#52bafa", "#665d54", "#3c8f70", "#fa9852", "#71548c", "#9cda82"]
 
 
-    for(let i=0; i<5; i++){
+    for(let i=0; i<7; i++){
         if(i != 2){
             log_highchart(('graph_container_'+sensor_name[i]), sensor_value[sensor_name[i]], sensor_value.date, sensor_title[i], sensor_unit[i], sensor_color[i])
         }
@@ -180,9 +182,11 @@ const log_graph_api = () => {
 
     sensor_value.Tc = []
     sensor_value.DO = []
-    sensor_value.DOper = []
     sensor_value.pH = []
     sensor_value.Sa = []
+    sensor_value.ORP = []
+    sensor_value.TUR = []
+    sensor_value.CHL = []
     sensor_value.date = []
 
     sensor_data_length = 0;
@@ -219,6 +223,8 @@ const log_graph_api = () => {
                 sensor_value.DO.unshift((Math.round(log[i]['DO'] * 100) / 100));
                 sensor_value.pH.unshift((Math.round(log[i]['pH'] * 100) / 100));
                 sensor_value.Sa.unshift((Math.round(log[i]['Sa'] * 100) / 100));
+                sensor_value.ORP.unshift((Math.round(log[i]['ORP'] * 100) / 100));
+                sensor_value.TUR.unshift((Math.round(log[i]['TUR'] * 100) / 100));
                 sensor_value.date.unshift(log[i]['date']);
             }
 
@@ -506,9 +512,11 @@ const log_pageMove = function(move){
                                 <th>date</th>
                                 <th>수온 (°C)</th>
                                 <th>산소 (mg/L)</th>
-                                <th>산소 (%)</th>
                                 <th>pH (pH)</th>
                                 <th>염도 (ppt)</th>
+                                <th>ORP (mV)</th>
+                                <th>탁도 (NTU)</th>
+                                <th>엽록소 (ug)</th>
                             </tr>`;
     if(move === 'prev'){
         log_page--;
@@ -535,6 +543,7 @@ const log_pageMove = function(move){
         url:`/api/sensor/log?page=${log_page}${search}`,
         success : function(responseData) {
             const log = responseData.result;
+            console.log(log)
             log_cnt = responseData.cnt;
             log_total_cnt = responseData.total_cnt;
             for(let i=0; i<log.length; i++){
@@ -550,13 +559,19 @@ const log_pageMove = function(move){
                         ${log[i]['DO']}
                     </td>
                     <td> 
-                        ${log[i]['DOper']}
-                    </td>
-                    <td> 
                         ${log[i]['pH']}
                     </td>
                     <td> 
                         ${log[i]['Sa']}
+                    </td>
+                    <td> 
+                        ${log[i]['ORP']}
+                    </td>
+                    <td> 
+                        ${log[i]['TUR']}
+                    </td>
+                    <td>
+                        ${log[i]['CHL']}
                     </td>
                 </tr>`;
             }
