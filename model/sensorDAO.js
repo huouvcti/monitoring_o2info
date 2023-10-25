@@ -24,7 +24,7 @@ sensor.before = (parameters) =>{
 
 sensor.insert = (parameters) =>{
     return new Promise((resolve, reject) =>{
-        db.query(`INSERT INTO sensor(user_key, DO, DOper, pH, Sa, ORP, Tc, TUR) VALUES(?, ?, ?, ?, ?, ?, ?, ?);`, [parameters.user_key, parameters.DO, parameters.DOper, parameters.pH, parameters.Sa, parameters.ORP, parameters.Tc, parameters.TUR], (err, db_data) => {
+        db.query(`INSERT INTO sensor(user_key, DO, DOper, pH, Sa, ORP, Tc, TUR, CHL) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);`, [parameters.user_key, parameters.DO, parameters.DOper, parameters.pH, parameters.Sa, parameters.ORP, parameters.Tc, parameters.TUR, parameters.CHL], (err, db_data) => {
             if(err) {
                 reject(err);
             } else {
